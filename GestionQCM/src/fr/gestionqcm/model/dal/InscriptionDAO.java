@@ -1,8 +1,12 @@
 package fr.gestionqcm.model.dal;
 
+import static java.lang.String.format;
+
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +14,65 @@ import fr.gestionqcm.model.bo.InscriptionTest;
 import fr.gestionqcm.model.dal.util.AccessDatabase;
 
 public class InscriptionDAO {
+
+	private enum Column {
+		inscriptionId("id_inscription"),
+
+		testId("id_test"),
+
+		inscriptionDate("date_inscription"),
+
+		userId("id_user"),
+
+		testStartDate("dateDebutTest"),
+
+		timesRemaining("tempsRestant"),
+
+		issueNumber("nbIncident"),
+
+		questionPosition("positionQuestion");
+
+		private String columnName;
+
+		private Column(String columnName) {
+			this.columnName = columnName;
+		}
+
+		public String getColumnName() {
+			return columnName;
+		}
+	}
+
 	/**
 	 * Constante pour la requête d'insertion dans la table Messages.
 	 */
 	private static final String RQ_SELECT_ALL = "SELECT * FROM INSCRIPTION_TEST;";
-	private static final String RQ_SELECT_ONE = "SELECT * FROM formations WHERE id = ?;";
-	private static final String RQ_INSERT = "INSERT INTO formations (libelle, description, debut, fin) VALUES(?, ?, ?, ?);";
-	private static final String RQ_UPDATE = "UPDATE formations SET libelle = ?, description = ?, debut = ?, fin = ? WHERE id = ?;";
-	private static final String RQ_DELETE = "DELETE FROM formations WHERE id = ?;";
+	private static final String RQ_SELECT_ONE = format(
+			"SELECT * FROM INSCRIPTION_TEST WHERE %s = ?;",
+			Column.inscriptionId.getColumnName());
+	private static final String RQ_INSERT = format(
+			"INSERT INTO INSCRIPTION_TEST (%s, %s, %s, %s, %s, %s, %s, %s) VALUES(?, ?, ?, ?, ?, ?, ?, ?);",
+			Column.inscriptionId.getColumnName(),
+			Column.testId.getColumnName(),
+			Column.inscriptionDate.getColumnName(),
+			Column.userId.getColumnName(),
+			Column.testStartDate.getColumnName(),
+			Column.timesRemaining.getColumnName(),
+			Column.issueNumber.getColumnName(),
+			Column.questionPosition.getColumnName());
+	private static final String RQ_UPDATE = format(
+			"UPDATE INSCRIPTION_TEST SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?;",
+			Column.testId.getColumnName(),
+			Column.inscriptionDate.getColumnName(),
+			Column.userId.getColumnName(),
+			Column.testStartDate.getColumnName(),
+			Column.timesRemaining.getColumnName(),
+			Column.issueNumber.getColumnName(),
+			Column.questionPosition.getColumnName(),
+			Column.inscriptionId.getColumnName());
+	private static final String RQ_DELETE = format(
+			"DELETE FROM INSCRIPTION_TEST WHERE %s = ?;",
+			Column.inscriptionId.getColumnName());
 
 	public static List<InscriptionTest> getAllInscriptions() throws Exception {
 		PreparedStatement cmd = null;
@@ -27,19 +82,7 @@ public class InscriptionDAO {
 			cmd.executeQuery();
 			ResultSet rs = cmd.getResultSet();
 			while (rs.next()) {
-				InscriptionTest inscriptionTest = new InscriptionTest();
-
-				inscriptionTest.setInscriptionId(rs.getInt("id_inscription"));
-				inscriptionTest.setTestId(rs.getInt("id_test"));
-				inscriptionTest.setInscriptionDate(rs
-						.getDate("date_inscription"));
-				inscriptionTest.setUserId(rs.getInt("id_user"));
-				inscriptionTest.setTimesRemaining(rs.getInt("tempsRestant"));
-				inscriptionTest.setIssueNumber(rs.getInt("nbIncident"));
-				inscriptionTest.setQuestionPosition(rs
-						.getInt("positionQuestion"));
-
-				testInscriptions.add(inscriptionTest);
+				testInscriptions.add(inscriptionMapping(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -51,117 +94,132 @@ public class InscriptionDAO {
 		}
 		return testInscriptions;
 	}
-	// public static Formation lireFormation(int id) throws Exception {
-	// PreparedStatement cmd = null;
-	// Formation formation = null;
-	// cmd = AccesBase.getConnection().prepareStatement(RQ_SELECT_ONE);
-	// cmd.setInt(1, id);
-	//
-	// try {
-	// cmd.executeQuery();
-	// ResultSet rs = cmd.getResultSet();
-	// if (rs.next()) {
-	// formation = new Formation();
-	//
-	// formation.setId(rs.getInt("id"));
-	// formation.setLibelle(rs.getString("libelle"));
-	// formation.setDescription(rs.getString("description"));
-	// formation.setDebut(rs.getDate("debut"));
-	// formation.setFin(rs.getDate("fin"));
-	//
-	// } else {
-	// throw new FormationInexistante(id);
-	// }
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// throw new Exception(
-	// "Problème de connexion avec la base de données !");
-	// } finally {
-	// cmd.getConnection().close();
-	// cmd = null;
-	// }
-	// return formation;
-	// }
-	//
-	// public static void ajouterFormation(Formation formation) throws Exception
-	// {
-	// PreparedStatement cmd = null;
-	// cmd = AccesBase.getConnection().prepareStatement(RQ_INSERT,
-	// Statement.RETURN_GENERATED_KEYS);
-	// cmd.setString(1, formation.getLibelle());
-	// cmd.setString(2, formation.getDescription());
-	// cmd.setDate(3, (formation.getDebut() != null) ? new Date(formation
-	// .getDebut().getTime()) : null);
-	// cmd.setDate(4, (formation.getFin() != null) ? new Date(formation
-	// .getFin().getTime()) : null);
-	//
-	// try {
-	// cmd.executeUpdate();
-	// ResultSet results = cmd.getGeneratedKeys();
-	// if (results.next()) {
-	// formation.setId(results.getInt(1));
-	// }
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// throw new Exception(
-	// "Problème de connexion avec la base de données !");
-	// } finally {
-	// cmd.getConnection().close();
-	// cmd = null;
-	// }
-	// }
-	//
-	// public static void modifierFormation(Formation formation) throws
-	// Exception {
-	// if (formation != null) {
-	// PreparedStatement cmd = AccesBase.getConnection().prepareStatement(
-	// RQ_UPDATE);
-	// cmd.setString(1, formation.getLibelle());
-	// cmd.setString(2, formation.getDescription());
-	// cmd.setDate(3, (formation.getDebut() != null) ? new Date(formation
-	// .getDebut().getTime()) : null);
-	// cmd.setDate(4, (formation.getFin() != null) ? new Date(formation
-	// .getFin().getTime()) : null);
-	// cmd.setInt(5, formation.getId());
-	//
-	// try {
-	// cmd.executeUpdate();
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// throw new Exception(
-	// "Problème de connexion avec la base de données !");
-	// } finally {
-	// cmd.getConnection().close();
-	// cmd = null;
-	// }
-	// }
-	// }
-	//
-	// public static void supprimerFormation(Formation formation) throws
-	// Exception {
-	// if (formation != null) {
-	// boolean formationSansInscription = DBInscriptions
-	// .verifierFormationSansInscitpion(formation);
-	//
-	// if (formationSansInscription) {
-	// PreparedStatement cmd = null;
-	// cmd = AccesBase.getConnection().prepareStatement(RQ_DELETE);
-	// cmd.setInt(1, formation.getId());
-	//
-	// try {
-	// cmd.executeUpdate();
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// throw new Exception(
-	// "Problème de connexion avec la base de données !");
-	// } finally {
-	// cmd.getConnection().close();
-	// cmd = null;
-	// }
-	// } else {
-	// throw new FormationAvecInsciptionException(formation);
-	// }
-	// }
-	// }
+
+	public static InscriptionTest getInscription(int id) throws Exception {
+		PreparedStatement cmd = null;
+		InscriptionTest inscription = null;
+		cmd = AccessDatabase.getConnection().prepareStatement(RQ_SELECT_ONE);
+		cmd.setInt(1, id);
+
+		try {
+			cmd.executeQuery();
+			ResultSet rs = cmd.getResultSet();
+			if (rs.next()) {
+				inscription = inscriptionMapping(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception(
+					"Problème de connexion avec la base de données !");
+		} finally {
+			cmd.getConnection().close();
+			cmd = null;
+		}
+		return inscription;
+	}
+
+	public static void addInscription(InscriptionTest inscription)
+			throws Exception {
+		PreparedStatement cmd = null;
+		cmd = AccessDatabase.getConnection().prepareStatement(RQ_INSERT,
+				Statement.RETURN_GENERATED_KEYS);
+		cmd.setInt(1, inscription.getInscriptionId());
+		cmd.setDate(2, (inscription.getInscriptionDate() != null) ? new Date(
+				inscription.getInscriptionDate().getTime()) : null);
+		cmd.setInt(3, inscription.getUserId());
+		cmd.setDate(4, (inscription.getInscriptionDate() != null) ? new Date(
+				inscription.getInscriptionDate().getTime()) : null);
+		cmd.setInt(5, inscription.getTimesRemaining());
+		cmd.setInt(6, inscription.getIssueNumber());
+		cmd.setInt(7, inscription.getQuestionPosition());
+
+		try {
+			cmd.executeUpdate();
+			ResultSet results = cmd.getGeneratedKeys();
+			if (results.next()) {
+				inscription.setInscriptionId(results.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception(
+					"Probl�me de connexion avec la base de données !");
+		} finally {
+			cmd.getConnection().close();
+			cmd = null;
+		}
+	}
+
+	public static void modifierFormation(InscriptionTest inscription)
+			throws Exception {
+		if (inscription != null) {
+			PreparedStatement cmd = AccessDatabase.getConnection()
+					.prepareStatement(RQ_UPDATE);
+			cmd = AccessDatabase.getConnection().prepareStatement(RQ_INSERT,
+					Statement.RETURN_GENERATED_KEYS);
+			cmd.setInt(1, inscription.getInscriptionId());
+			cmd.setDate(2,
+					(inscription.getInscriptionDate() != null) ? new Date(
+							inscription.getInscriptionDate().getTime()) : null);
+			cmd.setInt(3, inscription.getUserId());
+			cmd.setDate(4,
+					(inscription.getInscriptionDate() != null) ? new Date(
+							inscription.getInscriptionDate().getTime()) : null);
+			cmd.setInt(5, inscription.getTimesRemaining());
+			cmd.setInt(6, inscription.getIssueNumber());
+			cmd.setInt(7, inscription.getQuestionPosition());
+
+			try {
+				cmd.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception(
+						"Probl�me de connexion avec la base de données !");
+			} finally {
+				cmd.getConnection().close();
+				cmd = null;
+			}
+		}
+	}
+
+	public static void supprimerFormation(InscriptionTest inscription)
+			throws Exception {
+		if (inscription != null) {
+			PreparedStatement cmd = null;
+			cmd = AccessDatabase.getConnection().prepareStatement(RQ_DELETE);
+			cmd.setInt(1, inscription.getInscriptionId());
+
+			try {
+				cmd.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception(
+						"Problème de connexion avec la base de données !");
+			} finally {
+				cmd.getConnection().close();
+				cmd = null;
+			}
+		}
+	}
+
+	private static InscriptionTest inscriptionMapping(ResultSet rs)
+			throws SQLException {
+		InscriptionTest inscriptionTest = new InscriptionTest();
+
+		inscriptionTest.setInscriptionId(rs.getInt(Column.inscriptionId
+				.getColumnName()));
+		inscriptionTest.setTestId(rs.getInt(Column.testId.getColumnName()));
+		inscriptionTest.setInscriptionDate(rs.getDate(Column.inscriptionDate
+				.getColumnName()));
+		inscriptionTest.setUserId(rs.getInt(Column.userId.getColumnName()));
+		inscriptionTest.setTestStartDate(rs.getDate(Column.testStartDate
+				.getColumnName()));
+		inscriptionTest.setTimesRemaining(rs.getInt(Column.timesRemaining
+				.getColumnName()));
+		inscriptionTest.setIssueNumber(rs.getInt(Column.issueNumber
+				.getColumnName()));
+		inscriptionTest.setQuestionPosition(rs.getInt(Column.questionPosition
+				.getColumnName()));
+		return inscriptionTest;
+	}
 
 }
