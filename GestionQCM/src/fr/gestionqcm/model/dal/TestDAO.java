@@ -114,8 +114,8 @@ public class TestDAO {
 		}
 	}
 
-	public static void modifierTest(Test inscription) throws Exception {
-		if (inscription != null) {
+	public static void updateTest(Test test) throws Exception {
+		if (test != null) {
 			PreparedStatement cmd = AccessDatabase
 					.getConnection()
 					.prepareStatement(
@@ -126,11 +126,11 @@ public class TestDAO {
 									Column.currentThreshold.getColumnName(),
 									Column.acquisitionThreshold.getColumnName()));
 
-			cmd.setInt(1, inscription.getTestId());
-			cmd.setString(2, inscription.getName());
-			cmd.setInt(3, inscription.getTestDuration());
-			cmd.setInt(4, inscription.getCurrentThreshold());
-			cmd.setInt(5, inscription.getAcquisitionThreshold());
+			cmd.setString(1, test.getName());
+			cmd.setInt(2, test.getTestDuration());
+			cmd.setInt(3, test.getCurrentThreshold());
+			cmd.setInt(4, test.getAcquisitionThreshold());
+			cmd.setInt(5, test.getTestId());
 
 			try {
 				cmd.executeUpdate();
@@ -145,12 +145,12 @@ public class TestDAO {
 		}
 	}
 
-	public static void supprimerFormation(Test inscription) throws Exception {
-		if (inscription != null) {
+	public static void deleteTest(Test test) throws Exception {
+		if (test != null) {
 			PreparedStatement cmd = null;
 			cmd = AccessDatabase.getConnection().prepareStatement(
 					requestFactory.getDelete(Column.testId.getColumnName()));
-			cmd.setInt(1, inscription.getTestId());
+			cmd.setInt(1, test.getTestId());
 
 			try {
 				cmd.executeUpdate();

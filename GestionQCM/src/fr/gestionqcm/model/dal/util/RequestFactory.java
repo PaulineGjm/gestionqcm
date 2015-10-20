@@ -7,7 +7,7 @@ public class RequestFactory {
 	private static final String RQ_SELECT_ALL = "SELECT * FROM %s;";
 	private static final String RQ_SELECT_ONE = "SELECT * FROM %s WHERE %s = ?;";
 	private static final String RQ_INSERT = "INSERT INTO %s (%s) VALUES(?, ?, ?, ?);";
-	private static final String RQ_UPDATE = "UPDATE %s SET %s;";
+	private static final String RQ_UPDATE = "UPDATE %s SET %s WHERE %s = ?;";
 	private static final String RQ_DELETE = "DELETE FROM %s WHERE %s = ?;";
 
 	public RequestFactory(String tableName) {
@@ -15,11 +15,11 @@ public class RequestFactory {
 	}
 
 	public String getSelectAll() {
-		return RQ_SELECT_ALL.format(RQ_SELECT_ALL, tableName);
+		return String.format(RQ_SELECT_ALL, tableName);
 	}
 
 	public String getSelectOne(String idColumName) {
-		return RQ_SELECT_ONE.format(RQ_SELECT_ALL, tableName, idColumName);
+		return String.format(RQ_SELECT_ONE, tableName, idColumName);
 	}
 
 	public String getInsert(String... columnsName) {
@@ -36,7 +36,7 @@ public class RequestFactory {
 		return String.format(RQ_INSERT, tableName, request.toString());
 	}
 
-	public String getUpdate(String... columnsName) {
+	public String getUpdate(String idColumName, String... columnsName) {
 		StringBuilder request = new StringBuilder();
 
 		for (int i = 0; i < columnsName.length; i++) {
@@ -47,10 +47,11 @@ public class RequestFactory {
 			}
 		}
 
-		return String.format(RQ_INSERT, tableName, request.toString());
+		return String.format(RQ_UPDATE, tableName, request.toString(),
+				idColumName);
 	}
 
 	public String getDelete(String idColumName) {
-		return RQ_DELETE.format(RQ_SELECT_ALL, tableName);
+		return String.format(RQ_DELETE, tableName, idColumName);
 	}
 }
