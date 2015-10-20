@@ -1,7 +1,5 @@
 package fr.gestionqcm.model.dal;
 
-import static java.lang.String.format;
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,8 +10,11 @@ import java.util.List;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
 import fr.gestionqcm.model.dal.util.AccessDatabase;
+import fr.gestionqcm.model.dal.util.RequestFactory;
 
 public class InscriptionDAO {
+
+	private static String tableName = "INSCRIPTION_TEST";
 
 	private enum Column {
 		inscriptionId("id_inscription"),
@@ -43,41 +44,13 @@ public class InscriptionDAO {
 		}
 	}
 
-	/**
-	 * Constante pour la requête d'insertion dans la table Messages.
-	 */
-	private static final String RQ_SELECT_ALL = "SELECT * FROM INSCRIPTION_TEST;";
-	private static final String RQ_SELECT_ONE = format(
-			"SELECT * FROM INSCRIPTION_TEST WHERE %s = ?;",
-			Column.inscriptionId.getColumnName());
-	private static final String RQ_INSERT = format(
-			"INSERT INTO INSCRIPTION_TEST (%s, %s, %s, %s, %s, %s, %s, %s) VALUES(?, ?, ?, ?, ?, ?, ?, ?);",
-			Column.inscriptionId.getColumnName(),
-			Column.testId.getColumnName(),
-			Column.inscriptionDate.getColumnName(),
-			Column.userId.getColumnName(),
-			Column.testStartDate.getColumnName(),
-			Column.timesRemaining.getColumnName(),
-			Column.issueNumber.getColumnName(),
-			Column.questionPosition.getColumnName());
-	private static final String RQ_UPDATE = format(
-			"UPDATE INSCRIPTION_TEST SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?;",
-			Column.testId.getColumnName(),
-			Column.inscriptionDate.getColumnName(),
-			Column.userId.getColumnName(),
-			Column.testStartDate.getColumnName(),
-			Column.timesRemaining.getColumnName(),
-			Column.issueNumber.getColumnName(),
-			Column.questionPosition.getColumnName(),
-			Column.inscriptionId.getColumnName());
-	private static final String RQ_DELETE = format(
-			"DELETE FROM INSCRIPTION_TEST WHERE %s = ?;",
-			Column.inscriptionId.getColumnName());
+	private static RequestFactory requestFactory = new RequestFactory(tableName);
 
 	public static List<InscriptionTest> getAllInscriptions() throws Exception {
 		PreparedStatement cmd = null;
 		List<InscriptionTest> testInscriptions = new ArrayList<InscriptionTest>();
-		cmd = AccessDatabase.getConnection().prepareStatement(RQ_SELECT_ALL);
+		cmd = AccessDatabase.getConnection().prepareStatement(
+				requestFactory.getSelectAll());
 		try {
 			cmd.executeQuery();
 			ResultSet rs = cmd.getResultSet();
@@ -98,7 +71,9 @@ public class InscriptionDAO {
 	public static InscriptionTest getInscription(int id) throws Exception {
 		PreparedStatement cmd = null;
 		InscriptionTest inscription = null;
-		cmd = AccessDatabase.getConnection().prepareStatement(RQ_SELECT_ONE);
+		cmd = AccessDatabase.getConnection().prepareStatement(
+				requestFactory.getSelectOne(Column.inscriptionId
+						.getColumnName()));
 		cmd.setInt(1, id);
 
 		try {
@@ -121,7 +96,15 @@ public class InscriptionDAO {
 	public static void addInscription(InscriptionTest inscription)
 			throws Exception {
 		PreparedStatement cmd = null;
-		cmd = AccessDatabase.getConnection().prepareStatement(RQ_INSERT,
+		cmd = AccessDatabase.getConnection().prepareStatement(
+				requestFactory.getInsert(Column.inscriptionId.getColumnName(),
+						Column.testId.getColumnName(),
+						Column.inscriptionDate.getColumnName(),
+						Column.userId.getColumnName(),
+						Column.testStartDate.getColumnName(),
+						Column.timesRemaining.getColumnName(),
+						Column.issueNumber.getColumnName(),
+						Column.questionPosition.getColumnName()),
 				Statement.RETURN_GENERATED_KEYS);
 		cmd.setInt(1, inscription.getInscriptionId());
 		cmd.setDate(2, (inscription.getInscriptionDate() != null) ? new Date(
@@ -153,9 +136,16 @@ public class InscriptionDAO {
 			throws Exception {
 		if (inscription != null) {
 			PreparedStatement cmd = AccessDatabase.getConnection()
-					.prepareStatement(RQ_UPDATE);
-			cmd = AccessDatabase.getConnection().prepareStatement(RQ_INSERT,
-					Statement.RETURN_GENERATED_KEYS);
+					.prepareStatement(
+							requestFactory.getUpdate(
+									Column.testId.getColumnName(),
+									Column.inscriptionDate.getColumnName(),
+									Column.userId.getColumnName(),
+									Column.testStartDate.getColumnName(),
+									Column.timesRemaining.getColumnName(),
+									Column.issueNumber.getColumnName(),
+									Column.questionPosition.getColumnName(),
+									Column.inscriptionId.getColumnName()));
 			cmd.setInt(1, inscription.getInscriptionId());
 			cmd.setDate(2,
 					(inscription.getInscriptionDate() != null) ? new Date(
@@ -185,7 +175,9 @@ public class InscriptionDAO {
 			throws Exception {
 		if (inscription != null) {
 			PreparedStatement cmd = null;
-			cmd = AccessDatabase.getConnection().prepareStatement(RQ_DELETE);
+			cmd = AccessDatabase.getConnection().prepareStatement(
+					requestFactory.getDelete(Column.inscriptionId
+							.getColumnName()));
 			cmd.setInt(1, inscription.getInscriptionId());
 
 			try {
