@@ -6,7 +6,7 @@ public class RequestFactory {
 
 	private static final String RQ_SELECT_ALL = "SELECT * FROM %s;";
 	private static final String RQ_SELECT_ONE = "SELECT * FROM %s WHERE %s = ?;";
-	private static final String RQ_INSERT = "INSERT INTO %s (%s) VALUES(?, ?, ?, ?);";
+	private static final String RQ_INSERT = "INSERT INTO %s (%s) VALUES(%s);";
 	private static final String RQ_UPDATE = "UPDATE %s SET %s WHERE %s = ?;";
 	private static final String RQ_DELETE = "DELETE FROM %s WHERE %s = ?;";
 
@@ -23,17 +23,21 @@ public class RequestFactory {
 	}
 
 	public String getInsert(String... columnsName) {
-		StringBuilder request = new StringBuilder();
+		StringBuilder columns = new StringBuilder();
+		StringBuilder values = new StringBuilder();
 
 		for (int i = 0; i < columnsName.length; i++) {
 			String column = columnsName[i];
-			request.append(column);
+			columns.append(column);
+			values.append("?");
 			if (i < (columnsName.length - 1)) {
-				request.append(",");
+				columns.append(",");
+				values.append(",");
 			}
 		}
 
-		return String.format(RQ_INSERT, tableName, request.toString());
+		return String.format(RQ_INSERT, tableName, columns.toString(),
+				values.toString());
 	}
 
 	public String getUpdate(String idColumName, String... columnsName) {

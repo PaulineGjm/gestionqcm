@@ -97,8 +97,7 @@ public class InscriptionDAO {
 			throws Exception {
 		PreparedStatement cmd = null;
 		cmd = AccessDatabase.getConnection().prepareStatement(
-				requestFactory.getInsert(Column.inscriptionId.getColumnName(),
-						Column.testId.getColumnName(),
+				requestFactory.getInsert(Column.testId.getColumnName(),
 						Column.inscriptionDate.getColumnName(),
 						Column.userId.getColumnName(),
 						Column.testStartDate.getColumnName(),
@@ -106,7 +105,8 @@ public class InscriptionDAO {
 						Column.issueNumber.getColumnName(),
 						Column.questionPosition.getColumnName()),
 				Statement.RETURN_GENERATED_KEYS);
-		cmd.setInt(1, inscription.getInscriptionId());
+
+		cmd.setInt(1, inscription.getTestId());
 		cmd.setDate(2, (inscription.getInscriptionDate() != null) ? new Date(
 				inscription.getInscriptionDate().getTime()) : null);
 		cmd.setInt(3, inscription.getUserId());
@@ -132,31 +132,32 @@ public class InscriptionDAO {
 		}
 	}
 
-	public static void modifierFormation(InscriptionTest inscription)
+	public static void updateInscription(InscriptionTest inscription)
 			throws Exception {
 		if (inscription != null) {
 			PreparedStatement cmd = AccessDatabase.getConnection()
 					.prepareStatement(
 							requestFactory.getUpdate(
+									Column.inscriptionId.getColumnName(),
 									Column.testId.getColumnName(),
 									Column.inscriptionDate.getColumnName(),
 									Column.userId.getColumnName(),
 									Column.testStartDate.getColumnName(),
 									Column.timesRemaining.getColumnName(),
 									Column.issueNumber.getColumnName(),
-									Column.questionPosition.getColumnName(),
-									Column.inscriptionId.getColumnName()));
-			cmd.setInt(1, inscription.getInscriptionId());
+									Column.questionPosition.getColumnName()));
+
+			cmd.setInt(1, inscription.getTestId());
 			cmd.setDate(2,
 					(inscription.getInscriptionDate() != null) ? new Date(
 							inscription.getInscriptionDate().getTime()) : null);
 			cmd.setInt(3, inscription.getUserId());
-			cmd.setDate(4,
-					(inscription.getInscriptionDate() != null) ? new Date(
-							inscription.getInscriptionDate().getTime()) : null);
+			cmd.setDate(4, (inscription.getTestStartDate() != null) ? new Date(
+					inscription.getTestStartDate().getTime()) : null);
 			cmd.setInt(5, inscription.getTimesRemaining());
 			cmd.setInt(6, inscription.getIssueNumber());
 			cmd.setInt(7, inscription.getQuestionPosition());
+			cmd.setInt(8, inscription.getInscriptionId());
 
 			try {
 				cmd.executeUpdate();
