@@ -15,7 +15,7 @@
 			<div id="labelTitre">
 				<p>Compte utilisateur</p>
 			</div>
-			<form class="connexion" action="" method="post">
+			<form class="connexion" action="<%=request.getContextPath()%>/AuthentificationServlet" method="post">
 				<div id="blocIdentifiant">
 				<input class="champtexte" placeholder="Authentifiant" type="text" id="identifiant" name="identifiant"/><br/>
 				</div>

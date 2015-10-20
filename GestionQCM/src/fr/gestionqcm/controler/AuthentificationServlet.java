@@ -3,6 +3,7 @@ package fr.gestionqcm.controler;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +13,17 @@ import fr.gestionqcm.model.bo.Animateur;
 import fr.gestionqcm.model.bo.Stagiaire;
 import fr.gestionqcm.model.bo.Utilisateur;
 import fr.gestionqcm.model.dal.ConnexionDAO;
+import fr.gestionqcm.view.beans.AnimateurGUI;
+import fr.gestionqcm.view.beans.StagiaireGUI;
 
 /**
  * Servlet implementation class AuthentificationServlet
  */
 public class AuthentificationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private String accueilAnimateur = "/view/teacher/indexTeacher.jsp";
+	private String accueilStagiaire = "/view/trainee/indexTrainee.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -31,37 +37,64 @@ public class AuthentificationServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		processRequest(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		processRequest(request, response);
 	}
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		RequestDispatcher dispatcher;
+		String mail = request.getParameter("identifiant");
+		String motdepasse = request.getParameter("motdepasse");
+		
 		try
 		{
 			
-			Utilisateur utilisateur = ConnexionDAO.connexion("jbeaucousin@sonmail.fr", "jb");
+			Utilisateur utilisateur = ConnexionDAO.connexion(mail, motdepasse);
 			if(null == utilisateur)
 			{
-				
+				// Retour à la page d'accueil
+				dispatcher = getServletContext().getRequestDispatcher("login.jsp");
+				dispatcher.forward(request, response);
+				return;
 			}
 			else if(utilisateur instanceof Animateur)
 			{
 				Animateur animateur = (Animateur) utilisateur;
-				String nom = animateur.getFirstName();
-				nom += "";
+				// Création animateur utilisé par l'IHM
+				AnimateurGUI animateurConnecte = new AnimateurGUI(animateur.getId(), animateur.getLastName(), animateur.getFirstName(),
+						animateur.getMail(), animateur.getPassword());
+				
+				// Invalider la session en cours dans le cas où c'est un autre profil qui est déjà connecté
+				request.getSession().invalidate();
+				
+				// Placer le bean dans le contexte de session
+				request.getSession().setAttribute("animateurConnecte", animateurConnecte);
+				// PrÃ©senter la rÃ©ponse
+				response.sendRedirect(request.getContextPath()+ accueilAnimateur);
+				return;
 			}
 			else if(utilisateur instanceof Stagiaire)
 			{
 				Stagiaire stagiaire = (Stagiaire) utilisateur;
-				String nom = stagiaire.getFirstName();
-				nom += "";
+				
+				StagiaireGUI stagiaireConnecte = new StagiaireGUI(stagiaire.getIdPromotion(), stagiaire.getId(), stagiaire.getLastName(),
+						stagiaire.getFirstName(), stagiaire.getMail(), stagiaire.getPassword());
+
+				// Invalider la session en cours dans le cas où c'est un autre profil qui est déjà connecté
+				request.getSession().invalidate();
+				
+				// Placer le bean dans le contexte de session
+				request.getSession().setAttribute("stagiaireConnecte", stagiaireConnecte);
+				// Présenter la réponse
+				response.sendRedirect(request.getContextPath()+ accueilStagiaire);
+				return;
 			}
 			
 		} catch (SQLException sqle) {
@@ -71,7 +104,6 @@ public class AuthentificationServlet extends HttpServlet {
 			dispatcher = getServletContext().getRequestDispatcher("/erreur/erreur.jsp");
 			dispatcher.forward(request, response);
 			return;
-		}
 		}
 	}
 
