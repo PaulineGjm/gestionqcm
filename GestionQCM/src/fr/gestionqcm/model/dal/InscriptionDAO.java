@@ -172,7 +172,7 @@ public class InscriptionDAO {
 		}
 	}
 
-	public static void supprimerFormation(InscriptionTest inscription)
+	public static void deleteInscription(InscriptionTest inscription)
 			throws Exception {
 		if (inscription != null) {
 			PreparedStatement cmd = null;
