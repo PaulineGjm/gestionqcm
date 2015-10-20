@@ -11,12 +11,12 @@
   </welcome-file-list>
   <servlet>
     <description></description>
-    <display-name>TestDatabaseServlet</display-name>
-    <servlet-name>TestDatabaseServlet</servlet-name>
-    <servlet-class>fr.gestionqcm.controler.TestDatabaseServlet</servlet-class>
+    <display-name>AuthentificationServlet</display-name>
+    <servlet-name>AuthentificationServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.AuthentificationServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>TestDatabaseServlet</servlet-name>
-    <url-pattern>/TestDatabaseServlet</url-pattern>
+    <servlet-name>AuthentificationServlet</servlet-name>
+    <url-pattern>/AuthentificationServlet</url-pattern>
   </servlet-mapping>
 </web-app>
