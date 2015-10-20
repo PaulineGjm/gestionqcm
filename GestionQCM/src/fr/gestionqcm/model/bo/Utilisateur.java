@@ -1,34 +1,69 @@
 package fr.gestionqcm.model.bo;
 
-public class Utilisateur {
-	
-	private String nom;
-	private String prenom;
-	private String email;
+import java.io.Serializable;
+
+public class Utilisateur implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
+	private String lastName;
+	private String firstName;
 	private String password;
+	private String mail;
 
-	public String getNom() {
-		return nom;
+	/**
+	 * Constructeur par défaut.
+	 */
+	public Utilisateur() {
+		super();
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	/**
+	 * Constructeur pour créer un utilisateur.
+	 * 
+	 * @param id
+	 *            identifiant de l'animateur
+	 * @param lastName
+	 *            nom de l'animateur.
+	 * @param firstName
+	 *            prenom de l'animateur.
+	 * @param password
+	 *            mot de passe.
+	 * @param mail
+	 *            email.
+	 */
+	public Utilisateur(Integer id, String lastName, String firstName,
+			String mail, String password) {
+		setId(id);
+		setLastName(lastName);
+		setFirstName(firstName);
+		setMail(mail);
+		setPassword(password);
 	}
 
-	public String getPrenom() {
-		return prenom;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getPassword() {
@@ -39,4 +74,11 @@ public class Utilisateur {
 		this.password = password;
 	}
 
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
 }
