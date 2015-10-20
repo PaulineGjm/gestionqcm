@@ -1,0 +1,66 @@
+@CHARSET "ISO-8859-1";
+
+.pageLogin {
+	margin-top: 300px; 
+	background-color: #dfeaf2;
+	font-family: Century Gothic;
+	font-weight: normal;
+	width: 400px;
+	border: 1px solid black;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.pageClassique
+{
+	margin-top: 300px; 
+	background-color: #dfeaf2;
+	font-family: Century Gothic;
+	font-weight: normal;
+	width: 1000px;
+	border: 1px solid black;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#contenu
+{	
+	margin-top: 50px;
+	margin-left: 20px;
+	margin-right: 20px;
+	text-align: center;
+}
+
+#labelTitre
+{
+	font-size: 16pt;
+}
+
+#blocIdentifiant
+{
+	margin-bottom: 10px;
+}
+
+#nomTest
+{
+	height: 50px;
+	width: 200px;
+	background-color: white;
+}
+
+.buttonBlue
+{
+	margin-top: 20px;
+	margin-left: 280px;
+	background-color: #5789ff;
+	color: white;
+	width: 100px;
+	height: 30px;
+}
+
+.buttonFleche
+{
+	background-color: purple;
+	margin-top: 5px;
+	margin-bot: 5px;
+}
