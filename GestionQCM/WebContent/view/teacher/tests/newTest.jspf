@@ -1,0 +1,61 @@
+<%@ page  import ="java.util.*, java.text.*" %>
+<script type="text/javascript" src="<%=request.getContextPath()%>/theme/js/newtest.js"></script>
+
+<form action="<%=request.getContextPath()%>/ValidateNewTest" method="post">
+	<div>
+		<label for="">Nom</label>
+		<input type="text" name="name"/>
+	</div>
+	
+	<div>
+		<label for="">Durée (en minute)</label>
+		<input type="text" name="duration"/>
+	</div>
+	
+	<div>
+		<label for="">Seuil en cours d'acquisition</label>
+		<input type="text" name="beingacquired"/>
+	</div>
+	
+	<div>
+		<label for="">Seuil acquis</label>
+		<input type="text" name="acquired"/>
+	</div>
+	
+	<div id="sections">
+		<label>Sections : </label>
+		<input type="button" name="newsection" id="newsection" value="Nouvelle section"/>
+	
+		<div class="section" style="display:none">
+			<label for="">Section</label>
+			<select name="theme">
+			<%
+				// ArrayList<Theme> themes = (ArrayList<Formation>)request.getSession().getAttribute("themes");
+				ArrayList<String> themes = new ArrayList<String>();
+				themes.add("Theme 1");
+				themes.add("Theme 2");
+				themes.add("Theme 3");
+				
+				int index = 0;
+				if(themes != null)
+				{
+			 		for(String t : themes) {
+			%>
+				<option value="<%=index%>"><%=t%></option> 
+			<%
+						index++;
+			 		}
+				}
+			%>
+			</select>
+			Nombre de questions : <input type="text" name="nbquestion" class="nbquestion"/>
+			<input type="button" name="deletesection" class="deletesection" value="-"/>
+		</div>
+		
+	</div>
+	
+	<div>
+		<input type="submit" name="newtest" value="Valider"/>
+	</div>
+
+</form>

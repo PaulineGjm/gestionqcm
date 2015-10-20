@@ -15,8 +15,27 @@
     <servlet-name>AuthentificationServlet</servlet-name>
     <servlet-class>fr.gestionqcm.controler.AuthentificationServlet</servlet-class>
   </servlet>
+  <servlet>
+    <display-name>NewTestServlet</display-name>
+    <servlet-name>NewTestServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.tests.NewTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewTestServlet</servlet-name>
+    <url-pattern>/NewTest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ValidateNewTestServlet</display-name>
+    <servlet-name>ValidateNewTestServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.tests.ValidateNewTestServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>AuthentificationServlet</servlet-name>
     <url-pattern>/AuthentificationServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ValidateNewTestServlet</servlet-name>
+    <url-pattern>/ValidateNewTest</url-pattern>
   </servlet-mapping>
 </web-app>
