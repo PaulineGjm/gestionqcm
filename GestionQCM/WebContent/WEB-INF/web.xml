@@ -26,16 +26,46 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ValidateNewTestServlet</display-name>
-    <servlet-name>ValidateNewTestServlet</servlet-name>
-    <servlet-class>fr.gestionqcm.controler.teacher.tests.ValidateNewTestServlet</servlet-class>
+    <display-name>ValidateTestServlet</display-name>
+    <servlet-name>ValidateTestServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.tests.ValidateTestServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AuthentificationServlet</servlet-name>
     <url-pattern>/AuthentificationServlet</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>ValidateNewTestServlet</servlet-name>
-    <url-pattern>/ValidateNewTest</url-pattern>
+    <servlet-name>ValidateTestServlet</servlet-name>
+    <url-pattern>/ValidateTest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListTestsServlet</display-name>
+    <servlet-name>ListTestsServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.tests.ListTestsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListTestsServlet</servlet-name>
+    <url-pattern>/ListTests</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeleteTestServlet</display-name>
+    <servlet-name>DeleteTestServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.tests.DeleteTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteTestServlet</servlet-name>
+    <url-pattern>/DeleteTest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateTestServlet</display-name>
+    <servlet-name>UpdateTestServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.tests.UpdateTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateTestServlet</servlet-name>
+    <url-pattern>/UpdateTest</url-pattern>
   </servlet-mapping>
 </web-app>
