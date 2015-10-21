@@ -1,8 +1,10 @@
 package fr.gestionqcm.model.bo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 public class InscriptionTest {
+
 	private int inscriptionId;
 	private int testId;
 	private Date inscriptionDate;
