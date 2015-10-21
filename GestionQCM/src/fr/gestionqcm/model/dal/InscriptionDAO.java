@@ -213,5 +213,30 @@ public class InscriptionDAO {
 				.getColumnName()));
 		return inscriptionTest;
 	}
+	
+	public static List<InscriptionTest> getInscriptionsByTrainee(int idTrainee) throws SQLException {
+		PreparedStatement cmd = null;
+		List<InscriptionTest> listInscriptions = new ArrayList<InscriptionTest>();
+		InscriptionTest inscription = null;
+		cmd = AccessDatabase.getConnection().prepareStatement(
+				requestFactory.getSelectOne(Column.userId
+						.getColumnName()));
+		cmd.setInt(1, idTrainee);
+
+		try {
+			cmd.executeQuery();
+			ResultSet rs = cmd.getResultSet();
+			while(rs.next()) {
+				listInscriptions.add(inscriptionMapping(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SQLException(e);
+		} finally {
+			cmd.getConnection().close();
+			cmd = null;
+		}
+		return listInscriptions;
+	}
 
 }
