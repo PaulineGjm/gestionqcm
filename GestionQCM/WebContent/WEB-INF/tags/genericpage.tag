@@ -1,7 +1,7 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
 <%@attribute name="title" required="true"%>
-<%@attribute name="header" fragment="true" %>
-<%@attribute name="footer" fragment="true" %>
+<%-- <%@attribute name="header" fragment="true" %>
+<%@attribute name="footer" fragment="true" %> --%>
 <html>
   <head>
   	<title>${title}</title>
@@ -12,15 +12,45 @@
   </head>
   <body>
   	<div class="container">
-	  <h2>${title}</h2>
-	    <div id="pageheader">
-	      <jsp:invoke fragment="header"/>
+  		<form class="navbar-form navbar-right" role="search">
+		  <div class="form-group">
+		    <input type="text" class="form-control" placeholder="Search">
+		  </div>
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+		
+  		<div class="page-header">
+  			<h1>Gestion QCM</h1>	
+ 		</div>
+ 		<ol class="breadcrumb">
+			  <li><a href="#">Home</a></li>
+			  <li><a href="#">Library</a></li>
+			  <li class="active">Data</li>
+		</ol>
+ 		<div class="container">
+	 		<ul class="nav nav-pills nav-stacked col-sm-3">
+	  			<li role="presentation" class="active"><a href="#">Home</a></li>
+	  			<li role="presentation"><a href="#">Profile</a></li>
+	 			<li role="presentation"><a href="#">Messages</a></li>
+			</ul>
+			
+			<div class="col-sm-9">
+		  		<div class="panel panel-default">
+			  	 	<div class="panel-heading">
+						<h2>${title}</h2>				
+					</div>
+				  	<div class="panel-body">
+				    	<div id="body">
+				      		<jsp:doBody/>
+				    	</div>
+				  	</div>
+				</div>
+		    </div>
 	    </div>
-	    <div id="body">
-	      <jsp:doBody/>
-	    </div>
-	    <div id="pagefooter">
-	      <jsp:invoke fragment="footer"/>
+	    
+	    <div id="pagefooter" class="text-center">
+	      <%-- <jsp:invoke fragment="footer"/> --%>
+	      <p id="copyright">Copyright 1927, Future Bits When There Be Bits Inc.</p>
 	    </div>
 	</div>
   </body>
