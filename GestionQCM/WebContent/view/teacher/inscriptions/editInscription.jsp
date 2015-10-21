@@ -3,6 +3,7 @@
 
 <t:genericpage title="Gestion des inscriptions">
     <jsp:body>
-        <p>Hi I'm the heart of the message</p>
+    	<jsp:useBean id="inscription" class="fr.gestionqcm.model.bo.InscriptionTest" />
+		<jsp:getProperty name="inscription" property="inscriptionId" />
     </jsp:body>
 </t:genericpage>

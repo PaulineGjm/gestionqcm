@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.gestionqcm.model.bo.InscriptionTest;
 import fr.gestionqcm.model.dal.InscriptionDAO;
+import fr.gestionqcm.model.enums.TypeAction;
 
 /**
  * Servlet implementation class InscriptionsServlet
@@ -27,21 +29,33 @@ public class InscriptionsServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd = null;
 
-		if (request.getParameter("id") != null) {
-			try {
-				request.setAttribute("inscription", InscriptionDAO
-						.getInscription(Integer.parseInt(request
-								.getParameter("id"))));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		String requestURI = request.getRequestURI();
+		String action = requestURI.substring(requestURI.lastIndexOf('/') + 1);
+		TypeAction typeAction = TypeAction.fromString(action);
 
-			rd = getServletContext().getRequestDispatcher(
-					"/view/teacher/inscriptions/editInscription.jsp");
-			rd.forward(request, response);
-		} else {
+		if (TypeAction.edit.equals(typeAction)) {
+			if (request.getParameter("id") != null) {
+				try {
+					InscriptionTest inscription = InscriptionDAO
+							.getInscription(Integer.parseInt(request
+									.getParameter("id")));
+					if (inscription != null) {
+						request.setAttribute("inscription", inscription);
+						rd = getServletContext()
+								.getRequestDispatcher(
+										"/view/teacher/inscriptions/editInscription.jsp");
+						rd.forward(request, response);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		if (rd == null) {
 			response.sendRedirect(request.getContextPath() + "/");
 		}
+
 	}
 
 	/**

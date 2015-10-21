@@ -46,6 +46,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>InscriptionsServlet</servlet-name>
-    <url-pattern>/Inscriptions</url-pattern>
+    <url-pattern>/Inscriptions/edit</url-pattern>
   </servlet-mapping>
 </web-app>
