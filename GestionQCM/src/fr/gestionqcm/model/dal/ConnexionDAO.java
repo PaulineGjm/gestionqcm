@@ -47,9 +47,11 @@ public class ConnexionDAO {
 			// ...sinon on renvoie null
 			
 		}
-		catch(Exception ex)
+		catch(SQLException ex)
 		{
 			utilisateur = null;
+			ex.printStackTrace();
+			throw new SQLException(ex);
 		}
 		finally{
 			if (rs!=null) rs.close();

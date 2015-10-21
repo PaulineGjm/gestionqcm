@@ -4,7 +4,7 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>view/login.jsp</welcome-file>
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
@@ -67,5 +67,15 @@
   <servlet-mapping>
     <servlet-name>UpdateTestServlet</servlet-name>
     <url-pattern>/UpdateTest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>InscriptionsServlet</display-name>
+    <servlet-name>InscriptionsServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.inscriptions.InscriptionsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InscriptionsServlet</servlet-name>
+    <url-pattern>/Inscriptions/edit</url-pattern>
   </servlet-mapping>
 </web-app>
