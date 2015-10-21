@@ -4,21 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Liste des tests</title>
-<script type="text/javascript" src="<%=request.getContextPath()%>/ressources/jquery/jquery-1.11.3.min.js"></script>
+<title>Création d'un nouveau test</title>
+<script type="text/javascript" src="<%=request.getContextPath()%>/theme/js/lib/jquery-1.11.3.min.js"></script>
 </head>
 <body>
 
 <div id="page">
 	<div id="entete">
-		<h1>Nouveau test</h1>
+		<h1>TP Web - Formations</h1>
 	</div>
 
 	<%-- <%@ include file="/menu.jspf" %> --%>
 
 	<div id="contenu">
 
-	<%@ include file="/view/teacher/tests/newOrUpdateTest.jspf" %>	
+	<%@ include file="/view/teacher/tests/listTests.jspf" %>	
 
     </div>
 

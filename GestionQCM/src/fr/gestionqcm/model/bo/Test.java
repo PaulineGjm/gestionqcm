@@ -1,5 +1,6 @@
 package fr.gestionqcm.model.bo;
 
+import java.util.List;
 import java.io.Serializable;
 
 public class Test {
@@ -13,6 +14,16 @@ public class Test {
 	private int currentThreshold;
 
 	private int acquisitionThreshold;
+	
+	private List<Section> sections;
+
+	public List<Section> getSections() {
+		return sections;
+	}
+
+	public void setSections(List<Section> sections) {
+		this.sections = sections;
+	}
 
 	public int getTestId() {
 		return testId;

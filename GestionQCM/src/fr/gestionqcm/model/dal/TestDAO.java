@@ -1,5 +1,6 @@
 package fr.gestionqcm.model.dal;
 
+import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.gestionqcm.model.bo.Section;
 import fr.gestionqcm.model.bo.Test;
 import fr.gestionqcm.model.dal.util.AccessDatabase;
 import fr.gestionqcm.model.dal.util.RequestFactory;
@@ -47,7 +49,9 @@ public class TestDAO {
 			cmd.executeQuery();
 			ResultSet rs = cmd.getResultSet();
 			while (rs.next()) {
-				tests.add(testMapping(rs));
+				Test test = testMapping(rs);
+				test.setSections(SectionDAO.getByTest(test));
+				tests.add(test);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -55,7 +59,7 @@ public class TestDAO {
 					"Problème de connexion avec la base de données !");
 		} finally {
 			cmd.getConnection().close();
-			cmd = null;
+			cmd.close();
 		}
 		return tests;
 	}
@@ -72,6 +76,7 @@ public class TestDAO {
 			ResultSet rs = cmd.getResultSet();
 			if (rs.next()) {
 				test = testMapping(rs);
+				test.setSections(SectionDAO.getByTest(test));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,7 +84,7 @@ public class TestDAO {
 					"Problème de connexion avec la base de données !");
 		} finally {
 			cmd.getConnection().close();
-			cmd = null;
+			cmd.close();
 		}
 		return test;
 	}
@@ -104,43 +109,60 @@ public class TestDAO {
 			if (results.next()) {
 				test.setTestId(results.getInt(1));
 			}
+			
+			ArrayList<Section> sections = (ArrayList<Section>)test.getSections();
+			for(Section s : sections)
+			{
+				SectionDAO.add(s);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception(
 					"Problème de connexion avec la base de donnÃ©es !");
 		} finally {
 			cmd.getConnection().close();
-			cmd = null;
+			cmd.close();
 		}
 	}
 
 	public static void updateTest(Test test) throws Exception {
 		if (test != null) {
+			String request = requestFactory.getUpdate(
+					Column.testId.getColumnName(),
+					Column.name.getColumnName(),
+					Column.testDuration.getColumnName(),
+					Column.currentThreshold.getColumnName(),
+					Column.acquisitionThreshold.getColumnName());
+			
 			PreparedStatement cmd = AccessDatabase
 					.getConnection()
-					.prepareStatement(
-							requestFactory.getUpdate(
-									Column.testId.getColumnName(),
-									Column.name.getColumnName(),
-									Column.testDuration.getColumnName(),
-									Column.currentThreshold.getColumnName(),
-									Column.acquisitionThreshold.getColumnName()));
+					.prepareStatement("UPDATE TEST SET nom = ?,dureeDuTest = ?,seuilEnCours = ?,seuilAcquis = ? WHERE id_test = ?");
 
 			cmd.setString(1, test.getName());
 			cmd.setInt(2, test.getTestDuration());
 			cmd.setInt(3, test.getCurrentThreshold());
 			cmd.setInt(4, test.getAcquisitionThreshold());
 			cmd.setInt(5, test.getTestId());
+			
+//			ParameterMetaData metadata = cmd.getParameterMetaData(); 
+//			System.out.println(metadata);
 
 			try {
 				cmd.executeUpdate();
+				
+				SectionDAO.deleteByTest(test);
+				ArrayList<Section> sections = (ArrayList<Section>)test.getSections();
+				for(Section s : sections)
+				{
+					SectionDAO.add(s);
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new Exception(
-						"Probléme de connexion avec la base de donnÃ©es !");
+						"Problème de connexion avec la base de données !");
 			} finally {
 				cmd.getConnection().close();
-				cmd = null;
+				cmd.close();
 			}
 		}
 	}
@@ -154,10 +176,18 @@ public class TestDAO {
 
 			try {
 				cmd.executeUpdate();
+				
+				// suppression des sections associées au test
+				RequestFactory rf = new RequestFactory("SECTION");
+				cmd = AccessDatabase.getConnection().prepareStatement(
+						rf.getDelete(Column.testId.getColumnName()));
+				cmd.setInt(1, test.getTestId());
+				cmd.executeUpdate();
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new Exception(
-						"ProblÃ¨me de connexion avec la base de donnÃ©es !");
+						"Problème de connexion avec la base de données !");
 			} finally {
 				cmd.getConnection().close();
 				cmd = null;
