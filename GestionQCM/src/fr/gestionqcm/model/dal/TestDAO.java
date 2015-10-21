@@ -137,7 +137,7 @@ public class TestDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new Exception(
-						"Probléme de connexion avec la base de donnÃ©es !");
+						"Problème de connexion avec la base de données !");
 			} finally {
 				cmd.getConnection().close();
 				cmd = null;
@@ -154,10 +154,18 @@ public class TestDAO {
 
 			try {
 				cmd.executeUpdate();
+				
+				// suppression des sections associées au test
+				RequestFactory rf = new RequestFactory("SECTION");
+				cmd = AccessDatabase.getConnection().prepareStatement(
+						rf.getDelete(Column.testId.getColumnName()));
+				cmd.setInt(1, test.getTestId());
+				cmd.executeUpdate();
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new Exception(
-						"ProblÃ¨me de connexion avec la base de donnÃ©es !");
+						"Problème de connexion avec la base de données !");
 			} finally {
 				cmd.getConnection().close();
 				cmd = null;
