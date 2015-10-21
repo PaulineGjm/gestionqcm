@@ -67,8 +67,7 @@ public class AuthentificationServlet extends HttpServlet {
 			if(null == utilisateur)
 			{
 				// Retour � la page d'accueil
-				dispatcher = getServletContext().getRequestDispatcher("login.jsp");
-				dispatcher.forward(request, response);
+				response.sendRedirect(request.getContextPath()+ "/view/login.jsp");
 				return;
 			}
 			else if(utilisateur instanceof Animateur)
@@ -118,9 +117,9 @@ public class AuthentificationServlet extends HttpServlet {
 			
 		} catch (Exception ex) {
 			// Placer l'objet représentant l'exception dans le contexte de requete
-			request.setAttribute("erreur", ex);
+			request.setAttribute("error", ex);
 			// Passer la main à la page de pr�sentation des erreurs
-			dispatcher = getServletContext().getRequestDispatcher("/erreur/erreur.jsp");
+			dispatcher = getServletContext().getRequestDispatcher("/error/error.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
