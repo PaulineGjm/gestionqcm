@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
+import fr.gestionqcm.model.bo.Stagiaire;
+import fr.gestionqcm.model.bo.Utilisateur;
 import fr.gestionqcm.model.dal.util.AccessDatabase;
 import fr.gestionqcm.model.dal.util.RequestFactory;
 
@@ -204,8 +206,14 @@ public class InscriptionDAO {
 				.getColumnName())));
 		inscriptionTest.setInscriptionDate(rs.getDate(Column.inscriptionDate
 				.getColumnName()));
-		// rs.getInt(Column.userId.getColumnName())
-		inscriptionTest.setUser(null);
+
+		Utilisateur user = UserDAO.getUser(rs.getInt(Column.userId
+				.getColumnName()));
+
+		if (user.isStagiaire()) {
+			inscriptionTest.setUser((Stagiaire) user);
+		}
+
 		inscriptionTest.setTestStartDate(rs.getDate(Column.testStartDate
 				.getColumnName()));
 		inscriptionTest.setTimesRemaining(rs.getInt(Column.timesRemaining
@@ -241,5 +249,4 @@ public class InscriptionDAO {
 		}
 		return listInscriptions;
 	}
-
 }

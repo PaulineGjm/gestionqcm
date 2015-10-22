@@ -151,68 +151,71 @@ public class UserDAO {
 		}
 	}
 
-	// public static void updateInscription(Utilisateur inscription)
-	// throws Exception {
-	// if (inscription != null) {
-	// PreparedStatement cmd = AccessDatabase.getConnection()
-	// .prepareStatement(
-	// requestFactory.getUpdate(
-	// Column.inscriptionId.getColumnName(),
-	// Column.testId.getColumnName(),
-	// Column.inscriptionDate.getColumnName(),
-	// Column.userId.getColumnName(),
-	// Column.testStartDate.getColumnName(),
-	// Column.timesRemaining.getColumnName(),
-	// Column.issueNumber.getColumnName(),
-	// Column.questionPosition.getColumnName()));
-	//
-	// cmd.setInt(1, inscription.getTest().getTestId());
-	// cmd.setDate(2,
-	// (inscription.getInscriptionDate() != null) ? new Date(
-	// inscription.getInscriptionDate().getTime()) : null);
-	// cmd.setInt(3, inscription.getUser().getId());
-	// cmd.setDate(4, (inscription.getTestStartDate() != null) ? new Date(
-	// inscription.getTestStartDate().getTime()) : null);
-	// cmd.setInt(5, inscription.getTimesRemaining());
-	// cmd.setInt(6, inscription.getIssueNumber());
-	// cmd.setInt(7, inscription.getQuestionPosition());
-	// cmd.setInt(8, inscription.getInscriptionId());
-	//
-	// try {
-	// cmd.executeUpdate();
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// throw new Exception(
-	// "Probl�me de connexion avec la base de données !");
-	// } finally {
-	// cmd.getConnection().close();
-	// cmd = null;
-	// }
-	// }
-	// }
+	public static void updateUser(Utilisateur user) throws Exception {
+		if (user != null) {
+			PreparedStatement cmd = null;
 
-	//
-	// public static void deleteInscription(Utilisateur inscription)
-	// throws Exception {
-	// if (inscription != null) {
-	// PreparedStatement cmd = null;
-	// cmd = AccessDatabase.getConnection().prepareStatement(
-	// requestFactory.getDelete(Column.inscriptionId
-	// .getColumnName()));
-	// cmd.setInt(1, inscription.getInscriptionId());
-	//
-	// try {
-	// cmd.executeUpdate();
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// throw new Exception(
-	// "Problème de connexion avec la base de données !");
-	// } finally {
-	// cmd.getConnection().close();
-	// cmd = null;
-	// }
-	// }
-	// }
+			ArrayList<String> columnsToUpdate = new ArrayList<String>();
+			columnsToUpdate.add(Column.lastName.getColumnName());
+			columnsToUpdate.add(Column.firstName.getColumnName());
+			columnsToUpdate.add(Column.mail.getColumnName());
+			columnsToUpdate.add(Column.password.getColumnName());
+
+			if (user.isStagiaire()) {
+				Stagiaire stagiaire = (Stagiaire) user;
+				columnsToUpdate.add(Column.idPromotion.getColumnName());
+			} else if (user.isAnimateur()) {
+				Animateur animateur = (Animateur) user;
+			}
+			columnsToUpdate.add(Column.id.getColumnName());
+
+			cmd = AccessDatabase.getConnection().prepareStatement(
+					requestFactory.getInsert((String[]) columnsToUpdate
+							.toArray()));
+
+			cmd.setString(1, user.getLastName());
+			cmd.setString(2, user.getFirstName());
+			cmd.setString(3, user.getMail());
+			cmd.setString(4, user.getPassword());
+			if (user.isStagiaire()) {
+				cmd.setInt(5, ((Stagiaire) user).getIdPromotion());
+				cmd.setInt(6, user.getId());
+			} else {
+				cmd.setInt(5, user.getId());
+			}
+
+			try {
+				cmd.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception(
+						"Probl�me de connexion avec la base de données !");
+			} finally {
+				cmd.getConnection().close();
+				cmd = null;
+			}
+		}
+	}
+
+	public static void deleteInscription(Utilisateur user) throws Exception {
+		if (user != null) {
+			PreparedStatement cmd = null;
+			cmd = AccessDatabase.getConnection().prepareStatement(
+					requestFactory.getDelete(Column.id.getColumnName()));
+			cmd.setInt(1, user.getId());
+
+			try {
+				cmd.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception(
+						"Problème de connexion avec la base de données !");
+			} finally {
+				cmd.getConnection().close();
+				cmd = null;
+			}
+		}
+	}
 
 	private static Utilisateur userMapping(ResultSet rs) throws Exception {
 		Utilisateur utilisateur = null;
