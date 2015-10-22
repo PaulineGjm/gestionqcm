@@ -1,45 +1,26 @@
 <%@ page  import ="java.util.*, java.text.*, fr.gestionqcm.model.bo.*" %>
-<script type="text/javascript" src="<%=request.getContextPath()%>/theme/js/newtest.js"></script>
-
-<form action="<%=request.getContextPath()%>/ValidateTest" method="post">
-	<%
-		Test test = (Test)request.getSession().getAttribute("testToUpdate");
-		String action = "update";
-		String name = "";
-		String duration = "";
-		String beingacquired = "";
-		String acquired = "";
-		if(test == null)
-		{
-			action = "add";
-			test = new Test();
-		}
-		else
-		{
-			name = test.getName();
-			duration = String.valueOf(test.getTestDuration());
-			beingacquired = String.valueOf(test.getCurrentThreshold());
-			acquired = String.valueOf(test.getAcquisitionThreshold());
-		}
-	%>
+<script type="text/javascript" src="${pageContext.servletContext.contextPath}/theme/js/newtest.js"></script>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<form action="${pageContext.servletContext.contextPath}/ValidateTest" method="post">
+	<c:set var="test" value="${testToUpdate}" />
 	<div>
 		<label for="">Nom</label>
-		<input type="text" name="name" value="<%=name%>"/>
+		<input type="text" name="name" value="${test.getName()}"/>
 	</div>
 	
 	<div>
 		<label for="">Durée (en minute)</label>
-		<input type="text" name="duration" value="<%=duration%>"/>
+		<input type="text" name="duration" value="${test.getTestDuration()}"/>
 	</div>
 	
 	<div>
 		<label for="">Seuil en cours d'acquisition</label>
-		<input type="text" name="beingacquired" value="<%=beingacquired%>"/>
+		<input type="text" name="beingacquired" value="${test.getAcquisitionThreshold()}"/>
 	</div>
 	
 	<div>
 		<label for="">Seuil acquis</label>
-		<input type="text" name="acquired" value="<%=acquired%>"/>
+		<input type="text" name="acquired" value="${test.getCurrentThreshold()}"/>
 	</div>
 	
 	<div id="sections">
@@ -49,67 +30,50 @@
 		<div class="section" style="display:none">
 			<label for="">Section</label>
 			<select name="theme">
-			<%
-				ArrayList<Theme> themes = (ArrayList<Theme>)request.getSession().getAttribute("themes");
-				if(themes != null)
-				{
-			 		for(Theme t : themes) {
-			%>
-				<option value="<%=t.getId()%>">
-					<%=t.getLabel()%>
-				</option> 
-			<%
-			 		}
-				}
-			%>
+				<c:forEach items="${themes}" var="theme">
+					<c:if test="${theme != null}">
+						<option value="${theme.getId()}">
+							${theme.getLabel()}
+						</option>
+					</c:if>
+				</c:forEach>
 			</select>
 			Nombre de questions : <input type="text" name="nbquestion" class="nbquestion"/>
 			<input type="button" name="deletesection" class="deletesection" value="-"/>
 		</div>
 		
-		<%
-			ArrayList<Section> sections = (ArrayList<Section>)test.getSections();
-			if(sections != null && sections.size() > 0)
-			{
-				int index = 1;
-				for(Section s : sections)
-				{
-				%>
-					<div class="section">
-						<label for="">Section</label>
-						<select name="theme_<%=index%>">
-						<%
-							if(themes != null)
-							{
-								String selected = "";
-						 		for(Theme t : themes) {
-						 			selected = "";
-						 			if(t.getId() == s.getIdTheme())
-						 				selected = "selected";
-						 				
-						%>
-							<option value="<%=t.getId()%>" <%=selected %>>
-								<%=t.getLabel()%>
-							</option> 
-						<%
-						 		}
-							}
-						%>
-						</select>
-						Nombre de questions : <input type="text" name="nbquestion_<%=index%>" class="nbquestion" value="<%=s.getNbQuestions()%>"/>
-						<input type="button" name="deletesection" class="deletesection" value="-"/>
-					</div>
-				<%
-				}
-			}
-		%>
+		<c:forEach items="${test.getSections()}" var="section" varStatus="count">
+			<div class="section">
+				<label for="">Section</label>
+				<select name="theme_${count.count} ">
+					<c:forEach items="${themes}" var="theme">
+						<c:if test="${theme != null}">
+							<c:set var="selected" value=""/>
+							<c:if test="${section.getIdTheme() == theme.getId()}">
+								<c:set var="selected" value="selected"/>
+							</c:if>
+							<option value="${theme.getId()}" ${selected}>
+								${theme.getLabel()}
+							</option>
+						</c:if>
+					</c:forEach>
+				</select>
+				Nombre de questions : <input type="text" name="nbquestion_${count.count}" class="nbquestion" value="${section.getNbQuestions()}"/>
+				<input type="button" name="deletesection" class="deletesection" value="-"/>
+			</div>
+		</c:forEach>
 		
 	</div>
 	
 	<input type="submit" name="newtest" value="Valider"/>
-	<input type="hidden" name="action" value="<%=action %>"/>
+	
+	<c:set var="action" value="update"/>
+	<c:if test="${test == null}">
+	   <c:set var="action" value="add"/>
+	</c:if>
+	<input type="hidden" name="action" value="${action}"/>
 </form>
 
-	<form action="<%=request.getContextPath()%>/ListTests" method="post">
+	<%-- <form action="<%=request.getContextPath()%>/ListTests" method="post">
 		<input type="submit" name="cancel" value="Annuler"/>
-	</form>
+	</form> --%>
