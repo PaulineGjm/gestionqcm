@@ -46,7 +46,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>BeginTestServlet</servlet-name>
-    <url-pattern>/BeginTestServlet</url-pattern>
+    <url-pattern>/test/BeginTest</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -56,7 +56,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>DisplayNextQuestionServlet</servlet-name>
-    <url-pattern>/DisplayNextQuestionServlet</url-pattern>
+    <url-pattern>/test/DisplayNextQuestion</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>

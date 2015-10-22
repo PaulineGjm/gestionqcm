@@ -23,7 +23,7 @@
 		ArrayList<TestDisponibleGUI> listTestsDisponibles = (ArrayList<TestDisponibleGUI>)request.getSession().getAttribute("listTestsDisponibles");
 	 	for(TestDisponibleGUI testDispo : listTestsDisponibles) {
 	%>
-		<form action="">
+		<form class="connexion" action="<%=request.getContextPath()%>/test/BeginTest" method="post">
 			<div class="formationEntete">
 			<% if(testDispo.getTimeRemaining() != testDispo.getTestDuration())
 				{
