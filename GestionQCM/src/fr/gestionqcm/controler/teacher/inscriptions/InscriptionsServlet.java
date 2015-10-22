@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
+import fr.gestionqcm.model.bo.Test;
 import fr.gestionqcm.model.dal.InscriptionDAO;
 import fr.gestionqcm.model.dal.TestDAO;
 import fr.gestionqcm.model.enums.TypeAction;
@@ -39,13 +40,27 @@ public class InscriptionsServlet extends HttpServlet {
 
 		if (TypeAction.edit.equals(typeAction)) {
 			try {
+				String testSelected = request.getParameter("testSelected");
+				String startDateSelected = request
+						.getParameter("startDateSelected");
+				String startHourSelected = request
+						.getParameter("startHourSelected");
+
 				EditInscriptionGUI editInscriptionGUI = new EditInscriptionGUI();
+
+				if (testSelected != null && !testSelected.isEmpty()) {
+					editInscriptionGUI.setTestSelected(TestDAO.getTest(Integer
+							.valueOf(testSelected)));
+				}
+
+				List<Test> listTest = TestDAO.getAllTests();
 				editInscriptionGUI.setTests(TestDAO.getAllTests());
 				List<InscriptionTest> inscriptionsTest = InscriptionDAO
 						.getInscriptionsToTest(
 								editInscriptionGUI.getStartDateSelected(),
 								editInscriptionGUI.getTestSelected());
 				editInscriptionGUI.setInscriptionsTest(inscriptionsTest);
+
 				request.setAttribute("editInscriptionGUI", editInscriptionGUI);
 				rd = getServletContext().getRequestDispatcher(
 						"/view/teacher/inscriptions/editInscription.jsp");
