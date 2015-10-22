@@ -3,7 +3,11 @@
 
 <t:genericpage title="Gestion des inscriptions">
     <jsp:body>
-    	<jsp:useBean id="inscription" class="fr.gestionqcm.model.bo.InscriptionTest" />
-		<jsp:getProperty name="inscription" property="inscriptionId" />
+    	${EditInscriptionGUI}
+    	<select name="tests">
+		   <c:forEach items="${EditInscriptionGUI.tests}" var="test">
+		       <option value="${test.testId}" ${param.test eq test.testId ? 'selected' : ''}>${test.name}</option>
+		   </c:forEach>
+		</select>
     </jsp:body>
 </t:genericpage>

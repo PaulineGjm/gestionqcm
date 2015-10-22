@@ -10,6 +10,7 @@ import java.util.List;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
 import fr.gestionqcm.model.bo.Stagiaire;
+import fr.gestionqcm.model.bo.Test;
 import fr.gestionqcm.model.bo.Utilisateur;
 import fr.gestionqcm.model.dal.util.AccessDatabase;
 import fr.gestionqcm.model.dal.util.RequestFactory;
@@ -249,4 +250,35 @@ public class InscriptionDAO {
 		}
 		return listInscriptions;
 	}
+
+	public static List<InscriptionTest> getInscriptionsToTest(
+			java.util.Date startDate, Test test) throws Exception {
+		PreparedStatement cmd = null;
+		List<InscriptionTest> testInscriptions = new ArrayList<InscriptionTest>();
+		if (startDate != null && test != null) {
+			cmd = AccessDatabase.getConnection().prepareStatement(
+					String.format("SELECT * FROM %s WHERE %s = ? AND %s = ?;",
+							tableName, Column.testStartDate.getColumnName(),
+							Column.testId.getColumnName()));
+			cmd.setDate(1, (startDate != null) ? new Date(startDate.getTime())
+					: null);
+			cmd.setInt(2, test.getTestId());
+			try {
+				cmd.executeQuery();
+				ResultSet rs = cmd.getResultSet();
+				while (rs.next()) {
+					testInscriptions.add(inscriptionMapping(rs));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception(
+						"Problème de connexion avec la base de données !");
+			} finally {
+				cmd.getConnection().close();
+				cmd.close();
+			}
+		}
+		return testInscriptions;
+	}
+
 }
