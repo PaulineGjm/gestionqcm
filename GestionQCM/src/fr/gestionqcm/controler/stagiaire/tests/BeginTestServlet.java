@@ -68,7 +68,10 @@ public class BeginTestServlet extends HttpServlet {
 			}
 			
 			request.getSession().setAttribute("listIdQuestions", listIdQuestions);
+			request.getSession().setAttribute("numeroQuestion", 0);
 			
+			dispatcher = getServletContext().getRequestDispatcher("/test/DisplayNextQuestion");
+			dispatcher.forward(request, response);
 			
 			return;
 		}
@@ -76,7 +79,7 @@ public class BeginTestServlet extends HttpServlet {
 			// Placer l'objet représentant l'exception dans le contexte de requete
 			request.setAttribute("error", ex);
 			// Passer la main à la page de pr�sentation des erreurs
-			dispatcher = getServletContext().getRequestDispatcher("/error/error.jsp");
+			dispatcher = getServletContext().getRequestDispatcher("/view/error/error.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}

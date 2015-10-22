@@ -20,7 +20,7 @@ public class QuestionDAO {
 		try {
 			cnx = AccessDatabase.getConnection();
 			rqt = cnx
-					.prepareStatement("select * from question where id_question = ?");
+					.prepareStatement("select * from question where id_question = ? and estArchive = 0");
 			rqt.setInt(1, idQuestion);
 			rs = rqt.executeQuery();
 
