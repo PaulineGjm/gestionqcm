@@ -63,7 +63,7 @@ public class InscriptionDAO {
 					"Problème de connexion avec la base de données !");
 		} finally {
 			cmd.getConnection().close();
-			cmd = null;
+			cmd.close();
 		}
 		return testInscriptions;
 	}
@@ -88,7 +88,7 @@ public class InscriptionDAO {
 					"Problème de connexion avec la base de données !");
 		} finally {
 			cmd.getConnection().close();
-			cmd = null;
+			cmd.close();
 		}
 		return inscription;
 	}
@@ -128,7 +128,7 @@ public class InscriptionDAO {
 					"Probl�me de connexion avec la base de données !");
 		} finally {
 			cmd.getConnection().close();
-			cmd = null;
+			cmd.close();
 		}
 	}
 
@@ -167,7 +167,7 @@ public class InscriptionDAO {
 						"Probl�me de connexion avec la base de données !");
 			} finally {
 				cmd.getConnection().close();
-				cmd = null;
+				cmd.close();
 			}
 		}
 	}
@@ -189,7 +189,7 @@ public class InscriptionDAO {
 						"Problème de connexion avec la base de données !");
 			} finally {
 				cmd.getConnection().close();
-				cmd = null;
+				cmd.close();
 			}
 		}
 	}
@@ -237,7 +237,7 @@ public class InscriptionDAO {
 			throw new SQLException(e);
 		} finally {
 			cmd.getConnection().close();
-			cmd = null;
+			cmd.close();
 		}
 		return listInscriptions;
 	}

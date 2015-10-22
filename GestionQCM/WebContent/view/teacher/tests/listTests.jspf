@@ -1,0 +1,27 @@
+<%@ page import ="fr.gestionqcm.model.bo.*, java.util.*, java.text.*" %>
+<div id="listeFormation">
+<%-- <%
+	ArrayList<Test> tests = (ArrayList<Test>)request.getSession().getAttribute("listTests");
+ 	for(Test t : tests) {
+%>
+		<div class="test">
+			<h2><%=t.getName() %></h2>
+			<div>Durée du test : <%=t.getTestDuration() %>
+				<%String plural = t.getTestDuration() > 1 ? "s" : "";%>
+				minute<%=plural %>
+			</div>
+			<form method="post" action="<%=request.getContextPath()%>/DeleteTest">
+				<input type="hidden" value="<%=t.getTestId() %>" name="idTest"/>
+				<input type="submit" value="Supprimer" name="deletetest"/>
+			</form>
+			<form method="post" action="<%=request.getContextPath()%>/UpdateTest">
+				<input type="hidden" value="<%=t.getTestId() %>" name="idTest"/>
+				<input type="submit" value="Modifier" name="updatetest"/>
+			</form>
+		</div>
+		<br />
+<% } %> --%>
+    <c:forEach items="${requestScope.listTests}" var="test">
+        Test : ${test}
+    </c:forEach>
+</div>

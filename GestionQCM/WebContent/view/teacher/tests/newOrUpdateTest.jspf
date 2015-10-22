@@ -1,0 +1,115 @@
+<%@ page  import ="java.util.*, java.text.*, fr.gestionqcm.model.bo.*" %>
+<script type="text/javascript" src="<%=request.getContextPath()%>/theme/js/newtest.js"></script>
+
+<form action="<%=request.getContextPath()%>/ValidateTest" method="post">
+	<%
+		Test test = (Test)request.getSession().getAttribute("testToUpdate");
+		String action = "update";
+		String name = "";
+		String duration = "";
+		String beingacquired = "";
+		String acquired = "";
+		if(test == null)
+		{
+			action = "add";
+			test = new Test();
+		}
+		else
+		{
+			name = test.getName();
+			duration = String.valueOf(test.getTestDuration());
+			beingacquired = String.valueOf(test.getCurrentThreshold());
+			acquired = String.valueOf(test.getAcquisitionThreshold());
+		}
+	%>
+	<div>
+		<label for="">Nom</label>
+		<input type="text" name="name" value="<%=name%>"/>
+	</div>
+	
+	<div>
+		<label for="">Durée (en minute)</label>
+		<input type="text" name="duration" value="<%=duration%>"/>
+	</div>
+	
+	<div>
+		<label for="">Seuil en cours d'acquisition</label>
+		<input type="text" name="beingacquired" value="<%=beingacquired%>"/>
+	</div>
+	
+	<div>
+		<label for="">Seuil acquis</label>
+		<input type="text" name="acquired" value="<%=acquired%>"/>
+	</div>
+	
+	<div id="sections">
+		<label>Sections : </label>
+		<input type="button" name="newsection" id="newsection" value="Nouvelle section"/>
+	
+		<div class="section" style="display:none">
+			<label for="">Section</label>
+			<select name="theme">
+			<%
+				ArrayList<Theme> themes = (ArrayList<Theme>)request.getSession().getAttribute("themes");
+				if(themes != null)
+				{
+			 		for(Theme t : themes) {
+			%>
+				<option value="<%=t.getId()%>">
+					<%=t.getLabel()%>
+				</option> 
+			<%
+			 		}
+				}
+			%>
+			</select>
+			Nombre de questions : <input type="text" name="nbquestion" class="nbquestion"/>
+			<input type="button" name="deletesection" class="deletesection" value="-"/>
+		</div>
+		
+		<%
+			ArrayList<Section> sections = (ArrayList<Section>)test.getSections();
+			if(sections != null && sections.size() > 0)
+			{
+				int index = 1;
+				for(Section s : sections)
+				{
+				%>
+					<div class="section">
+						<label for="">Section</label>
+						<select name="theme_<%=index%>">
+						<%
+							if(themes != null)
+							{
+								String selected = "";
+						 		for(Theme t : themes) {
+						 			selected = "";
+						 			if(t.getId() == s.getIdTheme())
+						 				selected = "selected";
+						 				
+						%>
+							<option value="<%=t.getId()%>" <%=selected %>>
+								<%=t.getLabel()%>
+							</option> 
+						<%
+						 		}
+							}
+						%>
+						</select>
+						Nombre de questions : <input type="text" name="nbquestion_<%=index%>" class="nbquestion" value="<%=s.getNbQuestions()%>"/>
+						<input type="button" name="deletesection" class="deletesection" value="-"/>
+					</div>
+				<%
+				}
+			}
+		%>
+		
+	</div>
+	
+	<input type="submit" name="newtest" value="Valider"/>
+	<input type="hidden" name="action" value="<%=action %>"/>
+</form>
+
+	<form action="<%=request.getContextPath()%>/ListTests" method="post">
+		<input type="submit" name="cancel" value="Annuler"/>
+	</form>

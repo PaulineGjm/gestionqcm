@@ -40,12 +40,32 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>InscriptionsServlet</display-name>
-    <servlet-name>InscriptionsServlet</servlet-name>
-    <servlet-class>fr.gestionqcm.controler.teacher.inscriptions.InscriptionsServlet</servlet-class>
+    <display-name>BeginTestServlet</display-name>
+    <servlet-name>BeginTestServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.BeginTestServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>InscriptionsServlet</servlet-name>
-    <url-pattern>/Inscriptions/edit</url-pattern>
+    <servlet-name>BeginTestServlet</servlet-name>
+    <url-pattern>/test/BeginTest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DisplayNextQuestionServlet</display-name>
+    <servlet-name>DisplayNextQuestionServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.DisplayNextQuestionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DisplayNextQuestionServlet</servlet-name>
+    <url-pattern>/test/DisplayNextQuestion</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListTestsServlet</display-name>
+    <servlet-name>ListTestsServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.tests.ListTestsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListTestsServlet</servlet-name>
+    <url-pattern>/ListTests</url-pattern>
   </servlet-mapping>
 </web-app>
