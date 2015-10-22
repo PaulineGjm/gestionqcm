@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Modification du test</title>
-<script type="text/javascript" src="<%=request.getContextPath()%>/ressources/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/jquery/jquery-1.11.3.min.js"></script>
 </head>
 <body>
 <div id="page">

@@ -1,6 +1,5 @@
 package fr.gestionqcm.model.dal;
 
-import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -136,16 +135,13 @@ public class TestDAO {
 			
 			PreparedStatement cmd = AccessDatabase
 					.getConnection()
-					.prepareStatement("UPDATE TEST SET nom = ?,dureeDuTest = ?,seuilEnCours = ?,seuilAcquis = ? WHERE id_test = ?");
+					.prepareStatement(request);
 
 			cmd.setString(1, test.getName());
 			cmd.setInt(2, test.getTestDuration());
 			cmd.setInt(3, test.getCurrentThreshold());
 			cmd.setInt(4, test.getAcquisitionThreshold());
 			cmd.setInt(5, test.getTestId());
-			
-//			ParameterMetaData metadata = cmd.getParameterMetaData(); 
-//			System.out.println(metadata);
 
 			try {
 				cmd.executeUpdate();
@@ -190,7 +186,7 @@ public class TestDAO {
 						"Problème de connexion avec la base de données !");
 			} finally {
 				cmd.getConnection().close();
-				cmd = null;
+				cmd.close();
 			}
 		}
 	}

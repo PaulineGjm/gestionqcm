@@ -96,7 +96,7 @@
 							}
 						%>
 						</select>
-						Nombre de questions : <input type="text" name="nbquestion" class="nbquestion" value="<%=s.getNbQuestions()%>"/>
+						Nombre de questions : <input type="text" name="nbquestion_<%=index%>" class="nbquestion" value="<%=s.getNbQuestions()%>"/>
 						<input type="button" name="deletesection" class="deletesection" value="-"/>
 					</div>
 				<%

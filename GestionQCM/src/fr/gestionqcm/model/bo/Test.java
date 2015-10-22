@@ -1,7 +1,6 @@
 package fr.gestionqcm.model.bo;
 
 import java.util.List;
-import java.io.Serializable;
 
 public class Test {
 

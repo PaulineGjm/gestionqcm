@@ -58,4 +58,14 @@
     <servlet-name>DisplayNextQuestionServlet</servlet-name>
     <url-pattern>/DisplayNextQuestionServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListTestsServlet</display-name>
+    <servlet-name>ListTestsServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.tests.ListTestsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListTestsServlet</servlet-name>
+    <url-pattern>/ListTests</url-pattern>
+  </servlet-mapping>
 </web-app>

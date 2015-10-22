@@ -1,6 +1,6 @@
 <%@ page import ="fr.gestionqcm.model.bo.*, java.util.*, java.text.*" %>
 <div id="listeFormation">
-<%
+<%-- <%
 	ArrayList<Test> tests = (ArrayList<Test>)request.getSession().getAttribute("listTests");
  	for(Test t : tests) {
 %>
@@ -20,5 +20,8 @@
 			</form>
 		</div>
 		<br />
-<% } %>
+<% } %> --%>
+    <c:forEach items="${requestScope.listTests}" var="test">
+        Test : ${test}
+    </c:forEach>
 </div>
