@@ -1,14 +1,13 @@
 package fr.gestionqcm.model.bo;
 
-import java.io.Serializable;
 import java.util.Date;
 
 public class InscriptionTest {
 
 	private int inscriptionId;
-	private int testId;
+	private Test test;
 	private Date inscriptionDate;
-	private int userId;
+	private Stagiaire users;
 	private Date testStartDate;
 	private int timesRemaining;
 	private int issueNumber;
@@ -22,12 +21,12 @@ public class InscriptionTest {
 		this.inscriptionId = inscriptionId;
 	}
 
-	public int getTestId() {
-		return testId;
+	public Test getTest() {
+		return test;
 	}
 
-	public void setTestId(int testId) {
-		this.testId = testId;
+	public void setTest(Test test) {
+		this.test = test;
 	}
 
 	public Date getInscriptionDate() {
@@ -38,12 +37,12 @@ public class InscriptionTest {
 		this.inscriptionDate = inscriptionDate;
 	}
 
-	public int getUserId() {
-		return userId;
+	public Stagiaire getUser() {
+		return users;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUser(Stagiaire users) {
+		this.users = users;
 	}
 
 	public Date getTestStartDate() {

@@ -106,10 +106,10 @@ public class InscriptionDAO {
 						Column.questionPosition.getColumnName()),
 				Statement.RETURN_GENERATED_KEYS);
 
-		cmd.setInt(1, inscription.getTestId());
+		cmd.setInt(1, inscription.getTest().getTestId());
 		cmd.setDate(2, (inscription.getInscriptionDate() != null) ? new Date(
 				inscription.getInscriptionDate().getTime()) : null);
-		cmd.setInt(3, inscription.getUserId());
+		cmd.setInt(3, inscription.getUser().getId());
 		cmd.setDate(4, (inscription.getInscriptionDate() != null) ? new Date(
 				inscription.getInscriptionDate().getTime()) : null);
 		cmd.setInt(5, inscription.getTimesRemaining());
@@ -147,11 +147,11 @@ public class InscriptionDAO {
 									Column.issueNumber.getColumnName(),
 									Column.questionPosition.getColumnName()));
 
-			cmd.setInt(1, inscription.getTestId());
+			cmd.setInt(1, inscription.getTest().getTestId());
 			cmd.setDate(2,
 					(inscription.getInscriptionDate() != null) ? new Date(
 							inscription.getInscriptionDate().getTime()) : null);
-			cmd.setInt(3, inscription.getUserId());
+			cmd.setInt(3, inscription.getUser().getId());
 			cmd.setDate(4, (inscription.getTestStartDate() != null) ? new Date(
 					inscription.getTestStartDate().getTime()) : null);
 			cmd.setInt(5, inscription.getTimesRemaining());
@@ -195,15 +195,17 @@ public class InscriptionDAO {
 	}
 
 	private static InscriptionTest inscriptionMapping(ResultSet rs)
-			throws SQLException {
+			throws Exception {
 		InscriptionTest inscriptionTest = new InscriptionTest();
 
 		inscriptionTest.setInscriptionId(rs.getInt(Column.inscriptionId
 				.getColumnName()));
-		inscriptionTest.setTestId(rs.getInt(Column.testId.getColumnName()));
+		inscriptionTest.setTest(TestDAO.getTest(rs.getInt(Column.testId
+				.getColumnName())));
 		inscriptionTest.setInscriptionDate(rs.getDate(Column.inscriptionDate
 				.getColumnName()));
-		inscriptionTest.setUserId(rs.getInt(Column.userId.getColumnName()));
+		// rs.getInt(Column.userId.getColumnName())
+		inscriptionTest.setUser(null);
 		inscriptionTest.setTestStartDate(rs.getDate(Column.testStartDate
 				.getColumnName()));
 		inscriptionTest.setTimesRemaining(rs.getInt(Column.timesRemaining
@@ -216,7 +218,7 @@ public class InscriptionDAO {
 	}
 
 	public static List<InscriptionTest> getInscriptionsByTrainee(int idTrainee)
-			throws SQLException {
+			throws Exception {
 		PreparedStatement cmd = null;
 		List<InscriptionTest> listInscriptions = new ArrayList<InscriptionTest>();
 		InscriptionTest inscription = null;

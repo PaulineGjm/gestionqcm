@@ -81,4 +81,12 @@ public class Utilisateur implements Serializable {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
+
+	public boolean isStagiaire() {
+		return this instanceof Stagiaire;
+	}
+
+	public boolean isAnimateur() {
+		return this instanceof Animateur;
+	}
 }
