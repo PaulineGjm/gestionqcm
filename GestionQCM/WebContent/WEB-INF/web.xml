@@ -88,4 +88,14 @@
     <servlet-name>ValidateTestServlet</servlet-name>
     <url-pattern>/ValidateTest</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>InscriptionsServlet</display-name>
+    <servlet-name>InscriptionsServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.inscriptions.InscriptionsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InscriptionsServlet</servlet-name>
+    <url-pattern>/teacher/inscriptions/edit</url-pattern>
+  </servlet-mapping>
 </web-app>

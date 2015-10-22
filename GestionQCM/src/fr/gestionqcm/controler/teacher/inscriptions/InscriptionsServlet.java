@@ -38,23 +38,20 @@ public class InscriptionsServlet extends HttpServlet {
 		TypeAction typeAction = TypeAction.fromString(action);
 
 		if (TypeAction.edit.equals(typeAction)) {
-			if (request.getParameter("id") != null) {
-				try {
-					EditInscriptionGUI editInscriptionGUI = new EditInscriptionGUI();
-					editInscriptionGUI.setTests(TestDAO.getAllTests());
-					List<InscriptionTest> inscriptionsTest = InscriptionDAO
-							.getInscriptionsToTest(
-									editInscriptionGUI.getStartDateSelected(),
-									editInscriptionGUI.getTestSelected());
-					editInscriptionGUI.setInscriptionsTest(inscriptionsTest);
-					request.setAttribute("editInscriptionGUI",
-							editInscriptionGUI);
-					rd = getServletContext().getRequestDispatcher(
-							"/view/teacher/inscriptions/editInscription.jsp");
-					rd.forward(request, response);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			try {
+				EditInscriptionGUI editInscriptionGUI = new EditInscriptionGUI();
+				editInscriptionGUI.setTests(TestDAO.getAllTests());
+				List<InscriptionTest> inscriptionsTest = InscriptionDAO
+						.getInscriptionsToTest(
+								editInscriptionGUI.getStartDateSelected(),
+								editInscriptionGUI.getTestSelected());
+				editInscriptionGUI.setInscriptionsTest(inscriptionsTest);
+				request.setAttribute("editInscriptionGUI", editInscriptionGUI);
+				rd = getServletContext().getRequestDispatcher(
+						"/view/teacher/inscriptions/editInscription.jsp");
+				rd.forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
