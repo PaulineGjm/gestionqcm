@@ -3,7 +3,9 @@
     <c:forEach items="${listTests}" var="test">
         <div class="test">
 			<h3>${test.getName()}</h2>
-			<div>Durée du test : ${test.getTestDuration()}
+			<div>
+				Durée du test : ${test.getTestDuration()}
+				minute<c:if test="${test.getTestDuration() > 1}">s</c:if>
 			</div>
 			<form method="post" action="${pageContext.servletContext.contextPath}/UpdateTest">
 				<input type="hidden" value="${test.getTestId()}" name="idTest"/>
@@ -13,7 +15,6 @@
 				<input type="hidden" value="${test.getTestId()}" name="idTest"/>
 				<input type="submit" value="Supprimer" name="deletetest"/>
 			</form>
-			
 		</div>
 		<br />
     </c:forEach>

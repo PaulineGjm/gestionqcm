@@ -68,4 +68,24 @@
     <servlet-name>ListTestsServlet</servlet-name>
     <url-pattern>/ListTests</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateTestServlet</display-name>
+    <servlet-name>UpdateTestServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.tests.UpdateTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateTestServlet</servlet-name>
+    <url-pattern>/UpdateTest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ValidateTestServlet</display-name>
+    <servlet-name>ValidateTestServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.tests.ValidateTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ValidateTestServlet</servlet-name>
+    <url-pattern>/ValidateTest</url-pattern>
+  </servlet-mapping>
 </web-app>
