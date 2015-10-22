@@ -1,4 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
 <%@attribute name="title" required="true"%>
 <%-- <%@attribute name="header" fragment="true" %>

@@ -1,27 +1,20 @@
 <%@ page import ="fr.gestionqcm.model.bo.*, java.util.*, java.text.*" %>
 <div id="listeFormation">
-<%-- <%
-	ArrayList<Test> tests = (ArrayList<Test>)request.getSession().getAttribute("listTests");
- 	for(Test t : tests) {
-%>
-		<div class="test">
-			<h2><%=t.getName() %></h2>
-			<div>Durée du test : <%=t.getTestDuration() %>
-				<%String plural = t.getTestDuration() > 1 ? "s" : "";%>
-				minute<%=plural %>
+    <c:forEach items="${listTests}" var="test">
+        <div class="test">
+			<h3>${test.getName()}</h2>
+			<div>Durée du test : ${test.getTestDuration()}
 			</div>
-			<form method="post" action="<%=request.getContextPath()%>/DeleteTest">
-				<input type="hidden" value="<%=t.getTestId() %>" name="idTest"/>
-				<input type="submit" value="Supprimer" name="deletetest"/>
-			</form>
-			<form method="post" action="<%=request.getContextPath()%>/UpdateTest">
-				<input type="hidden" value="<%=t.getTestId() %>" name="idTest"/>
+			<form method="post" action="${pageContext.servletContext.contextPath}/UpdateTest">
+				<input type="hidden" value="${test.getTestId()}" name="idTest"/>
 				<input type="submit" value="Modifier" name="updatetest"/>
 			</form>
+			<form method="post" action="${pageContext.servletContext.contextPath}/DeleteTest">
+				<input type="hidden" value="${test.getTestId()}" name="idTest"/>
+				<input type="submit" value="Supprimer" name="deletetest"/>
+			</form>
+			
 		</div>
 		<br />
-<% } %> --%>
-    <c:forEach items="${requestScope.listTests}" var="test">
-        Test : ${test}
     </c:forEach>
 </div>
