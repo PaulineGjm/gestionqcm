@@ -1,21 +1,20 @@
 <%@ page import ="fr.gestionqcm.model.bo.*, java.util.*, java.text.*" %>
-<div id="listeFormation">
+<div id="listeFormation" class="col-sm-12">
     <c:forEach items="${listTests}" var="test">
-        <div class="test">
+        <div class="test col-sm-6">
 			<h3>${test.getName()}</h2>
 			<div>
 				Durée du test : ${test.getTestDuration()}
 				minute<c:if test="${test.getTestDuration() > 1}">s</c:if>
 			</div>
-			<form method="post" action="${pageContext.servletContext.contextPath}/UpdateTest">
+			<form class="form-inline col-sm-3" method="post" action="${pageContext.servletContext.contextPath}/UpdateTest">
 				<input type="hidden" value="${test.getTestId()}" name="idTest"/>
-				<input type="submit" value="Modifier" name="updatetest"/>
+				<input class="btn btn-default btn-sm" type="submit" value="Modifier" name="updatetest"/>
 			</form>
-			<form method="post" action="${pageContext.servletContext.contextPath}/DeleteTest">
+			<form class="form-inline col-sm-3" method="post" action="${pageContext.servletContext.contextPath}/DeleteTest">
 				<input type="hidden" value="${test.getTestId()}" name="idTest"/>
-				<input type="submit" value="Supprimer" name="deletetest"/>
+				<input class="btn btn-default btn-sm" type="submit" value="Supprimer" name="deletetest"/>
 			</form>
 		</div>
-		<br />
     </c:forEach>
 </div>
