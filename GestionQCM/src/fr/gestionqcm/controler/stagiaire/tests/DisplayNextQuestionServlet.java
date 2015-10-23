@@ -62,6 +62,23 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 
 		TestEnCoursGUI runningTest = (TestEnCoursGUI) request.getSession()
 				.getAttribute("runningTest");
+		
+		if(runningTest.getTimeRemaining() == 0)
+		{
+			dispatcher = getServletContext().getRequestDispatcher(
+					"/view/trainee/overview.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
+		if(runningTest.getQuestionPosition() == runningTest.getNbQuestion())
+		{
+			dispatcher = getServletContext().getRequestDispatcher(
+					"/view/trainee/overview.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
 		Integer questionNumber = runningTest.getQuestionPosition() +1;
 		runningTest.setQuestionPosition(questionNumber);
 		
@@ -94,7 +111,7 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 
 			request.getSession().setAttribute("selectedQuestion", questionGUI);
 			dispatcher = getServletContext().getRequestDispatcher(
-					"/view/trainee/testEnCours.jsp");
+					"/view/trainee/runningTest.jsp");
 			dispatcher.forward(request, response);
 
 			return;

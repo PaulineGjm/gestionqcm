@@ -1,0 +1,5 @@
+<%@ page import ="fr.gestionqcm.model.bo.*, java.util.*, java.text.*" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+Bienvenue dans l'écran de synthèse

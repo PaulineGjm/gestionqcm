@@ -21,14 +21,14 @@
 		<p>${selectedQuestion.getWording()}</p>
 		</div>
 		
-		<form class="connexion" action="${pageContext.servletContext.contextPath}/test/BeginTest" method="post">
+		<form class="connexion" action="${pageContext.servletContext.contextPath}/test/DisplayNextQuestion" method="post">
 			<div class="col-md-8">
 				<c:forEach items="${selectedQuestion.getListResponses()}" var="response">
 					<c:if test="${isMultiple}">
 						<p><input type="checkbox" value="response.getIdResponse()"> ${response.getWording()}</p>
 					</c:if>
 					<c:if test="${!isMultiple}">
-						<p><input type="radio" value="response.getIdResponse()"> ${response.getWording()}</p>
+						<p><input type="radio" name="group1" value="response.getIdResponse()"> ${response.getWording()}</p>
 					</c:if>
 				</c:forEach>
 			</div>
