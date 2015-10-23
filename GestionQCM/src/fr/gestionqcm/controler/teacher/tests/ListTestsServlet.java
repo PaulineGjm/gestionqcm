@@ -58,7 +58,8 @@ public class ListTestsServlet extends HttpServlet {
 			return;
 		}
 		
-		request.setAttribute("listTests", listTests);			
+		request.setAttribute("listTests", listTests);	
+		request.setAttribute("testsactive", "active");
 		dispatcher = request.getRequestDispatcher("/view/teacher/tests/listTests.jsp"); 
 		dispatcher.forward(request, response);	
 	}
