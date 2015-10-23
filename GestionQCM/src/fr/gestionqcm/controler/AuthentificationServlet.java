@@ -110,9 +110,9 @@ public class AuthentificationServlet extends HttpServlet {
 					Test test = TestDAO.getTest(inscription.getTest()
 							.getTestId());
 					listTestsDisponibles.add(new TestDisponibleGUI(inscription
-							.getInscriptionId(), inscription.getUser().getId(),
-							test.getName(), test.getTestDuration(), inscription
-									.getTimesRemaining(), inscription
+							.getInscriptionId(), test.getName(), test
+							.getTestDuration(),
+							inscription.getTimesRemaining(), inscription
 									.getQuestionPosition(), inscription
 									.getTestStartDate()));
 				}

@@ -18,6 +18,7 @@ import fr.gestionqcm.model.dal.ReponseDAO;
 import fr.gestionqcm.model.dal.SelectQuestionDAO;
 import fr.gestionqcm.view.beans.QuestionGUI;
 import fr.gestionqcm.view.beans.ReponseGUI;
+import fr.gestionqcm.view.beans.TestEnCoursGUI;
 
 /**
  * Servlet implementation class DisplayNextQuestion
@@ -56,18 +57,21 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 
 		RequestDispatcher dispatcher;
 
-		Integer numeroQuestion = (Integer) request.getSession().getAttribute(
-				"numeroQuestion");
-		
-		numeroQuestion++;
-		request.getSession().setAttribute("numeroQuestion", numeroQuestion);
+		// TODO
+		// Penser à re-setter le temps restant + la position de question
 
+		TestEnCoursGUI runningTest = (TestEnCoursGUI) request.getSession()
+				.getAttribute("runningTest");
+		Integer questionNumber = runningTest.getQuestionPosition() +1;
+		runningTest.setQuestionPosition(questionNumber);
+		
 		List<Integer> listIdQuestions = (List<Integer>) request.getSession()
 				.getAttribute("listIdQuestions");
 
 		// Comme c'est une liste son index commence à 0 et non à 1
-		// En conséquence si le numéro de la question est 1, on va demander l'index 0
-		Integer idNextQuestion = listIdQuestions.get(numeroQuestion-1);
+		// En conséquence si le numéro de la question est 1, on va demander
+		// l'index 0
+		Integer idNextQuestion = listIdQuestions.get(questionNumber - 1);
 		try {
 			// Récupération de la question et des réponses + insertion dans les
 			// objets GUI
@@ -87,18 +91,18 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			QuestionGUI questionGUI = new QuestionGUI(question.getIdQuestion(),
 					question.getWording(), question.getUrlImage(),
 					listResponsesGUI);
-			
+
 			request.getSession().setAttribute("selectedQuestion", questionGUI);
 			dispatcher = getServletContext().getRequestDispatcher(
-					"/view/trainee/TestEnCours.jsp");
+					"/view/trainee/testEnCours.jsp");
 			dispatcher.forward(request, response);
 
 			return;
 		} catch (Exception ex) {
-			// Placer l'objet reprÃ©sentant l'exception dans le contexte de
+			// Placer l'objet représentant l'exception dans le contexte de
 			// requete
 			request.setAttribute("error", ex);
-			// Passer la main Ã  la page de prï¿½sentation des erreurs
+			// Passer la main Ã  la page de présentation des erreurs
 			dispatcher = getServletContext().getRequestDispatcher(
 					"/error/error.jsp");
 			dispatcher.forward(request, response);
