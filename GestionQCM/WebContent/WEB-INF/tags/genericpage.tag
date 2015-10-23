@@ -2,6 +2,7 @@
 <%@attribute name="title" required="true"%>
 <%-- <%@attribute name="header" fragment="true" %>
 <%@attribute name="footer" fragment="true" %> --%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
   <head>
   	<title>${title}</title>
@@ -20,7 +21,7 @@
 		</form>
 		
   		<div class="page-header">
-  			<h1>Gestion QCM</h1>	
+  			<h1><a href="${pageContext.request.contextPath}/">Gestion QCM</a></h1>	
  		</div>
 <!--  		<ol class="breadcrumb">
 			  <li><a href="#">Home</a></li>
@@ -28,11 +29,21 @@
 			  <li class="active">Data</li>
 		</ol> -->
  		<div class="container">
-	 		<ul class="nav nav-pills nav-stacked col-sm-3">
-	  			<li role="presentation" class="${homeactive}"><a href="#">Home</a></li>
-	  			<li role="presentation" class="${testsactive}"><a href="${pageContext.request.contextPath}/ListTests">Gestion des tests</a></li>
-	 			<li role="presentation" class="${homeactive}"><a href="#">Messages</a></li>
-			</ul>
+ 			<c:set value="${user}" var="user" scope="session"/>
+ 			<c:choose>
+			  <c:when test="${user.isAnimateur()}">
+			    <ul class="nav nav-pills nav-stacked col-sm-3">
+		  			<li role="presentation" class="${homeactive}"><a href="#">Home</a></li>
+		  			<li role="presentation" class="${testsactive}"><a href="${pageContext.request.contextPath}/ListTests">Gestion des tests</a></li>
+		 			<li role="presentation" class="${homeactive}"><a href="#">Messages</a></li>
+				</ul>
+ 			  </c:when>
+			  <c:when test="${user.isStagiaire()}">
+			    <ul class="nav nav-pills nav-stacked col-sm-3">
+		  			<li role="presentation" class="${homeactive}"><a href="#">Home</a></li>
+				</ul>
+			  </c:when>
+			</c:choose>
 			
 			<div class="col-sm-9">
 		  		<div class="panel panel-default">

@@ -7,6 +7,7 @@
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
+    <welcome-file>Root</welcome-file>
   </welcome-file-list>
   <servlet>
     <description></description>
@@ -105,7 +106,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>RootServlet</servlet-name>
-    <url-pattern>/</url-pattern>
+    <url-pattern>/Root</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>indexTrainee.jsp</servlet-name>
