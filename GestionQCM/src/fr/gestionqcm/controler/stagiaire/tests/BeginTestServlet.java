@@ -23,6 +23,7 @@ import fr.gestionqcm.model.dal.TestDAO;
 import fr.gestionqcm.view.beans.AnimateurGUI;
 import fr.gestionqcm.view.beans.StagiaireGUI;
 import fr.gestionqcm.view.beans.TestDisponibleGUI;
+import fr.gestionqcm.view.beans.TestEnCoursGUI;
 
 /**
  * Servlet implementation class DemarrerTest
@@ -59,6 +60,20 @@ public class BeginTestServlet extends HttpServlet {
 		
 		try
 		{
+			
+			List<TestDisponibleGUI> listTestsDispos = (List<TestDisponibleGUI>)request.getSession().getAttribute("listTestsDisponibles");
+			TestDisponibleGUI testEnCours = null;
+			for(TestDisponibleGUI testDispo : listTestsDispos)
+			{
+				if(testDispo.getInscriptionID() == idInscription)
+					testEnCours = testDispo;
+			}
+			
+			if(null == testEnCours)
+			{
+				throw new Exception("Le test sélectionné ne fait pas partie de la liste des tests disponibles");
+			}
+			
 			List<SelectQuestion> listQuestions = SelectQuestionDAO.getSelectQuestionByIdInscription(idInscription);
 			List<Integer> listIdQuestions = new ArrayList<Integer>();
 			
@@ -67,8 +82,11 @@ public class BeginTestServlet extends HttpServlet {
 				listIdQuestions.add(question.getIdQuestion());
 			}
 			
+			TestEnCoursGUI runningTest = new TestEnCoursGUI(idInscription, testEnCours.getName(),
+					testEnCours.getTimeRemaining(), 0, listIdQuestions.size());
+			
+			request.getSession().setAttribute("runningTest", runningTest);
 			request.getSession().setAttribute("listIdQuestions", listIdQuestions);
-			request.getSession().setAttribute("numeroQuestion", 0);
 			
 			dispatcher = getServletContext().getRequestDispatcher("/test/DisplayNextQuestion");
 			dispatcher.forward(request, response);

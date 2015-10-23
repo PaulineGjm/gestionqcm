@@ -12,8 +12,6 @@ public class TestDisponibleGUI implements Serializable{
 
 	private int inscriptionID;
 
-	private int idUser;
-
 	private String name;
 
 	private int testDuration;
@@ -27,12 +25,15 @@ public class TestDisponibleGUI implements Serializable{
 	public TestDisponibleGUI() {
 
 	}
+	
+	public TestDisponibleGUI(int inscriptionID) {
+		setInscriptionID(inscriptionID);
+	}
 
-	public TestDisponibleGUI(int inscriptionID, int idUser, String name,
+	public TestDisponibleGUI(int inscriptionID, String name,
 			int testDuration, int timeRemaining, int questionPosition,
 			Date testStartDate) {
 		setInscriptionID(inscriptionID);
-		setIdUser(idUser);
 		setName(name);
 		setTestDuration(testDuration);
 		setTimeRemaining(timeRemaining);
@@ -46,14 +47,6 @@ public class TestDisponibleGUI implements Serializable{
 
 	public void setInscriptionID(int inscriptionID) {
 		this.inscriptionID = inscriptionID;
-	}
-
-	public int getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
 	}
 
 	public String getName() {
