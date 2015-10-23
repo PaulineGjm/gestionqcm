@@ -1,35 +1,47 @@
 <%@ page  import ="java.util.*, java.text.*, fr.gestionqcm.model.bo.*" %>
 <script type="text/javascript" src="${pageContext.servletContext.contextPath}/theme/js/newtest.js"></script>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<form action="${pageContext.servletContext.contextPath}/ValidateTest" method="post">
+<form action="${pageContext.servletContext.contextPath}/ValidateTest" method="post" class="form-horizontal">
 	<c:set var="test" value="${testToUpdate}" />
-	<div>
-		<label for="">Nom</label>
-		<input type="text" name="name" value="${test.getName()}"/>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="">Nom</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" name="name" value="${test.getName()}"/>
+		</div>
 	</div>
 	
-	<div>
-		<label for="">Durée (en minute)</label>
-		<input type="text" name="duration" value="${test.getTestDuration()}"/>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="">Durée (en minute)</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" name="duration" value="${test.getTestDuration()}"/>
+		</div>
 	</div>
 	
-	<div>
-		<label for="">Seuil en cours d'acquisition</label>
-		<input type="text" name="beingacquired" value="${test.getAcquisitionThreshold()}"/>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="">Seuil en cours d'acquisition</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" name="beingacquired" value="${test.getAcquisitionThreshold()}"/>
+		</div>
 	</div>
 	
-	<div>
-		<label for="">Seuil acquis</label>
-		<input type="text" name="acquired" value="${test.getCurrentThreshold()}"/>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="">Seuil acquis</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" name="acquired" value="${test.getCurrentThreshold()}"/>
+		</div>
 	</div>
 	
 	<div id="sections">
-		<label>Sections : </label>
-		<input type="button" name="newsection" id="newsection" value="Nouvelle section"/>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Sections : </label>
+			<div class="col-sm-5">
+				<input class="btn btn-default" type="button" name="newsection" id="newsection" value="Nouvelle section"/>
+			</div>
+		</div>
 	
-		<div class="section" style="display:none">
-			<label for="">Section</label>
-			<select name="theme">
+		<div class="section col-sm-12 form-group" style="display:none">
+			<div class="col-sm-3">
+			<select name="theme" class="form-control">
 				<c:forEach items="${themes}" var="theme">
 					<c:if test="${theme != null}">
 						<option value="${theme.getId()}">
@@ -38,14 +50,20 @@
 					</c:if>
 				</c:forEach>
 			</select>
-			Nombre de questions : <input type="text" name="nbquestion" class="nbquestion"/>
-			<input type="button" name="deletesection" class="deletesection" value="-"/>
+			</div>
+			<div class="col-sm-8">
+				<label class="col-sm-5 control-label">Nombre de questions :</label>
+				<div class="col-sm-3">
+				<input type="text" name="nbquestion" class="nbquestion form-control"/>
+				</div>
+			</div>
+			<input type="button" class="btn btn-default deletesection" name="deletesection" value="-"/>
 		</div>
 		
 		<c:forEach items="${test.getSections()}" var="section" varStatus="count">
-			<div class="section">
-				<label for="">Section</label>
-				<select name="theme_${count.count} ">
+			<div class="section col-sm-12 form-group">
+				<div class="col-sm-3">
+				<select name="theme_${count.count}" class="form-control">
 					<c:forEach items="${themes}" var="theme">
 						<c:if test="${theme != null}">
 							<c:set var="selected" value=""/>
@@ -58,14 +76,21 @@
 						</c:if>
 					</c:forEach>
 				</select>
-				Nombre de questions : <input type="text" name="nbquestion_${count.count}" class="nbquestion" value="${section.getNbQuestions()}"/>
-				<input type="button" name="deletesection" class="deletesection" value="-"/>
+				</div>
+				<div class="col-sm-8">
+					<label class="col-sm-5 control-label">Nombre de questions :</label>
+					<div class="col-sm-3">
+					<input type="text" name="nbquestion_${count.count}" class="nbquestion form-control" value="${section.getNbQuestions()}"/>
+					</div>
+				</div>
+				<input type="button" class="btn btn-default deletesection" name="deletesection" value="-"/>	
 			</div>
 		</c:forEach>
 		
 	</div>
 	
-	<input type="submit" name="newtest" value="Valider"/>
+	<input class="btn btn-default" type="submit" name="newtest" value="Valider"/>
+	<a class="btn btn-default" href="${pageContext.servletContext.contextPath}/ListTests" role="button">Annuler</a>
 	
 	<c:set var="action" value="update"/>
 	<c:if test="${test == null}">
@@ -74,6 +99,7 @@
 	<input type="hidden" name="action" value="${action}"/>
 </form>
 
-	<%-- <form action="<%=request.getContextPath()%>/ListTests" method="post">
+	<%-- <form action="${pageContext.servletContext.contextPath}/ListTests" method="post">
 		<input type="submit" name="cancel" value="Annuler"/>
 	</form> --%>
+	

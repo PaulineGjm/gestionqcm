@@ -12,8 +12,7 @@ $(document).ready(function(){
 function displayNewSection()
 {
 	nbSection = $('.section').size();
-	var htmlSection = $(".section").first().html();
-	var div = $("<div class=\"section\"></div>").append(htmlSection);
+	var div = $(".section").first().clone();
 	div.find("select").attr("name", "theme_" + nbSection);
 	div.find("input.nbquestion").attr("name", "nbquestion_" + nbSection);
 	div.show();

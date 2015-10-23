@@ -50,7 +50,6 @@ public class RequestFactory {
 				request.append(",");
 			}
 		}
-		System.out.println(request.toString());
 		return String.format(RQ_UPDATE, tableName, request.toString(),
 				idColumName);
 	}
