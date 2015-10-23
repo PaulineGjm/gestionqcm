@@ -6,7 +6,7 @@
 		<div id="page">
 			<div id="contenu">
 		
-			<%@ include file="/view/trainee/testEnCours.jspf" %>	
+			<%@ include file="/view/trainee/runningTest.jspf" %>	
 		
 		    </div>
 		</div>
