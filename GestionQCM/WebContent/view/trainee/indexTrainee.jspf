@@ -1,0 +1,31 @@
+<%@page import="fr.gestionqcm.view.beans.TestDisponibleGUI"%>
+<%@ page import ="fr.gestionqcm.model.bo.*, java.util.*, java.text.*" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+	Bonjour
+	<%=" "%>
+	<label>
+		<c:out value="${sessionScope.stagiaireConnecte.getLastName()}" />
+		<%=" "%>
+		<c:out value="${sessionScope.stagiaireConnecte.getFirstName()}" />
+	</label>
+	
+	<c:forEach items="${sessionScope.listTestsDisponibles}" var="testDispo">
+		<form class="connexion" action="${pageContext.servletContext.contextPath}/test/BeginTest" method="post">
+		<c:if test="${testDispo.getTimeRemaining() != testDispo.getTestDuration()}">
+			<label>TEST EN COURS /!\</label>
+		</c:if>
+		
+		<c:out value="${testDispo.getName()}"/>
+	
+		<%="Durée du test : " %>${testDispo.getTestDuration()}
+		<%="Début du test : "%><fmt:formatDate pattern="dd/MM/yyyy" value="${testDispo.getTestStartDate()}" />
+		<input type="hidden" name="idInscription" value="${testDispo.getInscriptionID()}">
+		<c:if test="${testDispo.getTimeRemaining() != testDispo.getTestDuration()}">
+			<label><%="Temps restant : "%>${testDispo.getTimeRemaining()}</label>
+		</c:if>
+		<input type="submit" value="GO" />
+		</form>
+	</c:forEach>
+	 	
+	
