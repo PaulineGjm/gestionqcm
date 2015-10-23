@@ -4,7 +4,6 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
-    <welcome-file>view/login.jsp</welcome-file>
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
@@ -15,6 +14,10 @@
     <servlet-name>AuthentificationServlet</servlet-name>
     <servlet-class>fr.gestionqcm.controler.AuthentificationServlet</servlet-class>
   </servlet>
+  <servlet-mapping>
+    <servlet-name>AuthentificationServlet</servlet-name>
+    <url-pattern>/connexion</url-pattern>
+  </servlet-mapping>
   <servlet>
     <display-name>NewTestServlet</display-name>
     <servlet-name>NewTestServlet</servlet-name>
@@ -30,10 +33,6 @@
     <servlet-name>ValidateNewTestServlet</servlet-name>
     <servlet-class>fr.gestionqcm.controler.teacher.tests.ValidateNewTestServlet</servlet-class>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>AuthentificationServlet</servlet-name>
-    <url-pattern>/AuthentificationServlet</url-pattern>
-  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ValidateNewTestServlet</servlet-name>
     <url-pattern>/ValidateNewTest</url-pattern>
@@ -97,5 +96,49 @@
   <servlet-mapping>
     <servlet-name>InscriptionsServlet</servlet-name>
     <url-pattern>/teacher/inscriptions/edit</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RootServlet</display-name>
+    <servlet-name>RootServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.RootServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RootServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>indexTrainee.jsp</servlet-name>
+    <jsp-file>/view/trainee/indexTrainee.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>indexTrainee.jsp</servlet-name>
+    <url-pattern>/trainee</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>indexTeacher.jsp</servlet-name>
+    <jsp-file>/view/teacher/indexTeacher.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>indexTeacher.jsp</servlet-name>
+    <url-pattern>/teacher</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>login.jsp</servlet-name>
+    <jsp-file>/view/login.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>login.jsp</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DisconnectionServlet</display-name>
+    <servlet-name>DisconnectionServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.DisconnectionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DisconnectionServlet</servlet-name>
+    <url-pattern>/deconnexion</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -28,8 +28,8 @@ import fr.gestionqcm.view.beans.TestDisponibleGUI;
 public class AuthentificationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private String accueilAnimateur = "/view/teacher/indexTeacher.jsp";
-	private String accueilStagiaire = "/view/trainee/indexTrainee.jsp";
+	private String accueilAnimateur = "/teacher";
+	private String accueilStagiaire = "/trainee";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -65,14 +65,17 @@ public class AuthentificationServlet extends HttpServlet {
 
 		try {
 
-			Utilisateur utilisateur = ConnexionDAO.connexion(mail, motdepasse);
-			if (null == utilisateur) {
+			Utilisateur user = ConnexionDAO.connexion(mail, motdepasse);
+			request.getSession().setAttribute("user", user);
+			
+			if (null == user) {
 				// Retour à la page d'accueil
 				response.sendRedirect(request.getContextPath()
-						+ "/view/login.jsp");
+						+ "/login");
 				return;
-			} else if (utilisateur instanceof Animateur) {
-				Animateur animateur = (Animateur) utilisateur;
+			} else if (user.isAnimateur()) {
+				Animateur animateur = (Animateur) user;
+				
 				// Création animateur utilisé par l'IHM
 				AnimateurGUI animateurConnecte = new AnimateurGUI(
 						animateur.getId(), animateur.getLastName(),
@@ -81,17 +84,17 @@ public class AuthentificationServlet extends HttpServlet {
 
 				// Invalider la session en cours dans le cas où c'est un autre
 				// profil qui est déjà connecté
-				request.getSession().invalidate();
+				//request.getSession().invalidate();
 
 				// Placer le bean dans le contexte de session
 				request.getSession().setAttribute("animateurConnecte",
 						animateurConnecte);
-				// PrÃ©senter la rÃ©ponse
+				// Présenter la réponse
 				response.sendRedirect(request.getContextPath()
 						+ accueilAnimateur);
 				return;
-			} else if (utilisateur instanceof Stagiaire) {
-				Stagiaire stagiaire = (Stagiaire) utilisateur;
+			} else if (user.isStagiaire()) {
+				Stagiaire stagiaire = (Stagiaire) user;
 
 				StagiaireGUI stagiaireConnecte = new StagiaireGUI(
 						stagiaire.getIdPromotion(), stagiaire.getId(),
@@ -116,7 +119,7 @@ public class AuthentificationServlet extends HttpServlet {
 
 				// Invalider la session en cours dans le cas où c'est un autre
 				// profil qui est déjà connecté
-				request.getSession().invalidate();
+				//request.getSession().invalidate();
 
 				// Placer le bean dans le contexte de session
 				request.getSession().setAttribute("stagiaireConnecte",

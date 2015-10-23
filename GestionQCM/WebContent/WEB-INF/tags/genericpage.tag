@@ -6,8 +6,8 @@
   <head>
   	<title>${title}</title>
   	<script src="${pageContext.request.contextPath}/resources/jquery/jquery-1.11.3.min.js"></script>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap-theme.min.css"/>
 	<script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
   </head>
   <body>
@@ -22,16 +22,16 @@
   		<div class="page-header">
   			<h1>Gestion QCM</h1>	
  		</div>
- 		<ol class="breadcrumb">
+<!--  		<ol class="breadcrumb">
 			  <li><a href="#">Home</a></li>
 			  <li><a href="#">Library</a></li>
 			  <li class="active">Data</li>
-		</ol>
+		</ol> -->
  		<div class="container">
 	 		<ul class="nav nav-pills nav-stacked col-sm-3">
-	  			<li role="presentation" class="active"><a href="#">Home</a></li>
-	  			<li role="presentation"><a href="#">Profile</a></li>
-	 			<li role="presentation"><a href="#">Messages</a></li>
+	  			<li role="presentation" class="${homeactive}"><a href="#">Home</a></li>
+	  			<li role="presentation" class="${testsactive}"><a href="${pageContext.request.contextPath}/ListTests">Gestion des tests</a></li>
+	 			<li role="presentation" class="${homeactive}"><a href="#">Messages</a></li>
 			</ul>
 			
 			<div class="col-sm-9">
