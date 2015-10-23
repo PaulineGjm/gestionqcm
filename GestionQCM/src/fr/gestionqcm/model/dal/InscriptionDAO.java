@@ -10,7 +10,6 @@ import java.util.List;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
 import fr.gestionqcm.model.bo.Stagiaire;
-import fr.gestionqcm.model.bo.Test;
 import fr.gestionqcm.model.bo.Utilisateur;
 import fr.gestionqcm.model.dal.util.AccessDatabase;
 import fr.gestionqcm.model.dal.util.RequestFactory;
@@ -251,32 +250,42 @@ public class InscriptionDAO {
 		return listInscriptions;
 	}
 
-	public static List<InscriptionTest> getInscriptionsToTest(
-			java.util.Date startDate, Test test) throws Exception {
+	public static List<InscriptionTest> getInscriptionsToTest()
+			throws Exception {
 		PreparedStatement cmd = null;
 		List<InscriptionTest> testInscriptions = new ArrayList<InscriptionTest>();
-		if (startDate != null && test != null) {
-			cmd = AccessDatabase.getConnection().prepareStatement(
-					String.format("SELECT * FROM %s WHERE %s = ? AND %s = ?;",
-							tableName, Column.testStartDate.getColumnName(),
-							Column.testId.getColumnName()));
-			cmd.setDate(1, (startDate != null) ? new Date(startDate.getTime())
-					: null);
-			cmd.setInt(2, test.getTestId());
-			try {
-				cmd.executeQuery();
-				ResultSet rs = cmd.getResultSet();
-				while (rs.next()) {
-					testInscriptions.add(inscriptionMapping(rs));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new Exception(
-						"Problème de connexion avec la base de données !");
-			} finally {
-				cmd.getConnection().close();
-				cmd.close();
+
+		cmd = AccessDatabase.getConnection().prepareStatement(
+				String.format("SELECT %s, %s FROM %s "
+						+ "WHERE %s <= ? GROUP BY %s, %s;",
+						Column.testId.getColumnName(),
+						Column.testStartDate.getColumnName(), tableName,
+						Column.testStartDate.getColumnName(),
+						Column.testStartDate.getColumnName(),
+						Column.testId.getColumnName()));
+
+		java.util.Date currentDate = new java.util.Date();
+		cmd.setDate(1, new Date(currentDate.getTime()));
+		try {
+			cmd.executeQuery();
+			ResultSet rs = cmd.getResultSet();
+			while (rs.next()) {
+				InscriptionTest inscriptionTest = new InscriptionTest();
+
+				inscriptionTest.setTest(TestDAO.getTest(rs.getInt(Column.testId
+						.getColumnName())));
+				inscriptionTest.setInscriptionDate(rs
+						.getDate(Column.testStartDate.getColumnName()));
+
+				testInscriptions.add(inscriptionTest);
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception(
+					"Problème de connexion avec la base de données !");
+		} finally {
+			cmd.getConnection().close();
+			cmd.close();
 		}
 		return testInscriptions;
 	}

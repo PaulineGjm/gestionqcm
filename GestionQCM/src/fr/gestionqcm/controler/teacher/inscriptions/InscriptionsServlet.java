@@ -40,26 +40,24 @@ public class InscriptionsServlet extends HttpServlet {
 
 		if (TypeAction.edit.equals(typeAction)) {
 			try {
-				String testSelected = request.getParameter("testSelected");
-				String startDateSelected = request
-						.getParameter("startDateSelected");
-				String startHourSelected = request
-						.getParameter("startHourSelected");
+				String inscriptionsTestSelected = request
+						.getParameter("inscriptionsTestSelected");
 
 				EditInscriptionGUI editInscriptionGUI = new EditInscriptionGUI();
 
-				if (testSelected != null && !testSelected.isEmpty()) {
-					editInscriptionGUI.setTestSelected(TestDAO.getTest(Integer
-							.valueOf(testSelected)));
-				}
-
-				List<Test> listTest = TestDAO.getAllTests();
-				editInscriptionGUI.setTests(TestDAO.getAllTests());
 				List<InscriptionTest> inscriptionsTest = InscriptionDAO
-						.getInscriptionsToTest(
-								editInscriptionGUI.getStartDateSelected(),
-								editInscriptionGUI.getTestSelected());
+						.getInscriptionsToTest();
 				editInscriptionGUI.setInscriptionsTest(inscriptionsTest);
+
+				if (inscriptionsTestSelected != null
+						&& !inscriptionsTestSelected.isEmpty()) {
+
+				}
+				// editInscriptionGUI.setTestSelected(TestDAO.getTest(Integer
+				// .valueOf(inscriptionsTestSelected)));
+
+				List<Test> tests = TestDAO.getAllTests();
+				editInscriptionGUI.setTests(tests);
 
 				request.setAttribute("editInscriptionGUI", editInscriptionGUI);
 				rd = getServletContext().getRequestDispatcher(
