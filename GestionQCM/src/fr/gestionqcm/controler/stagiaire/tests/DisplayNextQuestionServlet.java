@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.gestionqcm.model.bo.Question;
 import fr.gestionqcm.model.bo.Reponse;
+import fr.gestionqcm.model.bo.ReponseCandidat;
 import fr.gestionqcm.model.bo.SelectQuestion;
 import fr.gestionqcm.model.dal.QuestionDAO;
+import fr.gestionqcm.model.dal.ReponseCandidatDAO;
 import fr.gestionqcm.model.dal.ReponseDAO;
 import fr.gestionqcm.model.dal.SelectQuestionDAO;
 import fr.gestionqcm.view.beans.QuestionGUI;
@@ -56,12 +58,33 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		RequestDispatcher dispatcher;
-
+		
 		// TODO
 		// Penser à re-setter le temps restant + la position de question
 
 		TestEnCoursGUI runningTest = (TestEnCoursGUI) request.getSession()
 				.getAttribute("runningTest");
+
+		if(runningTest.getQuestionPosition() > 0)
+		{
+			QuestionGUI selectedQuestion = (QuestionGUI) request.getSession()
+			.getAttribute("selectedQuestion");
+			
+			for(ReponseGUI reponse : selectedQuestion.getListResponses())
+			{
+				String valRecup  = request.getParameter("response"+reponse.getIdResponse());
+				if(valRecup.equals("on"))
+				{
+					if(reponse.getIsCorrect() == true)
+					{
+						// Insertion en base
+						ReponseCandidatDAO.ajouter(new ReponseCandidat(reponse.getIdResponse(), runningTest., selectedQuestion.getIdQuestion(), runningTest.getInscriptionID()));;
+					}
+				}
+			}
+			
+			
+		}
 		
 		if(runningTest.getTimeRemaining() == 0)
 		{
@@ -126,5 +149,4 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			return;
 		}
 	}
-
 }
