@@ -1,6 +1,7 @@
 package fr.gestionqcm.controler.teacher.inscriptions;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -9,11 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
+
 import fr.gestionqcm.model.bo.InscriptionTest;
 import fr.gestionqcm.model.bo.Test;
-import fr.gestionqcm.model.dal.InscriptionDAO;
 import fr.gestionqcm.model.dal.TestDAO;
 import fr.gestionqcm.model.enums.TypeAction;
+import fr.gestionqcm.model.handler.InscriptionHandler;
+import fr.gestionqcm.model.util.DateUtils;
 import fr.gestionqcm.view.beans.EditInscriptionGUI;
 
 /**
@@ -38,38 +42,52 @@ public class InscriptionsServlet extends HttpServlet {
 		String action = requestURI.substring(requestURI.lastIndexOf('/') + 1);
 		TypeAction typeAction = TypeAction.fromString(action);
 
-		if (TypeAction.edit.equals(typeAction)) {
-			try {
+		EditInscriptionGUI editInscriptionGUI = new EditInscriptionGUI();
+
+		try {
+			List<InscriptionTest> inscriptionsTest = InscriptionHandler
+					.getInscriptionsToTest();
+			editInscriptionGUI.setInscriptionsTest(inscriptionsTest);
+
+			List<Test> tests = TestDAO.getAllTests();
+			editInscriptionGUI.setTests(tests);
+
+			Date dateSelectionne = null;
+
+			Test testSelectionne = null;
+
+			if (TypeAction.edit.equals(typeAction)) {
 				String inscriptionsTestSelected = request
-						.getParameter("inscriptionsTestSelected");
+						.getParameter("inscriptionTestSelected");
 
-				EditInscriptionGUI editInscriptionGUI = new EditInscriptionGUI();
+				if (inscriptionsTestSelected != null) {
+					JSONObject testSelected = new JSONObject(
+							inscriptionsTestSelected);
 
-				List<InscriptionTest> inscriptionsTest = InscriptionDAO
-						.getInscriptionsToTest();
-				editInscriptionGUI.setInscriptionsTest(inscriptionsTest);
-
-				if (inscriptionsTestSelected != null
-						&& !inscriptionsTestSelected.isEmpty()) {
+					dateSelectionne = DateUtils.stringToDate(testSelected
+							.getString("testStartDate"));
+					testSelectionne = TestDAO.getTest(testSelected
+							.getInt("testId"));
 
 				}
-				// editInscriptionGUI.setTestSelected(TestDAO.getTest(Integer
-				// .valueOf(inscriptionsTestSelected)));
-
-				List<Test> tests = TestDAO.getAllTests();
-				editInscriptionGUI.setTests(tests);
-
-				request.setAttribute("editInscriptionGUI", editInscriptionGUI);
-				rd = getServletContext().getRequestDispatcher(
-						"/view/teacher/inscriptions/editInscription.jsp");
-				rd.forward(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} else if (TypeAction.add.equals(typeAction)) {
+				dateSelectionne = new Date();
+				testSelectionne = (editInscriptionGUI.getTests().isEmpty()) ? null
+						: editInscriptionGUI.getTests().get(0);
 			}
-		}
 
-		if (rd == null) {
-			response.sendRedirect(request.getContextPath() + "/");
+			editInscriptionGUI.setStartDateSelected(DateUtils
+					.getDateFromDate(dateSelectionne));
+			editInscriptionGUI.setStartHourSelected(DateUtils
+					.getDateHourDate(dateSelectionne));
+			editInscriptionGUI.setTestSelected(testSelectionne);
+
+			request.setAttribute("editInscriptionGUI", editInscriptionGUI);
+			rd = getServletContext().getRequestDispatcher(
+					"/view/teacher/inscriptions/editInscription.jsp");
+			rd.forward(request, response);
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 
 	}
