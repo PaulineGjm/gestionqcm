@@ -8,7 +8,7 @@ import fr.gestionqcm.model.bo.Test;
 public class EditInscriptionGUI {
 
 	public enum FormFields {
-		inscriptionTestSelected, startDateSelected, startHourSelected, testSelected;
+		inscriptionTestSelected, startDateSelected, startHourSelected, testSelected, usersSelected;
 	}
 
 	private List<Test> tests;
