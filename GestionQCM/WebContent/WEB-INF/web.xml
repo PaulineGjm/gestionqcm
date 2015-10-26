@@ -155,4 +155,14 @@
     <servlet-name>SaveAnswerQuestion</servlet-name>
     <url-pattern>/test/SaveAnswerQuestion</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DisplayOverview</display-name>
+    <servlet-name>DisplayOverview</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.DisplayOverview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DisplayOverview</servlet-name>
+    <url-pattern>/test/DisplayOverview</url-pattern>
+  </servlet-mapping>
 </web-app>

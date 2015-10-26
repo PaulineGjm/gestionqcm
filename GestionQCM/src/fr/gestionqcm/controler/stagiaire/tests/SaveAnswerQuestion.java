@@ -52,6 +52,9 @@ public class SaveAnswerQuestion extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher;
+		
+		// TODO
+		// Penser à re-setter / enregistrer le temps restant + la position de question
 
 		Utilisateur user = (Utilisateur) request.getSession().getAttribute(
 				"user");
@@ -124,7 +127,7 @@ public class SaveAnswerQuestion extends HttpServlet {
 			request.setAttribute("error", ex);
 			// Passer la main Ã  la page de présentation des erreurs
 			dispatcher = getServletContext().getRequestDispatcher(
-					"/error/error.jsp");
+					"/view/error/error.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
