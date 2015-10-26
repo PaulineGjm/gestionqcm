@@ -110,6 +110,7 @@
     <url-pattern>/teacher/inscriptions/edit</url-pattern>
     <url-pattern>/teacher/inscriptions/add</url-pattern>
     <url-pattern>/teacher/inscriptions/delete</url-pattern>
+    <url-pattern>/teacher/inscriptions/save</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -165,7 +166,7 @@
     <servlet-name>SaveAnswerQuestion</servlet-name>
     <url-pattern>/test/SaveAnswerQuestion</url-pattern>
   </servlet-mapping>
-  <servlet>
+	<servlet>
     <description></description>
     <display-name>ListThemesServlet</display-name>
     <servlet-name>ListThemesServlet</servlet-name>
@@ -194,5 +195,15 @@
   <servlet-mapping>
     <servlet-name>DeleteThemeServlet</servlet-name>
     <url-pattern>/DeleteTheme</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<description></description>
+    <display-name>DisplayOverview</display-name>
+    <servlet-name>DisplayOverview</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.DisplayOverview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DisplayOverview</servlet-name>
+    <url-pattern>/test/DisplayOverview</url-pattern>
   </servlet-mapping>
 </web-app>

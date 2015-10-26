@@ -62,9 +62,6 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 
 		RequestDispatcher dispatcher;
 		
-		// TODO
-		// Penser à re-setter le temps restant + la position de question
-		
 		Utilisateur user = (Utilisateur) request.getSession().getAttribute("user");
 	
 		TestEnCoursGUI runningTest = (TestEnCoursGUI) request.getSession()
@@ -134,7 +131,7 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			request.setAttribute("error", ex);
 			// Passer la main Ã  la page de présentation des erreurs
 			dispatcher = getServletContext().getRequestDispatcher(
-					"/error/error.jsp");
+					"/view/error/error.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}

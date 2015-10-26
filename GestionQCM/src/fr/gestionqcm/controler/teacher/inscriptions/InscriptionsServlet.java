@@ -45,7 +45,7 @@ public class InscriptionsServlet extends HttpServlet {
 		TypeAction typeAction = TypeAction.fromString(action);
 
 		EditInscriptionGUI editInscriptionGUI = new EditInscriptionGUI();
-
+		request.setAttribute("editInscriptionGUI", editInscriptionGUI);
 		try {
 			List<InscriptionTest> inscriptionsTest = InscriptionHandler
 					.getInscriptionsToTest();
@@ -61,6 +61,7 @@ public class InscriptionsServlet extends HttpServlet {
 			String inscriptionsTestSelected = request
 					.getParameter(inscriptionTestSelected.name());
 
+			// Get date and test selected for edition and deletion
 			if (inscriptionsTestSelected != null) {
 				JSONObject testSelected = new JSONObject(
 						inscriptionsTestSelected);
@@ -83,7 +84,6 @@ public class InscriptionsServlet extends HttpServlet {
 								.getInscriptionsByTestAndDate(testSelectionne,
 										dateSelectionne));
 
-				request.setAttribute("editInscriptionGUI", editInscriptionGUI);
 				rd = getServletContext().getRequestDispatcher(
 						"/view/teacher/inscriptions/editInscription.jsp");
 				rd.forward(request, response);
@@ -92,24 +92,31 @@ public class InscriptionsServlet extends HttpServlet {
 				testSelectionne = (editInscriptionGUI.getTests().isEmpty()) ? null
 						: editInscriptionGUI.getTests().get(0);
 
-				request.setAttribute("editInscriptionGUI", editInscriptionGUI);
+				editInscriptionGUI.setStartDateSelected(DateUtils
+						.getDateFromDate(dateSelectionne));
+				editInscriptionGUI.setStartHourSelected(DateUtils
+						.getDateHourDate(dateSelectionne));
+				editInscriptionGUI.setTestSelected(testSelectionne);
+
 				rd = getServletContext().getRequestDispatcher(
 						"/view/teacher/inscriptions/editInscription.jsp");
-				rd.forward(request, response);
 			} else if (TypeAction.delete.equals(typeAction)) {
 				InscriptionHandler.deleteInscriptionsByTestAndDate(
 						testSelectionne, dateSelectionne);
-
-				response.sendRedirect(request.getContextPath()
-						+ "/view/teacher/inscriptions/");
 			} else if (TypeAction.save.equals(typeAction)) {
-				response.sendRedirect(request.getContextPath()
-						+ "/view/teacher/inscriptions/");
+
 			} else {
-				request.setAttribute("editInscriptionGUI", editInscriptionGUI);
 				rd = getServletContext().getRequestDispatcher(
 						"/view/teacher/inscriptions/editInscription.jsp");
+			}
+
+			// If rd is fill (edition, addition or default) we redirect the user
+			// to the page else we return to the inscriptions list
+			if (rd != null) {
 				rd.forward(request, response);
+			} else {
+				response.sendRedirect(request.getContextPath()
+						+ "/teacher/inscriptions/");
 			}
 
 		} catch (Exception e1) {
