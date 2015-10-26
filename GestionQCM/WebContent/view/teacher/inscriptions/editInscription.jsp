@@ -17,8 +17,8 @@
 </c:set>
 <t:genericpage title="Gestion des inscriptions">
     <jsp:body>
-    	${abc}
-    	<h3>Liste des test à existant : </h3>
+    	<h3>Liste des tests existant : </h3>
+    	
    		<form method="post" class="form-horizontal clearfix" role="form" 
     			action="${pageContext.servletContext.contextPath}/teacher/inscriptions/edit">
 			<datatables:table data="${editInscriptionGUI.inscriptionsTest}" htmlTableId="inscriptionsTestTable" 
@@ -33,6 +33,7 @@
 			      <fmt:formatDate pattern="dd/MM/yyyy" value="${inscriptionTest.testStartDate}" />
 			   </datatables:column>
 			</datatables:table>
+			
 			<div class="pull-right">
 				<input type="submit" value="Modifier" class="btn btn-defaut"/>
 				<input type="submit" value="Programmer nouveau test" class="btn btn-defaut"
@@ -44,6 +45,7 @@
 		<c:if test="${editInscriptionGUI.startDateSelected != null && !editInscriptionGUI.startDateSelected.isEmpty()}">
 	    	<form method="post" class="form-horizontal" role="form" 
 	    		action="${pageContext.servletContext.contextPath}/teacher/inscriptions/">
+				
 				<div class="form-group">
 		    		<label for="startDateSelected" class="control-label col-sm-3">Date de début :</label>
 		    		<div class="col-sm-3">
@@ -56,6 +58,7 @@
 		    				value="${editInscriptionGUI.startHourSelected}" class="form-control">
 					</div>
 				</div>
+				
 				<div class="form-group">
 		    		<label for="testSelected" class="control-label col-sm-3">List des tests :</label>
 		    		<div class="col-sm-9">
@@ -66,8 +69,9 @@
 						</select>
 					</div>
 				</div>
+				
 				<datatables:table data="${editInscriptionGUI.subscribedInscriptionsTest}" htmlTableId="inscriptionsTestTable" 
-				dataObjectId="inscriptionTest" autoWidth="true"></datatables:table>
+					dataObjectId="inscriptionTest" autoWidth="true"></datatables:table>
 				<div class="form-group">
 					<div class="col-sm-offset-3">
 		    			<input type="submit" value="Valider" class="btn btn-defaut" />
