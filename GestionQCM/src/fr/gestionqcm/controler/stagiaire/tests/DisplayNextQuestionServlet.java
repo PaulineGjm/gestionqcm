@@ -57,47 +57,36 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 	}
 
 	protected void processRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException
-	{
+			HttpServletResponse response) throws ServletException, IOException {
 
 		RequestDispatcher dispatcher;
-		
-		Utilisateur user = (Utilisateur) request.getSession().getAttribute("user");
-	
+
 		TestEnCoursGUI runningTest = (TestEnCoursGUI) request.getSession()
 				.getAttribute("runningTest");
-	
-		try 
-		{
-		
-			if(runningTest.getTimeRemaining() == 0)
-			{
+
+		try {
+
+			if ((runningTest.getTimeRemaining() == 0)
+					|| (runningTest.getQuestionPosition() == runningTest
+							.getNbQuestion())) {
 				dispatcher = getServletContext().getRequestDispatcher(
-						"/view/trainee/overview.jsp");
+						"/test/DisplayOverview");
 				dispatcher.forward(request, response);
 				return;
 			}
-			
-			if(runningTest.getQuestionPosition() == runningTest.getNbQuestion())
-			{
-				dispatcher = getServletContext().getRequestDispatcher(
-						"/view/trainee/overview.jsp");
-				dispatcher.forward(request, response);
-				return;
-			}
-			
+
 			// On passe à la question suivante
-			Integer questionNumber = runningTest.getQuestionPosition() +1;
+			Integer questionNumber = runningTest.getQuestionPosition() + 1;
 			runningTest.setQuestionPosition(questionNumber);
-			
-			List<Integer> listIdQuestions = (List<Integer>) request.getSession()
-					.getAttribute("listIdQuestions");
-	
+
+			List<Integer> listIdQuestions = (List<Integer>) request
+					.getSession().getAttribute("listIdQuestions");
+
 			// Comme c'est une liste son index commence à 0 et non à 1
 			// En conséquence si le numéro de la question est 1, on va demander
 			// l'index 0
 			Integer idNextQuestion = listIdQuestions.get(questionNumber - 1);
-		
+
 			// Récupération de la question et des réponses + insertion dans les
 			// objets GUI
 			Question question = QuestionDAO.getQuestionById(idNextQuestion);
@@ -123,9 +112,7 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 
 			return;
-		}
-		catch (Exception ex)
-		{
+		} catch (Exception ex) {
 			// Placer l'objet représentant l'exception dans le contexte de
 			// requete
 			request.setAttribute("error", ex);

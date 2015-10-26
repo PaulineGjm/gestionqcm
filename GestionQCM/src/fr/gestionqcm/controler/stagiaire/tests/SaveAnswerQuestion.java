@@ -76,11 +76,14 @@ public class SaveAnswerQuestion extends HttpServlet {
 							+ responseGUI.getIdResponse());
 					// if value = checked
 					if ("on".equals(valRecup)) {
-						// Base insertion
-						ReponseCandidatDAO.ajouter(new ReponseCandidat(
+						// Base delete if exist, then insert
+						ReponseCandidat responseTrainee = new ReponseCandidat(
 								responseGUI.getIdResponse(), user.getId(),
 								selectedQuestion.getIdQuestion(), runningTest
-										.getInscriptionID()));
+										.getInscriptionID());
+						
+						ReponseCandidatDAO.delete(responseTrainee);
+						ReponseCandidatDAO.ajouter(responseTrainee);
 						countNbChecked++;
 					}
 					if (responseGUI.getIsCorrect() == true) {

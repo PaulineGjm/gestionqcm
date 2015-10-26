@@ -2,4 +2,65 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-Bienvenue dans l'écran de synthèse
+	<c:set var="listSelectQuestionGuis" value="${requestScope.listSelectQuestionGuis}"/>
+	<c:set var="nbFullyAnswered" value="${requestScope.nbFullyAnswered}"/>
+	<c:set var="nbPartiallyAnswered" value="${requestScope.nbPartiallyAnswered}"/>
+	<c:set var="nbNotAnswered" value="${requestScope.nbNotAnswered}"/>
+	<c:set var="runningTest" value="${sessionScope.runningTest}"/>
+	<div class="row">
+		<div class="col-md-4">
+			<p>${nbFullyAnswered} question(s) répondue(s) sur ${runningTest.getNbQuestion()}</p>
+			<p>${nbPartiallyAnswered} question(s) partiellement répondues sur ${runningTest.getNbQuestion()}</p>
+			<p>${nbNotAnswered} question(s) non répondues sur ${runningTest.getNbQuestion()}</p>
+		</div>
+		
+		<div class="col-md-6">
+			<div class="col-md-5">
+				<p><a class="btn btn-info" href="#" role="button">x</a> Question marquée
+				<a class="btn btn-danger" href="#" role="button">x</a> Non répondu</p>
+			</div>
+			<div class="col-md-5">
+				<p><a class="btn btn-warning" href="#" role="button">x</a> Partiellement répondu
+				<a class="btn btn-success" href="#" role="button">x</a> Répondu</p>
+			</div>
+		</div>
+	</div>
+	<br/>
+	<c:set var="count" value="1" scope="page" />
+	<div class="row">
+		<div class="col-md-7">
+			<c:forEach items="${listSelectQuestionGuis}" var ="question" >
+				<div class="col-md-1">
+				<form action="${pageContext.servletContext.contextPath}/test/BeginTest" method="post">
+					<form >
+						<c:if test="${question.getIsBranded() == true}">
+	<%-- 						<a class="btn btn-info" href="#" role="button">${count}</a> --%>
+							<button type="submit" class="btn btn-info" name="questionNumber">${count}</button>
+						</c:if>
+						<c:if test="${question.getIsBranded() == false}">
+							<c:choose>
+							    <c:when test="${question.getIsAnswered() == 3}">
+	<%-- 						    	<a class="btn btn-danger" href="#" role="button">${count}</a> --%>
+							    	<button type="submit" class="btn btn-danger" name="questionNumber">${count}</button>
+							    </c:when>
+							    <c:when test="${question.getIsAnswered() == 4}">
+	<%-- 						        <a class="btn btn-warning" href="#" role="button">${count}</a> --%>
+							        <button type="submit" class="btn btn-warning" name="questionNumber">${count}</button>
+							    </c:when>
+							    <c:when test="${question.getIsAnswered() == 5}">
+	<%-- 						        <a class="btn btn-success" href="#" role="button">${count}</a> --%>
+							        <button type="submit" class="btn btn-success" name="questionNumber">${count}</button>
+							 	 </c:when>
+							</c:choose>
+						</c:if>
+						<input type="hidden" name="questionID" value=${question.getIdQuestion()} />
+						<c:set var="count" value="${count + 1}" scope="page"/>
+					
+					</form>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+	
+	
+	
