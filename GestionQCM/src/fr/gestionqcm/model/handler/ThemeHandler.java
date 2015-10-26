@@ -23,4 +23,8 @@ public class ThemeHandler {
 		ThemeDAO.delete(idTheme);
 
 	}
+
+	public static void add(Theme theme) throws Exception {
+		ThemeDAO.add(theme);
+	}
 }

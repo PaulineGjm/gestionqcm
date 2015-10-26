@@ -176,7 +176,7 @@
     <servlet-name>SaveAnswerQuestion</servlet-name>
     <url-pattern>/test/SaveAnswerQuestion</url-pattern>
   </servlet-mapping>
-	<servlet>
+  <servlet>
     <description></description>
     <display-name>ListThemesServlet</display-name>
     <servlet-name>ListThemesServlet</servlet-name>
@@ -207,7 +207,7 @@
     <url-pattern>/DeleteTheme</url-pattern>
   </servlet-mapping>
   <servlet>
-  	<description></description>
+    <description></description>
     <display-name>DisplayOverview</display-name>
     <servlet-name>DisplayOverview</servlet-name>
     <servlet-class>fr.gestionqcm.controler.stagiaire.tests.DisplayOverview</servlet-class>
@@ -215,5 +215,15 @@
   <servlet-mapping>
     <servlet-name>DisplayOverview</servlet-name>
     <url-pattern>/test/DisplayOverview</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>NewThemeServlet</display-name>
+    <servlet-name>NewThemeServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.themes.NewThemeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewThemeServlet</servlet-name>
+    <url-pattern>/NewTheme</url-pattern>
   </servlet-mapping>
 </web-app>
