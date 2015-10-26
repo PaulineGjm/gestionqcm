@@ -1,26 +1,27 @@
-package fr.gestionqcm.controler.teacher.tests;
+package fr.gestionqcm.controler.teacher.themes;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.gestionqcm.model.handler.TestHandler;
+import fr.gestionqcm.model.bo.Theme;
+import fr.gestionqcm.model.handler.ThemeHandler;
 
 /**
- * Servlet implementation class DeleteTestServlet
+ * Servlet implementation class UpdateThemeServlet
  */
-public class DeleteTestServlet extends HttpServlet {
+public class UpdateThemeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public DeleteTestServlet() {
+	public UpdateThemeServlet() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -29,7 +30,7 @@ public class DeleteTestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		processResquest(request, response);
+		processRequest(request, response);
 	}
 
 	/**
@@ -38,28 +39,19 @@ public class DeleteTestServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		processResquest(request, response);
+		processRequest(request, response);
 	}
 
-	private void processResquest(HttpServletRequest request,
+	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		int idTest = Integer.valueOf(request.getParameter("id"));
-
-		RequestDispatcher dispatcher = null;
+		int idTheme = Integer.valueOf(request.getParameter("pk"));
+		String label = request.getParameter("value");
 
 		try {
-			TestHandler.delete(idTest);
+			ThemeHandler.update(new Theme(idTheme, label));
 		} catch (Exception e) {
-			// Placer l'objet représentant l'exception dans le contexte de
-			// requete
-			request.setAttribute("error", e);
-			// Passer la main à la page de présentation des erreurs
-			dispatcher = request.getRequestDispatcher("/view/error/error.jsp");
-			dispatcher.forward(request, response);
-			return;
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		response.sendRedirect(request.getContextPath() + "/ListTests");
 	}
-
 }

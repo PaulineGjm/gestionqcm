@@ -1,0 +1,23 @@
+<%@ page import ="fr.gestionqcm.model.bo.*, java.util.*, java.text.*" %>
+<%@ taglib prefix="datatables" uri="http://github.com/tduchateau/DataTables-taglib" %>
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script type="text/javascript" src="${pageContext.servletContext.contextPath}/theme/js/themes.js"></script>
+
+<div id="listeThemes" class="col-sm-12">
+    <a class="btn btn-default glyphicon glyphicon-plus" href="${pageContext.servletContext.contextPath}/NewTheme" role="button"></a>
+    
+    <datatables:table data="${listThemes}" htmlTableId="themes" 
+		dataObjectId="theme" autoWidth="true">	
+	   	<datatables:column title="" headerCssClass="col-sm-11 text-center">
+	      	<a href="#" class="edit_theme" id="theme_${theme.getId()}" data-type="text" data-pk="${theme.getId()}" data-url="${pageContext.servletContext.contextPath}/UpdateTheme" data-title="Nom du theme">${theme.getLabel() }</a>
+	   </datatables:column>
+	   <datatables:column title="" headerCssClass="col-sm-1 text-center">
+	   		<a href="${pageContext.servletContext.contextPath}/DeleteTheme?id=${theme.getId()}">
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			</a>
+	   </datatables:column>
+	   
+	</datatables:table>
+</div>

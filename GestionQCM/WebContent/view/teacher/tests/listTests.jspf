@@ -1,6 +1,8 @@
 <%@ page import ="fr.gestionqcm.model.bo.*, java.util.*, java.text.*" %>
+<%@ taglib prefix="datatables" uri="http://github.com/tduchateau/DataTables-taglib" %>
+
 <div id="listeFormation" class="col-sm-12">
-    <c:forEach items="${listTests}" var="test">
+<%--     <c:forEach items="${listTests}" var="test">
         <div class="test col-sm-6">
 			<h4>
 				<a href="${pageContext.servletContext.contextPath}/UpdateTest?id=${test.getTestId()}">
@@ -11,19 +13,41 @@
 				Durée du test : ${test.getTestDuration()}
 				minute<c:if test="${test.getTestDuration() > 1}">s</c:if>
 			</div>
-			<%-- <c:forEach items="${test.getSections()}" var="section">
+			<c:forEach items="${test.getSections()}" var="section">
 				<div class="section">
 					${section.get }
 				</div>
-			</c:forEach> --%>
-			<%-- <form class="form-inline col-sm-3" method="post" action="${pageContext.servletContext.contextPath}/UpdateTest">
+			</c:forEach>
+			<form class="form-inline col-sm-3" method="post" action="${pageContext.servletContext.contextPath}/UpdateTest">
 				<input type="hidden" value="${test.getTestId()}" name="id"/>
 				<input class="btn btn-default btn-sm" type="submit" value="Modifier" name="updatetest"/>
-			</form> --%>
+			</form>
 			<form class="form-inline col-sm-3" method="post" action="${pageContext.servletContext.contextPath}/DeleteTest">
 				<input type="hidden" value="${test.getTestId()}" name="idTest"/>
 				<input class="btn btn-default btn-sm" type="submit" value="Supprimer" name="deletetest"/>
 			</form>
 		</div>
-    </c:forEach>
+    </c:forEach> --%>
+    
+    <a class="btn btn-default glyphicon glyphicon-plus" href="${pageContext.servletContext.contextPath}/NewTest" role="button"></a>
+    
+    <datatables:table data="${listTests}" htmlTableId="tests" 
+		dataObjectId="test" autoWidth="true">	
+	   	<datatables:column title="Nom du Test" headerCssClass="col-sm-6 text-center">
+	      	<a href="${pageContext.servletContext.contextPath}/UpdateTest?id=${test.getTestId()}">
+				${test.getName()}
+			</a>
+	   </datatables:column>
+	   <datatables:column title="Durée du test" headerCssClass="col-sm-5 text-center">
+	     	${test.getTestDuration()} minute<c:if test="${test.getTestDuration() > 1}">s</c:if>
+	   </datatables:column>
+	   <datatables:column title=" " headerCssClass="col-sm-1 text-center">
+	   		<a href="${pageContext.servletContext.contextPath}/UpdateTest?id=${test.getTestId()}">
+				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+			</a>
+	   		<a href="${pageContext.servletContext.contextPath}/DeleteTest?id=${test.getTestId()}">
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			</a>
+	   </datatables:column>
+	</datatables:table>
 </div>

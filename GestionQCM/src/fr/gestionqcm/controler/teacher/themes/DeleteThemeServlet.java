@@ -1,4 +1,4 @@
-package fr.gestionqcm.controler.teacher.tests;
+package fr.gestionqcm.controler.teacher.themes;
 
 import java.io.IOException;
 
@@ -8,19 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.gestionqcm.model.handler.TestHandler;
+import fr.gestionqcm.model.handler.ThemeHandler;
 
 /**
- * Servlet implementation class DeleteTestServlet
+ * Servlet implementation class DeleteThemeServlet
  */
-public class DeleteTestServlet extends HttpServlet {
+public class DeleteThemeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public DeleteTestServlet() {
+	public DeleteThemeServlet() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -43,12 +44,12 @@ public class DeleteTestServlet extends HttpServlet {
 
 	private void processResquest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		int idTest = Integer.valueOf(request.getParameter("id"));
+		int idTheme = Integer.valueOf(request.getParameter("id"));
 
 		RequestDispatcher dispatcher = null;
 
 		try {
-			TestHandler.delete(idTest);
+			ThemeHandler.delete(idTheme);
 		} catch (Exception e) {
 			// Placer l'objet représentant l'exception dans le contexte de
 			// requete
@@ -59,7 +60,6 @@ public class DeleteTestServlet extends HttpServlet {
 			return;
 		}
 
-		response.sendRedirect(request.getContextPath() + "/ListTests");
+		response.sendRedirect(request.getContextPath() + "/ListThemes");
 	}
-
 }

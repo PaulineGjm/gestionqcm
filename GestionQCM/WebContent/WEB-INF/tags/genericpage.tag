@@ -35,7 +35,7 @@
 			    <ul class="navbar-nav nav">
 		  			<li role="presentation" class="${homeactive}"><a href="#">Home</a></li>
 		  			<li role="presentation" class="${testsactive}"><a href="${pageContext.request.contextPath}/ListTests">Gestion des tests</a></li>
-		 			<li role="presentation" class="${homeactive}"><a href="#">Messages</a></li>
+		 			<li role="presentation" class="${themesactive}"><a href="${pageContext.request.contextPath}/ListThemes">Gestion des themes</a></li>
 				</ul>
  			  </c:when>
 			  <c:when test="${user.isStagiaire()}">

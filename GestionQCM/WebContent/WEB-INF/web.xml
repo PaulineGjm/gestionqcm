@@ -80,6 +80,16 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>DeleteTestServlet</display-name>
+    <servlet-name>DeleteTestServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.tests.DeleteTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteTestServlet</servlet-name>
+    <url-pattern>/DeleteTest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
     <display-name>ValidateTestServlet</display-name>
     <servlet-name>ValidateTestServlet</servlet-name>
     <servlet-class>fr.gestionqcm.controler.teacher.tests.ValidateTestServlet</servlet-class>
@@ -154,5 +164,35 @@
   <servlet-mapping>
     <servlet-name>SaveAnswerQuestion</servlet-name>
     <url-pattern>/test/SaveAnswerQuestion</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListThemesServlet</display-name>
+    <servlet-name>ListThemesServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.themes.ListThemesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListThemesServlet</servlet-name>
+    <url-pattern>/ListThemes</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateThemeServlet</display-name>
+    <servlet-name>UpdateThemeServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.themes.UpdateThemeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateThemeServlet</servlet-name>
+    <url-pattern>/UpdateTheme</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeleteThemeServlet</display-name>
+    <servlet-name>DeleteThemeServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.themes.DeleteThemeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteThemeServlet</servlet-name>
+    <url-pattern>/DeleteTheme</url-pattern>
   </servlet-mapping>
 </web-app>
