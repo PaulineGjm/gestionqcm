@@ -1,5 +1,7 @@
 package fr.gestionqcm.controler.teacher.inscriptions;
 
+import static fr.gestionqcm.view.beans.EditInscriptionGUI.FormFields.inscriptionTestSelected;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -56,35 +58,45 @@ public class InscriptionsServlet extends HttpServlet {
 
 			Test testSelectionne = null;
 
+			String inscriptionsTestSelected = request
+					.getParameter(inscriptionTestSelected.name());
+
+			if (inscriptionsTestSelected != null) {
+				JSONObject testSelected = new JSONObject(
+						inscriptionsTestSelected);
+
+				dateSelectionne = DateUtils.stringToDate(testSelected
+						.getString("testStartDate"));
+				testSelectionne = TestDAO
+						.getTest(testSelected.getInt("testId"));
+
+			}
+
 			if (TypeAction.edit.equals(typeAction)) {
-				String inscriptionsTestSelected = request
-						.getParameter("inscriptionTestSelected");
+				editInscriptionGUI.setStartDateSelected(DateUtils
+						.getDateFromDate(dateSelectionne));
+				editInscriptionGUI.setStartHourSelected(DateUtils
+						.getDateHourDate(dateSelectionne));
+				editInscriptionGUI.setTestSelected(testSelectionne);
+				editInscriptionGUI
+						.setSubscribedInscriptionsTest(InscriptionHandler
+								.getInscriptionsByTestAndDate(testSelectionne,
+										dateSelectionne));
 
-				if (inscriptionsTestSelected != null) {
-					JSONObject testSelected = new JSONObject(
-							inscriptionsTestSelected);
-
-					dateSelectionne = DateUtils.stringToDate(testSelected
-							.getString("testStartDate"));
-					testSelectionne = TestDAO.getTest(testSelected
-							.getInt("testId"));
-
-				}
+				request.setAttribute("editInscriptionGUI", editInscriptionGUI);
+				rd = getServletContext().getRequestDispatcher(
+						"/view/teacher/inscriptions/editInscription.jsp");
 			} else if (TypeAction.add.equals(typeAction)) {
 				dateSelectionne = new Date();
 				testSelectionne = (editInscriptionGUI.getTests().isEmpty()) ? null
 						: editInscriptionGUI.getTests().get(0);
+			} else if (TypeAction.delete.equals(typeAction)) {
+				InscriptionHandler.deleteInscriptionsByTestAndDate(
+						testSelectionne, dateSelectionne);
+			} else if (TypeAction.save.equals(typeAction)) {
+
 			}
 
-			editInscriptionGUI.setStartDateSelected(DateUtils
-					.getDateFromDate(dateSelectionne));
-			editInscriptionGUI.setStartHourSelected(DateUtils
-					.getDateHourDate(dateSelectionne));
-			editInscriptionGUI.setTestSelected(testSelectionne);
-
-			request.setAttribute("editInscriptionGUI", editInscriptionGUI);
-			rd = getServletContext().getRequestDispatcher(
-					"/view/teacher/inscriptions/editInscription.jsp");
 			rd.forward(request, response);
 		} catch (Exception e1) {
 			e1.printStackTrace();

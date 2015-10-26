@@ -28,17 +28,27 @@ public class DateUtils {
 	}
 
 	public static String getDateFromDate(Date date) {
-		Calendar calendarDate = Calendar.getInstance();
-		calendarDate.setTime(date);
-		return String.format("%02d-%02d-%02d", calendarDate.get(Calendar.YEAR),
-				calendarDate.get(Calendar.MONTH),
-				calendarDate.get(Calendar.DAY_OF_MONTH));
+		if (date != null) {
+			Calendar calendarDate = Calendar.getInstance();
+			calendarDate.setTime(date);
+			return String.format("%02d-%02d-%02d",
+					calendarDate.get(Calendar.YEAR),
+					calendarDate.get(Calendar.MONTH),
+					calendarDate.get(Calendar.DAY_OF_MONTH));
+		} else {
+			return "";
+		}
+
 	}
 
 	public static String getDateHourDate(Date date) {
-		Calendar calendarDate = Calendar.getInstance();
-		calendarDate.setTime(date);
-		return String.format("%02d:%02d", calendarDate.get(Calendar.HOUR),
-				calendarDate.get(Calendar.MINUTE));
+		if (date != null) {
+			Calendar calendarDate = Calendar.getInstance();
+			calendarDate.setTime(date);
+			return String.format("%02d:%02d", calendarDate.get(Calendar.HOUR),
+					calendarDate.get(Calendar.MINUTE));
+		} else {
+			return "";
+		}
 	}
 }

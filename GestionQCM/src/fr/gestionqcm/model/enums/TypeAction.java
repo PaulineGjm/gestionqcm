@@ -1,7 +1,7 @@
 package fr.gestionqcm.model.enums;
 
 public enum TypeAction {
-	add, get, edit, delete;
+	add, get, edit, delete, save;
 
 	public static TypeAction fromString(String value) {
 		TypeAction typeActionFound = null;
