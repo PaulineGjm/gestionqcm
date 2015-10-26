@@ -86,18 +86,32 @@ public class InscriptionsServlet extends HttpServlet {
 				request.setAttribute("editInscriptionGUI", editInscriptionGUI);
 				rd = getServletContext().getRequestDispatcher(
 						"/view/teacher/inscriptions/editInscription.jsp");
+				rd.forward(request, response);
 			} else if (TypeAction.add.equals(typeAction)) {
 				dateSelectionne = new Date();
 				testSelectionne = (editInscriptionGUI.getTests().isEmpty()) ? null
 						: editInscriptionGUI.getTests().get(0);
+
+				request.setAttribute("editInscriptionGUI", editInscriptionGUI);
+				rd = getServletContext().getRequestDispatcher(
+						"/view/teacher/inscriptions/editInscription.jsp");
+				rd.forward(request, response);
 			} else if (TypeAction.delete.equals(typeAction)) {
 				InscriptionHandler.deleteInscriptionsByTestAndDate(
 						testSelectionne, dateSelectionne);
-			} else if (TypeAction.save.equals(typeAction)) {
 
+				response.sendRedirect(request.getContextPath()
+						+ "/view/teacher/inscriptions/");
+			} else if (TypeAction.save.equals(typeAction)) {
+				response.sendRedirect(request.getContextPath()
+						+ "/view/teacher/inscriptions/");
+			} else {
+				request.setAttribute("editInscriptionGUI", editInscriptionGUI);
+				rd = getServletContext().getRequestDispatcher(
+						"/view/teacher/inscriptions/editInscription.jsp");
+				rd.forward(request, response);
 			}
 
-			rd.forward(request, response);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
