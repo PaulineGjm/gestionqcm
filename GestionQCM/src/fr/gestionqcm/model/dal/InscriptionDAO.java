@@ -307,14 +307,7 @@ public class InscriptionDAO {
 				cmd.executeQuery();
 				ResultSet rs = cmd.getResultSet();
 				while (rs.next()) {
-					InscriptionTest inscriptionTest = new InscriptionTest();
-
-					inscriptionTest.setTest(TestDAO.getTest(rs
-							.getInt(Column.testId.getColumnName())));
-					inscriptionTest.setTestStartDate(rs
-							.getDate(Column.testStartDate.getColumnName()));
-
-					testInscriptions.add(inscriptionTest);
+					testInscriptions.add(inscriptionMapping(rs));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

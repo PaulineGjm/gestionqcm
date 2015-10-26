@@ -67,15 +67,14 @@ public class AuthentificationServlet extends HttpServlet {
 
 			Utilisateur user = ConnexionDAO.connexion(mail, motdepasse);
 			request.getSession().setAttribute("user", user);
-			
+
 			if (null == user) {
 				// Retour à la page d'accueil
-				response.sendRedirect(request.getContextPath()
-						+ "/login");
+				response.sendRedirect(request.getContextPath() + "/login");
 				return;
 			} else if (user.isAnimateur()) {
 				Animateur animateur = (Animateur) user;
-				
+
 				// Création animateur utilisé par l'IHM
 				AnimateurGUI animateurConnecte = new AnimateurGUI(
 						animateur.getId(), animateur.getLastName(),
@@ -84,7 +83,7 @@ public class AuthentificationServlet extends HttpServlet {
 
 				// Invalider la session en cours dans le cas où c'est un autre
 				// profil qui est déjà connecté
-				//request.getSession().invalidate();
+				// request.getSession().invalidate();
 
 				// Placer le bean dans le contexte de session
 				request.getSession().setAttribute("animateurConnecte",
@@ -96,8 +95,8 @@ public class AuthentificationServlet extends HttpServlet {
 			} else if (user.isStagiaire()) {
 				Stagiaire stagiaire = (Stagiaire) user;
 
-				StagiaireGUI stagiaireConnecte = new StagiaireGUI(
-						stagiaire.getIdPromotion(), stagiaire.getId(),
+				StagiaireGUI stagiaireConnecte = new StagiaireGUI(stagiaire
+						.getPromotion().getIdPromo(), stagiaire.getId(),
 						stagiaire.getLastName(), stagiaire.getFirstName(),
 						stagiaire.getMail(), stagiaire.getPassword());
 
@@ -119,7 +118,7 @@ public class AuthentificationServlet extends HttpServlet {
 
 				// Invalider la session en cours dans le cas où c'est un autre
 				// profil qui est déjà connecté
-				//request.getSession().invalidate();
+				// request.getSession().invalidate();
 
 				// Placer le bean dans le contexte de session
 				request.getSession().setAttribute("stagiaireConnecte",

@@ -21,6 +21,7 @@ import fr.gestionqcm.model.enums.TypeAction;
 import fr.gestionqcm.model.handler.InscriptionHandler;
 import fr.gestionqcm.model.util.DateUtils;
 import fr.gestionqcm.view.beans.EditInscriptionGUI;
+import fr.gestionqcm.view.beans.EditInscriptionGUI.FormFields;
 
 /**
  * Servlet implementation class InscriptionsServlet
@@ -86,7 +87,6 @@ public class InscriptionsServlet extends HttpServlet {
 
 				rd = getServletContext().getRequestDispatcher(
 						"/view/teacher/inscriptions/editInscription.jsp");
-				rd.forward(request, response);
 			} else if (TypeAction.add.equals(typeAction)) {
 				dateSelectionne = new Date();
 				testSelectionne = (editInscriptionGUI.getTests().isEmpty()) ? null
@@ -104,7 +104,9 @@ public class InscriptionsServlet extends HttpServlet {
 				InscriptionHandler.deleteInscriptionsByTestAndDate(
 						testSelectionne, dateSelectionne);
 			} else if (TypeAction.save.equals(typeAction)) {
-
+				String[] users = request
+						.getParameterValues(FormFields.usersSelected.name());
+				System.out.println(users);
 			} else {
 				rd = getServletContext().getRequestDispatcher(
 						"/view/teacher/inscriptions/editInscription.jsp");

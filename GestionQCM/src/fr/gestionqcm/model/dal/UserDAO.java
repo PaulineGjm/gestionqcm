@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.gestionqcm.model.bo.Animateur;
+import fr.gestionqcm.model.bo.Promotion;
 import fr.gestionqcm.model.bo.Stagiaire;
 import fr.gestionqcm.model.bo.Utilisateur;
 import fr.gestionqcm.model.dal.util.AccessDatabase;
@@ -132,7 +133,7 @@ public class UserDAO {
 		cmd.setString(3, user.getMail());
 		cmd.setString(4, user.getPassword());
 		if (user.isStagiaire()) {
-			cmd.setInt(5, ((Stagiaire) user).getIdPromotion());
+			cmd.setInt(5, ((Stagiaire) user).getPromotion().getIdPromo());
 		}
 
 		try {
@@ -178,7 +179,7 @@ public class UserDAO {
 			cmd.setString(3, user.getMail());
 			cmd.setString(4, user.getPassword());
 			if (user.isStagiaire()) {
-				cmd.setInt(5, ((Stagiaire) user).getIdPromotion());
+				cmd.setInt(5, ((Stagiaire) user).getPromotion().getIdPromo());
 				cmd.setInt(6, user.getId());
 			} else {
 				cmd.setInt(5, user.getId());
@@ -224,8 +225,8 @@ public class UserDAO {
 
 		if (Status.Stagiaire.getText().equals(textStatus)) {
 			Stagiaire stagiaire = new Stagiaire();
-			stagiaire.setIdPromotion(rs.getInt(Column.idPromotion
-					.getColumnName()));
+			stagiaire.setPromotion(PromotionDao.getPromotion(rs
+					.getInt(Column.idPromotion.getColumnName())));
 			utilisateur = stagiaire;
 		} else if (Status.Animateur.getText().equals(textStatus)) {
 			Animateur animateur = new Animateur();
@@ -262,5 +263,45 @@ public class UserDAO {
 			cmd = null;
 		}
 		return status;
+	}
+
+	public static List<Stagiaire> searchStagiaire(String lastName,
+			String firstName, Promotion promotion) throws Exception {
+		PreparedStatement cmd = null;
+		List<Stagiaire> stagiaireList = new ArrayList<Stagiaire>();
+		if (lastName == null) {
+			lastName = "";
+		}
+		if (firstName == null) {
+			firstName = "";
+		}
+
+		String request = String.format("SELECT * FROM %s " + "WHERE %s = "
+				+ "(SELECT %s FROM STATUT WHERE libelle = 'Stagiaire') "
+				+ "AND %s LIKE '%" + lastName + "%' " + "AND %s LIKE '%"
+				+ firstName + "%' "
+				+ ((promotion != null) ? "AND id_promo = ?;" : ";"), tableName,
+				Column.idStatut.columnName, Column.idStatut.columnName,
+				Column.lastName.columnName, Column.firstName.columnName);
+		cmd = AccessDatabase.getConnection().prepareStatement(request);
+
+		if (promotion != null) {
+			cmd.setInt(1, promotion.getIdPromo());
+		}
+		try {
+			cmd.executeQuery();
+			ResultSet rs = cmd.getResultSet();
+			while (rs.next()) {
+				stagiaireList.add((Stagiaire) userMapping(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception(
+					"Problème de connexion avec la base de données !");
+		} finally {
+			cmd.getConnection().close();
+			cmd = null;
+		}
+		return stagiaireList;
 	}
 }
