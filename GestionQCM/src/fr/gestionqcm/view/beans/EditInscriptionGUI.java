@@ -1,6 +1,5 @@
 package fr.gestionqcm.view.beans;
 
-import java.util.Date;
 import java.util.List;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
@@ -12,7 +11,9 @@ public class EditInscriptionGUI {
 
 	private Test testSelected;
 
-	private Date startDateSelected;
+	private String startDateSelected;
+
+	private String startHourSelected;
 
 	private List<InscriptionTest> inscriptionsTest;
 
@@ -24,20 +25,28 @@ public class EditInscriptionGUI {
 		this.tests = tests;
 	}
 
+	public String getStartDateSelected() {
+		return startDateSelected;
+	}
+
+	public void setStartDateSelected(String startDateSelected) {
+		this.startDateSelected = startDateSelected;
+	}
+
+	public String getStartHourSelected() {
+		return startHourSelected;
+	}
+
+	public void setStartHourSelected(String startHourSelected) {
+		this.startHourSelected = startHourSelected;
+	}
+
 	public Test getTestSelected() {
 		return testSelected;
 	}
 
 	public void setTestSelected(Test testSelected) {
 		this.testSelected = testSelected;
-	}
-
-	public Date getStartDateSelected() {
-		return startDateSelected;
-	}
-
-	public void setStartDateSelected(Date startDateSelected) {
-		this.startDateSelected = startDateSelected;
 	}
 
 	public List<InscriptionTest> getInscriptionsTest() {

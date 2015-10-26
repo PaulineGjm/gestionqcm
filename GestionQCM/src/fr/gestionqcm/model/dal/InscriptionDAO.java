@@ -274,7 +274,7 @@ public class InscriptionDAO {
 
 				inscriptionTest.setTest(TestDAO.getTest(rs.getInt(Column.testId
 						.getColumnName())));
-				inscriptionTest.setInscriptionDate(rs
+				inscriptionTest.setTestStartDate(rs
 						.getDate(Column.testStartDate.getColumnName()));
 
 				testInscriptions.add(inscriptionTest);
