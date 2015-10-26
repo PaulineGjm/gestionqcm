@@ -12,8 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.gestionqcm.model.bo.Question;
 import fr.gestionqcm.model.bo.Reponse;
+import fr.gestionqcm.model.bo.ReponseCandidat;
 import fr.gestionqcm.model.bo.SelectQuestion;
+import fr.gestionqcm.model.bo.Utilisateur;
+import fr.gestionqcm.model.dal.ConnexionDAO;
 import fr.gestionqcm.model.dal.QuestionDAO;
+import fr.gestionqcm.model.dal.ReponseCandidatDAO;
 import fr.gestionqcm.model.dal.ReponseDAO;
 import fr.gestionqcm.model.dal.SelectQuestionDAO;
 import fr.gestionqcm.view.beans.QuestionGUI;
@@ -53,43 +57,50 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 	}
 
 	protected void processRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException
+	{
 
 		RequestDispatcher dispatcher;
-
+		
 		// TODO
 		// Penser à re-setter le temps restant + la position de question
-
+		
+		Utilisateur user = (Utilisateur) request.getSession().getAttribute("user");
+	
 		TestEnCoursGUI runningTest = (TestEnCoursGUI) request.getSession()
 				.getAttribute("runningTest");
-		
-		if(runningTest.getTimeRemaining() == 0)
+	
+		try 
 		{
-			dispatcher = getServletContext().getRequestDispatcher(
-					"/view/trainee/overview.jsp");
-			dispatcher.forward(request, response);
-			return;
-		}
 		
-		if(runningTest.getQuestionPosition() == runningTest.getNbQuestion())
-		{
-			dispatcher = getServletContext().getRequestDispatcher(
-					"/view/trainee/overview.jsp");
-			dispatcher.forward(request, response);
-			return;
-		}
+			if(runningTest.getTimeRemaining() == 0)
+			{
+				dispatcher = getServletContext().getRequestDispatcher(
+						"/view/trainee/overview.jsp");
+				dispatcher.forward(request, response);
+				return;
+			}
+			
+			if(runningTest.getQuestionPosition() == runningTest.getNbQuestion())
+			{
+				dispatcher = getServletContext().getRequestDispatcher(
+						"/view/trainee/overview.jsp");
+				dispatcher.forward(request, response);
+				return;
+			}
+			
+			// On passe à la question suivante
+			Integer questionNumber = runningTest.getQuestionPosition() +1;
+			runningTest.setQuestionPosition(questionNumber);
+			
+			List<Integer> listIdQuestions = (List<Integer>) request.getSession()
+					.getAttribute("listIdQuestions");
+	
+			// Comme c'est une liste son index commence à 0 et non à 1
+			// En conséquence si le numéro de la question est 1, on va demander
+			// l'index 0
+			Integer idNextQuestion = listIdQuestions.get(questionNumber - 1);
 		
-		Integer questionNumber = runningTest.getQuestionPosition() +1;
-		runningTest.setQuestionPosition(questionNumber);
-		
-		List<Integer> listIdQuestions = (List<Integer>) request.getSession()
-				.getAttribute("listIdQuestions");
-
-		// Comme c'est une liste son index commence à 0 et non à 1
-		// En conséquence si le numéro de la question est 1, on va demander
-		// l'index 0
-		Integer idNextQuestion = listIdQuestions.get(questionNumber - 1);
-		try {
 			// Récupération de la question et des réponses + insertion dans les
 			// objets GUI
 			Question question = QuestionDAO.getQuestionById(idNextQuestion);
@@ -115,7 +126,9 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 
 			return;
-		} catch (Exception ex) {
+		}
+		catch (Exception ex)
+		{
 			// Placer l'objet représentant l'exception dans le contexte de
 			// requete
 			request.setAttribute("error", ex);
@@ -126,5 +139,4 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			return;
 		}
 	}
-
 }

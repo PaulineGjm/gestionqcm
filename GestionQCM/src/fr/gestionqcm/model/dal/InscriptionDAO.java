@@ -10,6 +10,7 @@ import java.util.List;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
 import fr.gestionqcm.model.bo.Stagiaire;
+import fr.gestionqcm.model.bo.Test;
 import fr.gestionqcm.model.bo.Utilisateur;
 import fr.gestionqcm.model.dal.util.AccessDatabase;
 import fr.gestionqcm.model.dal.util.RequestFactory;
@@ -274,7 +275,7 @@ public class InscriptionDAO {
 
 				inscriptionTest.setTest(TestDAO.getTest(rs.getInt(Column.testId
 						.getColumnName())));
-				inscriptionTest.setInscriptionDate(rs
+				inscriptionTest.setTestStartDate(rs
 						.getDate(Column.testStartDate.getColumnName()));
 
 				testInscriptions.add(inscriptionTest);
@@ -290,4 +291,64 @@ public class InscriptionDAO {
 		return testInscriptions;
 	}
 
+	public static List<InscriptionTest> getInscriptionsByTestAndDate(Test test,
+			java.util.Date date) throws Exception {
+		PreparedStatement cmd = null;
+		List<InscriptionTest> testInscriptions = new ArrayList<InscriptionTest>();
+		if (test != null && date != null) {
+			cmd = AccessDatabase.getConnection().prepareStatement(
+					String.format("SELECT * FROM %s WHERE %s = ? AND %s = ?;",
+							tableName, Column.testStartDate.getColumnName(),
+							Column.testId.getColumnName()));
+
+			cmd.setDate(1, new Date(date.getTime()));
+			cmd.setInt(2, test.getTestId());
+			try {
+				cmd.executeQuery();
+				ResultSet rs = cmd.getResultSet();
+				while (rs.next()) {
+					InscriptionTest inscriptionTest = new InscriptionTest();
+
+					inscriptionTest.setTest(TestDAO.getTest(rs
+							.getInt(Column.testId.getColumnName())));
+					inscriptionTest.setTestStartDate(rs
+							.getDate(Column.testStartDate.getColumnName()));
+
+					testInscriptions.add(inscriptionTest);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception(
+						"Problème de connexion avec la base de données !");
+			} finally {
+				cmd.getConnection().close();
+				cmd.close();
+			}
+		}
+		return testInscriptions;
+	}
+
+	public static void deleteInscriptionsByTestAndDate(Test test,
+			java.util.Date date) throws Exception {
+		PreparedStatement cmd = null;
+		if (test != null && date != null) {
+			cmd = AccessDatabase.getConnection().prepareStatement(
+					String.format("DELETE FROM %s WHERE %s = ? AND %s = ?;",
+							tableName, Column.testStartDate.getColumnName(),
+							Column.testId.getColumnName()));
+
+			cmd.setDate(1, new Date(date.getTime()));
+			cmd.setInt(2, test.getTestId());
+			try {
+				cmd.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception(
+						"Problème de connexion avec la base de données !");
+			} finally {
+				cmd.getConnection().close();
+				cmd.close();
+			}
+		}
+	}
 }

@@ -1,6 +1,5 @@
 package fr.gestionqcm.view.beans;
 
-import java.util.Date;
 import java.util.List;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
@@ -8,13 +7,21 @@ import fr.gestionqcm.model.bo.Test;
 
 public class EditInscriptionGUI {
 
+	public enum FormFields {
+		inscriptionTestSelected, startDateSelected, startHourSelected, testSelected;
+	}
+
 	private List<Test> tests;
 
 	private Test testSelected;
 
-	private Date startDateSelected;
+	private String startDateSelected;
+
+	private String startHourSelected;
 
 	private List<InscriptionTest> inscriptionsTest;
+
+	private List<InscriptionTest> subscribedInscriptionsTest;
 
 	public List<Test> getTests() {
 		return tests;
@@ -22,6 +29,22 @@ public class EditInscriptionGUI {
 
 	public void setTests(List<Test> tests) {
 		this.tests = tests;
+	}
+
+	public String getStartDateSelected() {
+		return startDateSelected;
+	}
+
+	public void setStartDateSelected(String startDateSelected) {
+		this.startDateSelected = startDateSelected;
+	}
+
+	public String getStartHourSelected() {
+		return startHourSelected;
+	}
+
+	public void setStartHourSelected(String startHourSelected) {
+		this.startHourSelected = startHourSelected;
 	}
 
 	public Test getTestSelected() {
@@ -32,19 +55,20 @@ public class EditInscriptionGUI {
 		this.testSelected = testSelected;
 	}
 
-	public Date getStartDateSelected() {
-		return startDateSelected;
-	}
-
-	public void setStartDateSelected(Date startDateSelected) {
-		this.startDateSelected = startDateSelected;
-	}
-
 	public List<InscriptionTest> getInscriptionsTest() {
 		return inscriptionsTest;
 	}
 
 	public void setInscriptionsTest(List<InscriptionTest> inscriptionsTest) {
 		this.inscriptionsTest = inscriptionsTest;
+	}
+
+	public List<InscriptionTest> getSubscribedInscriptionsTest() {
+		return subscribedInscriptionsTest;
+	}
+
+	public void setSubscribedInscriptionsTest(
+			List<InscriptionTest> subscribedInscriptionsTest) {
+		this.subscribedInscriptionsTest = subscribedInscriptionsTest;
 	}
 }
