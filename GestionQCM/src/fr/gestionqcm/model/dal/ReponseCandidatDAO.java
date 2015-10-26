@@ -33,4 +33,28 @@ public class ReponseCandidatDAO {
 				cnx.close();
 		}
 	}
+	
+	public static void delete(ReponseCandidat reponse) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		try {
+
+			cnx = AccessDatabase.getConnection();
+			rqt = cnx
+					.prepareStatement("delete from reponse_des_candidats where id_reponse = ? and id_question = ? and id_inscription = ?");
+			rqt.setInt(1, reponse.getIdReponse());
+			rqt.setInt(2, reponse.getIdQuestion());
+			rqt.setInt(3, reponse.getIdInscription());
+			rqt.executeUpdate();
+		}
+		catch (SQLException ex) {
+			ex.printStackTrace();
+			throw new SQLException(ex);
+		} finally {
+			if (rqt != null)
+				rqt.close();
+			if (cnx != null)
+				cnx.close();
+		}
+	}
 }

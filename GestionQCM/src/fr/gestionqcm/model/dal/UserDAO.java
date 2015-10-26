@@ -278,11 +278,11 @@ public class UserDAO {
 
 		String request = String.format("SELECT * FROM %s " + "WHERE %s = "
 				+ "(SELECT %s FROM STATUT WHERE libelle = 'Stagiaire') "
-				+ "AND %s LIKE '%" + lastName + "%' " + "AND %s LIKE '%"
-				+ firstName + "%' "
+				+ "AND %s LIKE '%s' " + "AND %s LIKE '%s' "
 				+ ((promotion != null) ? "AND id_promo = ?;" : ";"), tableName,
 				Column.idStatut.columnName, Column.idStatut.columnName,
-				Column.lastName.columnName, Column.firstName.columnName);
+				Column.lastName.columnName, "%" + lastName + "%",
+				Column.firstName.columnName, "%" + firstName + "%");
 		cmd = AccessDatabase.getConnection().prepareStatement(request);
 
 		if (promotion != null) {
