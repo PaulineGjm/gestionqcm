@@ -7,6 +7,10 @@ import fr.gestionqcm.model.bo.Test;
 
 public class EditInscriptionGUI {
 
+	public enum FormFields {
+		inscriptionTestSelected, startDateSelected, startHourSelected, testSelected;
+	}
+
 	private List<Test> tests;
 
 	private Test testSelected;
@@ -16,6 +20,8 @@ public class EditInscriptionGUI {
 	private String startHourSelected;
 
 	private List<InscriptionTest> inscriptionsTest;
+
+	private List<InscriptionTest> subscribedInscriptionsTest;
 
 	public List<Test> getTests() {
 		return tests;
@@ -55,5 +61,14 @@ public class EditInscriptionGUI {
 
 	public void setInscriptionsTest(List<InscriptionTest> inscriptionsTest) {
 		this.inscriptionsTest = inscriptionsTest;
+	}
+
+	public List<InscriptionTest> getSubscribedInscriptionsTest() {
+		return subscribedInscriptionsTest;
+	}
+
+	public void setSubscribedInscriptionsTest(
+			List<InscriptionTest> subscribedInscriptionsTest) {
+		this.subscribedInscriptionsTest = subscribedInscriptionsTest;
 	}
 }

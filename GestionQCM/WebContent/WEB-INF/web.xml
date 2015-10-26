@@ -99,6 +99,7 @@
     <url-pattern>/teacher/inscriptions/</url-pattern>
     <url-pattern>/teacher/inscriptions/edit</url-pattern>
     <url-pattern>/teacher/inscriptions/add</url-pattern>
+    <url-pattern>/teacher/inscriptions/delete</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
