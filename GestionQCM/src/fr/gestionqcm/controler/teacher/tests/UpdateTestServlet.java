@@ -20,70 +20,78 @@ import fr.gestionqcm.model.handler.ThemeHandler;
  */
 public class UpdateTestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UpdateTestServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public UpdateTestServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
-	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	private void processRequest(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = null;
-		
-		if(request.getParameterMap().size() == 0 || request.getParameter("idTest") == null)
-		{
+
+		if (request.getParameterMap().size() == 0
+				|| request.getParameter("id") == null) {
 			response.sendRedirect(request.getContextPath() + "/ListTests");
 			return;
 		}
-		
-		int idTest = Integer.valueOf(request.getParameter("idTest"));
-		
+
+		int idTest = Integer.valueOf(request.getParameter("id"));
+
 		Test test = null;
-		
+
 		try {
 			test = TestHandler.getOne(idTest);
 		} catch (Exception e) {
-			// Placer l'objet représentant l'exception dans le contexte de requete
+			// Placer l'objet représentant l'exception dans le contexte de
+			// requete
 			request.setAttribute("error", e);
 			// Passer la main à la page de présentation des erreurs
 			dispatcher = request.getRequestDispatcher("/view/error/error.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
-		
+
 		ArrayList<Theme> themes = new ArrayList<Theme>();
-		
+
 		// Construire la liste des formations et la placer en session
 		try {
 			themes = ThemeHandler.getAll();
-		}
-		catch (SQLException sqle){
-			// Placer l'objet représentant l'exception dans le contexte de requete
+		} catch (SQLException sqle) {
+			// Placer l'objet représentant l'exception dans le contexte de
+			// requete
 			request.setAttribute("error", sqle);
 			// Passer la main à la page de présentation des erreurs
 			dispatcher = request.getRequestDispatcher("/view/error/error.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
-		
+
 		request.getSession().setAttribute("themes", themes);
-		request.getSession().setAttribute("testToUpdate", test);			
-		dispatcher = request.getRequestDispatcher("/view/teacher/tests/updateTest.jsp");
+		request.getSession().setAttribute("testToUpdate", test);
+		dispatcher = request
+				.getRequestDispatcher("/view/teacher/tests/updateTest.jsp");
 		dispatcher.forward(request, response);
 	}
 

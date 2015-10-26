@@ -17,51 +17,62 @@ import fr.gestionqcm.model.handler.TestHandler;
  */
 public class ListTestsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ListTestsServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ListTestsServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
-	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void processRequest(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		if (request.getSession().getAttribute("user") == null) {
+			response.sendRedirect(request.getContextPath() + "/");
+			return;
+		}
+
 		ArrayList<Test> listTests = new ArrayList<Test>();
-		
+
 		RequestDispatcher dispatcher = null;
-		
+
 		// Construire la liste des formations et la placer en session
 		try {
 			listTests = TestHandler.getAll();
-		}
-		catch (Exception e){
-			// Placer l'objet représentant l'exception dans le contexte de requete
+		} catch (Exception e) {
+			// Placer l'objet représentant l'exception dans le contexte de
+			// requete
 			request.setAttribute("error", e);
 			// Passer la main à la page de présentation des erreurs
 			dispatcher = request.getRequestDispatcher("/view/error/error.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
-		
-		request.setAttribute("listTests", listTests);	
+
+		request.setAttribute("listTests", listTests);
 		request.setAttribute("testsactive", "active");
-		dispatcher = request.getRequestDispatcher("/view/teacher/tests/listTests.jsp"); 
-		dispatcher.forward(request, response);	
+		dispatcher = request
+				.getRequestDispatcher("/view/teacher/tests/listTests.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }

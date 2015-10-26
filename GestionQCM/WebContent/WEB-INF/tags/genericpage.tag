@@ -12,13 +12,14 @@
 	<script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
   </head>
   <body>
+ 	<c:set value="${user}" var="user" scope="session"/>
   	<div class="container">
-  		<form class="navbar-form navbar-right" role="search">
-		  <div class="form-group">
-		    <input type="text" class="form-control" placeholder="Search">
-		  </div>
-		  <button type="submit" class="btn btn-default">Submit</button>
-		</form>
+  		<c:if test="${user != null }">
+  		<div class="navbar-form navbar-right">
+  			<c:out value="${user.getFirstName() }"/> <c:out value="${user.getLastName() }"/>
+		  	<a class="btn btn-default" href="${pageContext.servletContext.contextPath}/deconnexion" role="button">Déconnexion</a>
+		</div>
+		</c:if>
 		
   		<div class="page-header">
   			<h1><a href="${pageContext.request.contextPath}/">Gestion QCM</a></h1>	
@@ -29,23 +30,22 @@
 			  <li class="active">Data</li>
 		</ol> -->
  		<div class="container">
- 			<c:set value="${user}" var="user" scope="session"/>
  			<c:choose>
 			  <c:when test="${user.isAnimateur()}">
-			    <ul class="nav nav-pills nav-stacked col-sm-3">
+			    <ul class="navbar-nav nav">
 		  			<li role="presentation" class="${homeactive}"><a href="#">Home</a></li>
 		  			<li role="presentation" class="${testsactive}"><a href="${pageContext.request.contextPath}/ListTests">Gestion des tests</a></li>
 		 			<li role="presentation" class="${homeactive}"><a href="#">Messages</a></li>
 				</ul>
  			  </c:when>
 			  <c:when test="${user.isStagiaire()}">
-			    <ul class="nav nav-pills nav-stacked col-sm-3">
+			    <ul class="navbar-nav nav">
 		  			<li role="presentation" class="${homeactive}"><a href="#">Home</a></li>
 				</ul>
 			  </c:when>
 			</c:choose>
 			
-			<div class="col-sm-9">
+			<div class="col-sm-12">
 		  		<div class="panel panel-default">
 			  	 	<div class="panel-heading">
 						<h2>${title}</h2>				
