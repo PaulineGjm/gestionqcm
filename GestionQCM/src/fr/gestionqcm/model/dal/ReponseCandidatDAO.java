@@ -18,13 +18,12 @@ public class ReponseCandidatDAO {
 			rqt = cnx
 					.prepareStatement("insert into reponse_des_candidats(id_reponse, id_user, id_question, id_inscription) values (?,?,?,?)");
 			rqt.setInt(1, reponse.getIdReponse());
-			rqt.setInt(2, reponse.getIdTest());
-			rqt.setInt(3, reponse.getIdUser());
+			rqt.setInt(2, reponse.getIdUser());
 			rqt.setInt(3, reponse.getIdQuestion());
-			rqt.setInt(3, reponse.getIdInscription());
+			rqt.setInt(4, reponse.getIdInscription());
 			rqt.executeUpdate();
-
-		} catch (SQLException ex) {
+		}
+		catch (SQLException ex) {
 			ex.printStackTrace();
 			throw new SQLException(ex);
 		} finally {

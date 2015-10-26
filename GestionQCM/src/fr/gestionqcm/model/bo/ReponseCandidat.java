@@ -3,15 +3,13 @@ package fr.gestionqcm.model.bo;
 public class ReponseCandidat {
 
 	private Integer idReponse;
-	private Integer idTest;
 	private Integer idUser;
 	private Integer idQuestion;
 	private Integer idInscription;
 
-	public ReponseCandidat(Integer idReponse, Integer idTest, Integer idUser,
+	public ReponseCandidat(Integer idReponse, Integer idUser,
 			Integer idQuestion, Integer idInscription) {
 		setIdReponse(idReponse);
-		setIdTest(idTest);
 		setIdUser(idUser);
 		setIdQuestion(idQuestion);
 		setIdInscription(idInscription);
@@ -27,14 +25,6 @@ public class ReponseCandidat {
 
 	public void setIdReponse(Integer idReponse) {
 		this.idReponse = idReponse;
-	}
-
-	public Integer getIdTest() {
-		return idTest;
-	}
-
-	public void setIdTest(Integer idTest) {
-		this.idTest = idTest;
 	}
 
 	public Integer getIdUser() {

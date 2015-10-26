@@ -21,7 +21,7 @@
 		<p>${selectedQuestion.getWording()}</p>
 		</div>
 		
-		<form class="connexion" action="${pageContext.servletContext.contextPath}/test/DisplayNextQuestion" method="post">
+		<form class="connexion" action="${pageContext.servletContext.contextPath}/test/SaveAnswerQuestion" method="post">
 			<div class="col-md-8">
 				<c:forEach items="${selectedQuestion.getListResponses()}" var="response">
 					<c:if test="${isMultiple}">
@@ -34,7 +34,7 @@
 			</div>
 			<div class="col-md-3 col-md-offset-1">
 				Question <label>${runningTest.getQuestionPosition()}</label> sur <label>${runningTest.getNbQuestion()}</label>
-				<p><input type="checkbox" value="questionMarked"> Marquer question</p>
+				<p><input type="checkbox" name="questionMarked"> Marquer question</p>
 			</div>
 			<div class="col-md-3 col-md-offset-9">
 			<input type="submit" class="btn btn-primary btn-block" value="Valider">

@@ -142,4 +142,14 @@
     <servlet-name>DisconnectionServlet</servlet-name>
     <url-pattern>/deconnexion</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SaveAnswerQuestion</display-name>
+    <servlet-name>SaveAnswerQuestion</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.SaveAnswerQuestion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SaveAnswerQuestion</servlet-name>
+    <url-pattern>/test/SaveAnswerQuestion</url-pattern>
+  </servlet-mapping>
 </web-app>

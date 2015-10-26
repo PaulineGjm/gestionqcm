@@ -30,7 +30,7 @@ public class SelectQuestionDAO {
 				Integer idTest = rs.getInt("id_test");
 				Integer idQuestion = rs.getInt("id_question");
 				Integer idUser = rs.getInt("id_user");
-				Boolean isAnswered = rs.getBoolean("estRepondu");
+				Integer isAnswered = rs.getInt("estRepondu");
 				Boolean isBranded = rs.getBoolean("estMarque");
 
 				SelectQuestion selectQuestion = new SelectQuestion(idTest,
@@ -52,5 +52,24 @@ public class SelectQuestionDAO {
 		}
 
 		return listSelectQuestions;
+	}
+	
+	public static void updateByRunningTest(SelectQuestion selectQuestion) throws SQLException{
+		Connection cnx=null;
+		PreparedStatement rqt=null;
+		try{
+			cnx=AccessDatabase.getConnection();
+			rqt=cnx.prepareStatement("update select_question set estRepondu = ?, estMarque = ? where id_inscription = ? and id_user = ? and id_question = ?");
+			rqt.setInt(1, selectQuestion.getIsAnswered());
+			rqt.setBoolean(2, selectQuestion.getIsBranded());
+			rqt.setInt(3, selectQuestion.getIdInscription());
+			rqt.setInt(4, selectQuestion.getIdUser());
+			rqt.setInt(5, selectQuestion.getIdQuestion());
+
+			rqt.executeUpdate();
+		}finally{
+			if (rqt!=null) rqt.close();
+			if (cnx!=null) cnx.close();
+		}
 	}
 }

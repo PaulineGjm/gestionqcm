@@ -6,7 +6,7 @@ public class SelectQuestion {
 	private Integer idQuestion;
 	private Integer idUser;
 	private Integer idInscription;
-	private Boolean isAnswered;
+	private Integer isAnswered;
 	private Boolean isBranded;
 
 	public SelectQuestion() {
@@ -14,7 +14,7 @@ public class SelectQuestion {
 	}
 
 	public SelectQuestion(Integer idTest, Integer idQuestion, Integer idUser,
-			Integer idInscription, Boolean isAnswered, Boolean isBranded) {
+			Integer idInscription, Integer isAnswered, Boolean isBranded) {
 		setIdTest(idTest);
 		setIdQuestion(idQuestion);
 		setIdUser(idUser);
@@ -55,11 +55,11 @@ public class SelectQuestion {
 		this.idInscription = idInscription;
 	}
 
-	public Boolean getIsAnswered() {
+	public Integer getIsAnswered() {
 		return isAnswered;
 	}
 
-	public void setIsAnswered(Boolean isAnswered) {
+	public void setIsAnswered(Integer isAnswered) {
 		this.isAnswered = isAnswered;
 	}
 
