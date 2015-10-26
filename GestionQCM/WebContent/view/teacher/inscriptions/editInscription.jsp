@@ -15,9 +15,13 @@
 <c:set var="startHourSelected">
     <%=FormFields.startHourSelected %>
 </c:set>
+<c:set var="usersSelected">
+    <%=FormFields.usersSelected %>
+</c:set>
 <t:genericpage title="Gestion des inscriptions">
     <jsp:body>
     	<h3>Liste des tests existant : </h3>
+    	<hr />
     	
    		<form method="post" class="form-horizontal clearfix" role="form" 
     			action="${pageContext.servletContext.contextPath}/teacher/inscriptions/edit">
@@ -43,8 +47,11 @@
 			</div>
 		</form>
 		<c:if test="${editInscriptionGUI.startDateSelected != null && !editInscriptionGUI.startDateSelected.isEmpty()}">
+	    	<h3>Détails du test : </h3>
+	    	<hr />
+	    	
 	    	<form method="post" class="form-horizontal" role="form" 
-	    		action="${pageContext.servletContext.contextPath}/teacher/inscriptions/">
+	    		action="${pageContext.servletContext.contextPath}/teacher/inscriptions/save">
 				
 				<div class="form-group">
 		    		<label for="startDateSelected" class="control-label col-sm-3">Date de début :</label>
@@ -69,12 +76,25 @@
 						</select>
 					</div>
 				</div>
-				
-				<datatables:table data="${editInscriptionGUI.subscribedInscriptionsTest}" htmlTableId="inscriptionsTestTable" 
-					dataObjectId="inscriptionTest" autoWidth="true"></datatables:table>
+				<c:if test="${editInscriptionGUI.subscribedInscriptionsTest.size() > 0}">
+					<h5>Liste des inscrits :</h5>
+					<datatables:table data="${editInscriptionGUI.subscribedInscriptionsTest}" htmlTableId="inscriptionsTestTable" 
+						dataObjectId="inscriptionTest" autoWidth="true">
+						<datatables:column title=" " headerCssClass="col-sm-1">
+							<input type="checkbox" value="${inscriptionTest.user.id}" name="${usersSelected}"/>
+						</datatables:column>
+						<datatables:column title="nom" headerCssClass="col-sm-6">
+							${inscriptionTest.user.lastName}
+						</datatables:column>
+						<datatables:column title="prenom" headerCssClass="col-sm-5">
+							${inscriptionTest.user.firstName}
+						</datatables:column>
+					</datatables:table>
+				</c:if>
 				<div class="form-group">
 					<div class="col-sm-offset-3">
-		    			<input type="submit" value="Valider" class="btn btn-defaut" />
+						<jsp:include page="/view/teacher/inscriptions/userSearch.jspf"></jsp:include>
+		    			<input type="submit" value="Sauvegarder Modification" class="btn btn-defaut" />
 		    		</div>
 				</div>
 			</form>

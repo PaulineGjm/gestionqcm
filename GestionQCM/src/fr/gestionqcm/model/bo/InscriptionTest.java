@@ -7,7 +7,7 @@ public class InscriptionTest {
 	private int inscriptionId;
 	private Test test;
 	private Date inscriptionDate;
-	private Stagiaire users;
+	private Stagiaire user;
 	private Date testStartDate;
 	private int timesRemaining;
 	private int issueNumber;
@@ -38,11 +38,11 @@ public class InscriptionTest {
 	}
 
 	public Stagiaire getUser() {
-		return users;
+		return user;
 	}
 
 	public void setUser(Stagiaire users) {
-		this.users = users;
+		this.user = users;
 	}
 
 	public Date getTestStartDate() {

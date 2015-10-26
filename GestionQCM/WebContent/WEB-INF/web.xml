@@ -104,6 +104,16 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>StagiaireSearchServlet</display-name>
+    <servlet-name>StagiaireSearchServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.inscriptions.StagiaireSearchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StagiaireSearchServlet</servlet-name>
+    <url-pattern>/teacher/inscriptions/searchstagiaire</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
     <display-name>RootServlet</display-name>
     <servlet-name>RootServlet</servlet-name>
     <servlet-class>fr.gestionqcm.controler.RootServlet</servlet-class>
