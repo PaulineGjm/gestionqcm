@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="fr.gestionqcm.view.beans.EditInscriptionGUI" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -18,10 +19,13 @@
 <c:set var="usersSelected">
     <%=FormFields.usersSelected %>
 </c:set>
+
 <t:genericpage title="Gestion des inscriptions">
     <jsp:body>
     	<link href="${pageContext.servletContext.contextPath}/resources/datatable/media/css/jquery.dataTables.css" rel="stylesheet">
 		<script src="${pageContext.servletContext.contextPath}/resources/datatable/media/js/jquery.dataTables.min.js"></script>
+		<link href="${pageContext.servletContext.contextPath}/resources/datatable/media/css/demo_table.css" rel="stylesheet">
+
     	<h3>Liste des tests existant : </h3>
     	<hr />
     	
@@ -79,9 +83,9 @@
 						</select>
 					</div>
 				</div>
-				<c:if test="${editInscriptionGUI.subscribedInscriptionsTest.size() > 0}">
-					<h5>Liste des inscrits :</h5>
-					<datatables:table data="${editInscriptionGUI.subscribedInscriptionsTest}" htmlTableId="inscriptionsTestTable" 
+				<h5>Liste des inscrits :</h5>
+				<div class="clearfix">
+					<datatables:table data="${editInscriptionGUI.subscribedInscriptionsTest}" htmlTableId="subscribedInscriptionsTestTable" 
 						dataObjectId="inscriptionTest" autoWidth="true">
 						<datatables:column title=" " headerCssClass="col-sm-1">
 							<input type="checkbox" value="${inscriptionTest.user.id}" name="${usersSelected}"/>
@@ -93,10 +97,13 @@
 							${inscriptionTest.user.firstName}
 						</datatables:column>
 					</datatables:table>
-				</c:if>
-				<div class="text-center">
+				</div>
+				<div class="text-right">
 					<%@ include file="/view/teacher/inscriptions/stagiaireSearch.jspf" %>	
-	    			<input type="submit" value="Sauvegarder Modification" class="btn btn-defaut" />
+					<button type="button" class="btn btn-defaut">Supprimer stagiaire(s)</button>
+				</div>
+				<div class="text-center">
+					<input type="submit" value="Sauvegarder Modification" class="btn btn-defaut" />
 				</div>
 			</form>
 		</c:if>

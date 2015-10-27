@@ -3,6 +3,7 @@ package fr.gestionqcm.view.beans;
 import java.util.List;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
+import fr.gestionqcm.model.bo.Promotion;
 import fr.gestionqcm.model.bo.Test;
 
 public class EditInscriptionGUI {
@@ -22,6 +23,8 @@ public class EditInscriptionGUI {
 	private List<InscriptionTest> inscriptionsTest;
 
 	private List<InscriptionTest> subscribedInscriptionsTest;
+
+	private List<Promotion> promotions;
 
 	public List<Test> getTests() {
 		return tests;
@@ -70,5 +73,13 @@ public class EditInscriptionGUI {
 	public void setSubscribedInscriptionsTest(
 			List<InscriptionTest> subscribedInscriptionsTest) {
 		this.subscribedInscriptionsTest = subscribedInscriptionsTest;
+	}
+
+	public List<Promotion> getPromotions() {
+		return promotions;
+	}
+
+	public void setPromotions(List<Promotion> promotions) {
+		this.promotions = promotions;
 	}
 }

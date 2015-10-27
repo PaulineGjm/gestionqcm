@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import fr.gestionqcm.model.bo.Promotion;
 import fr.gestionqcm.model.bo.Stagiaire;
@@ -41,11 +42,13 @@ public class StagiaireSearchServlet extends HttpServlet {
 		}
 
 		try {
-			List<Stagiaire> listStagiaire = UserHandler.searchStagiaire(
-					lastName, firstName, promotion);
+			JSONObject json = new JSONObject();
+			List<Stagiaire> stagiaires = UserHandler.searchStagiaire(lastName,
+					firstName, promotion);
+			json.put("stagiaires", new JSONArray(stagiaires));
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(new JSONArray(listStagiaire).toString());
+			response.getWriter().write(json.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

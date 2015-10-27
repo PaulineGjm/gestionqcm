@@ -2,23 +2,47 @@
 <!-- Trigger the modal with a button -->
 <button type="button" onclick="searchStagiaire()" class="btn btn-defaut" data-toggle="modal" data-target="#searchModal">Ajouter stagiaire(s)</button>
 
+
+
 <!-- Modal -->
 <div id="searchModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Recherche de stagiaire</h4>
-      </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Recherche de stagiaire</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<label for="idPromo" class="col-sm-3">Promotion :</label>
+					<div class="col-sm-9">
+						<!-- <select id="promotionsSelect" class="form-control" onchange="searchStagiaire()">
+							<option>
+						</select>
+						 -->
+						 <select id="idPromo" name="${FormFields.testSelected}" class="form-control">
+						   <c:forEach items="${editInscriptionGUI.promotions}" var="promotion">
+						       <option value="${promotion.idPromo}"}>${promotion.text}</option>
+						   </c:forEach>
+						</select>
+					</div>
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="lastName" placeholder="Nom" onkeypress="searchStagiaire()">
+					</div>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="firstName" placeholder="Prénom" onkeypress="searchStagiaire()">
+					</div>
+				</div>
+				<br />
+				<table id="stagiaireDataTable" class="display"></table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" onclick="sendStagiaire();" class="btn btn-default" data-dismiss="modal">Sélectionner</button>
+			</div>
+		</div>
+	</div>
 </div>
