@@ -24,7 +24,9 @@ public class TestDAO {
 
 		currentThreshold("seuilEnCours"),
 
-		acquisitionThreshold("seuilAcquis");
+		acquisitionThreshold("seuilAcquis"),
+
+		isArchived("estArchive");
 
 		private String columnName;
 
@@ -38,6 +40,31 @@ public class TestDAO {
 	}
 
 	private static RequestFactory requestFactory = new RequestFactory(tableName);
+
+	public static List<Test> getAllTestsNotArchived() throws Exception {
+		PreparedStatement cmd = null;
+		List<Test> tests = new ArrayList<Test>();
+		String request = "SELECT * FROM %s WHERE estArchive = 0";
+		cmd = AccessDatabase.getConnection().prepareStatement(
+				String.format(request, tableName));
+		try {
+			cmd.executeQuery();
+			ResultSet rs = cmd.getResultSet();
+			while (rs.next()) {
+				Test test = testMapping(rs);
+				test.setSections(SectionDAO.getByTest(test));
+				tests.add(test);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception(
+					"Problème de connexion avec la base de données !");
+		} finally {
+			cmd.getConnection().close();
+			cmd.close();
+		}
+		return tests;
+	}
 
 	public static List<Test> getAllTests() throws Exception {
 		PreparedStatement cmd = null;
@@ -101,6 +128,7 @@ public class TestDAO {
 		cmd.setInt(2, test.getTestDuration());
 		cmd.setInt(3, test.getCurrentThreshold());
 		cmd.setInt(4, test.getAcquisitionThreshold());
+		cmd.setBoolean(5, test.isArchived());
 
 		try {
 			cmd.executeUpdate();
@@ -131,7 +159,8 @@ public class TestDAO {
 					Column.testId.getColumnName(), Column.name.getColumnName(),
 					Column.testDuration.getColumnName(),
 					Column.currentThreshold.getColumnName(),
-					Column.acquisitionThreshold.getColumnName());
+					Column.acquisitionThreshold.getColumnName(),
+					Column.isArchived.getColumnName());
 
 			PreparedStatement cmd = AccessDatabase.getConnection()
 					.prepareStatement(request);
@@ -140,7 +169,8 @@ public class TestDAO {
 			cmd.setInt(2, test.getTestDuration());
 			cmd.setInt(3, test.getCurrentThreshold());
 			cmd.setInt(4, test.getAcquisitionThreshold());
-			cmd.setInt(5, test.getTestId());
+			cmd.setBoolean(5, test.isArchived());
+			cmd.setInt(6, test.getTestId());
 
 			try {
 				cmd.executeUpdate();
@@ -190,6 +220,36 @@ public class TestDAO {
 		}
 	}
 
+	public static void archivedTest(Test test) throws Exception {
+		if (test != null) {
+			PreparedStatement cmd = null;
+			String request = String
+					.format("UPDATE %s SET estArchive = 1 WHERE id_test = ?",
+							tableName);
+			cmd = AccessDatabase.getConnection().prepareStatement(request);
+			cmd.setInt(1, test.getTestId());
+
+			try {
+				cmd.executeUpdate();
+
+				// // suppression des sections associées au test
+				// RequestFactory rf = new RequestFactory("SECTION");
+				// cmd = AccessDatabase.getConnection().prepareStatement(
+				// rf.getDelete(Column.testId.getColumnName()));
+				// cmd.setInt(1, test.getTestId());
+				// cmd.executeUpdate();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception(
+						"Problème de connexion avec la base de données !");
+			} finally {
+				cmd.getConnection().close();
+				cmd.close();
+			}
+		}
+	}
+
 	private static Test testMapping(ResultSet rs) throws SQLException {
 		Test test = new Test();
 		// nom, dureeDuTest, seuilEnCours, seuilAcquis
@@ -200,6 +260,7 @@ public class TestDAO {
 				.getColumnName()));
 		test.setAcquisitionThreshold(rs.getInt(Column.acquisitionThreshold
 				.getColumnName()));
+		test.setArchived(rs.getBoolean(Column.isArchived.getColumnName()));
 		return test;
 	}
 }

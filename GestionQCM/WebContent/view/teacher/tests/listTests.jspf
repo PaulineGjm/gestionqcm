@@ -6,13 +6,19 @@
     
     <datatables:table data="${listTests}" htmlTableId="tests" 
 		dataObjectId="test" autoWidth="true">	
-	   	<datatables:column title="Nom du Test" headerCssClass="col-sm-6 text-center">
+	   	<datatables:column title="Nom du Test" headerCssClass="col-sm-5 text-center">
 	      	<a href="${pageContext.servletContext.contextPath}/teacher/tests/update?id=${test.getTestId()}">
 				${test.getName()}
 			</a>
 	   </datatables:column>
-	   <datatables:column title="Durée du test" headerCssClass="col-sm-5 text-center">
+	   <datatables:column title="Durée du test" headerCssClass="col-sm-2 text-center">
 	     	${test.getTestDuration()} minute<c:if test="${test.getTestDuration() > 1}">s</c:if>
+	   </datatables:column>
+	   <datatables:column title="Seuil en cours d'acquisition" headerCssClass="col-sm-2 text-center">
+	     	${test.getCurrentThreshold()}
+	   </datatables:column>
+	   <datatables:column title="Seuil acquis" headerCssClass="col-sm-2 text-center">
+	     	${test.getAcquisitionThreshold()}
 	   </datatables:column>
 	   <datatables:column title=" " headerCssClass="col-sm-1 text-center">
 	   		<a href="${pageContext.servletContext.contextPath}/teacher/tests/update?id=${test.getTestId()}">

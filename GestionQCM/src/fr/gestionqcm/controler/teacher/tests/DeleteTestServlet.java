@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.gestionqcm.model.bo.Test;
 import fr.gestionqcm.model.handler.TestHandler;
 
 /**
@@ -44,11 +45,13 @@ public class DeleteTestServlet extends HttpServlet {
 	private void processResquest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		int idTest = Integer.valueOf(request.getParameter("id"));
+		Test test = new Test();
+		test.setTestId(idTest);
 
 		RequestDispatcher dispatcher = null;
 
 		try {
-			TestHandler.delete(idTest);
+			TestHandler.archived(test);
 		} catch (Exception e) {
 			// Placer l'objet représentant l'exception dans le contexte de
 			// requete

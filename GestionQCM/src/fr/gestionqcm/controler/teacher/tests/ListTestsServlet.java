@@ -46,10 +46,6 @@ public class ListTestsServlet extends HttpServlet {
 
 	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// if (request.getSession().getAttribute("user") == null) {
-		// response.sendRedirect(request.getContextPath() + "/");
-		// return;
-		// }
 
 		ArrayList<Test> listTests = new ArrayList<Test>();
 
@@ -57,7 +53,7 @@ public class ListTestsServlet extends HttpServlet {
 
 		// Construire la liste des formations et la placer en session
 		try {
-			listTests = TestHandler.getAll();
+			listTests = TestHandler.getAllNotArchived();
 		} catch (Exception e) {
 			// Placer l'objet représentant l'exception dans le contexte de
 			// requete
@@ -74,5 +70,4 @@ public class ListTestsServlet extends HttpServlet {
 				.getRequestDispatcher("/view/teacher/tests/listTests.jsp");
 		dispatcher.forward(request, response);
 	}
-
 }
