@@ -117,7 +117,7 @@ public class ValidateTestServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		response.sendRedirect(request.getContextPath() + "/ListTests");
+		response.sendRedirect(request.getContextPath() + "/trainee/test/listTests");
 	}
 
 }

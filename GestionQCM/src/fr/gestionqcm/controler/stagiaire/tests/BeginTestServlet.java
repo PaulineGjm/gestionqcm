@@ -91,7 +91,7 @@ public class BeginTestServlet extends HttpServlet {
 			request.getSession().setAttribute("runningTest", runningTest);
 			request.getSession().setAttribute("listIdQuestions", listIdQuestions);
 			
-			dispatcher = getServletContext().getRequestDispatcher("/test/DisplayNextQuestion");
+			dispatcher = getServletContext().getRequestDispatcher("/trainee/test/nextquestion");
 			dispatcher.forward(request, response);
 			
 			return;

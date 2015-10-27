@@ -21,7 +21,7 @@
 	<p>${selectedQuestion.getWording()}</p>
 	</div>
 	
-	<form class="connexion" action="${pageContext.servletContext.contextPath}/test/SaveAnswerQuestion" method="post">
+	<form class="connexion" action="${pageContext.servletContext.contextPath}/trainee/test/saveanswerquestion" method="post">
 		<div class="col-md-8">
 			<c:forEach items="${selectedQuestion.getListResponses()}" var="response">
 			

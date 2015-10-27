@@ -77,7 +77,7 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 
 		if (runningTest.getTimeRemaining() == 0) {
 			dispatcher = getServletContext().getRequestDispatcher(
-					"/test/DisplayOverview");
+					"/trainee/test/overview");
 			dispatcher.forward(request, response);
 			return;
 		}
@@ -87,7 +87,7 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			if (runningTest.getQuestionPosition() == runningTest
 					.getNbQuestion()) {
 				dispatcher = getServletContext().getRequestDispatcher(
-						"/test/DisplayOverview");
+						"/trainee/test/overview");
 				dispatcher.forward(request, response);
 				return;
 			}
@@ -102,7 +102,7 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			}
 		} else if (null != request.getParameter("bOverview")) {
 			dispatcher = getServletContext().getRequestDispatcher(
-					"/test/DisplayOverview");
+					"/trainee/test/overview");
 			dispatcher.forward(request, response);
 			return;
 		}

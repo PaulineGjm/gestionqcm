@@ -20,13 +20,13 @@ import fr.gestionqcm.view.beans.TestEnCoursGUI;
 /**
  * Servlet implementation class SaveAnswerQuestion
  */
-public class SaveAnswerQuestion extends HttpServlet {
+public class SaveAnswerQuestionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public SaveAnswerQuestion() {
+	public SaveAnswerQuestionServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -130,7 +130,7 @@ public class SaveAnswerQuestion extends HttpServlet {
 				// On redirige vers la servlet qui gère l'affichage des
 				// questions
 				dispatcher = getServletContext().getRequestDispatcher(
-						"/test/DisplayNextQuestion");
+						"/trainee/test/nextquestion");
 				dispatcher.forward(request, response);
 
 			} else

@@ -22,13 +22,13 @@ import fr.gestionqcm.view.beans.TestEnCoursGUI;
 /**
  * Servlet implementation class DisplayOverview
  */
-public class DisplayOverview extends HttpServlet {
+public class DisplayOverviewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public DisplayOverview() {
+	public DisplayOverviewServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

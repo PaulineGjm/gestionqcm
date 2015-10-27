@@ -59,7 +59,7 @@ public class DeleteTestServlet extends HttpServlet {
 			return;
 		}
 
-		response.sendRedirect(request.getContextPath() + "/ListTests");
+		response.sendRedirect(request.getContextPath() + "/trainee/test/listTests");
 	}
 
 }
