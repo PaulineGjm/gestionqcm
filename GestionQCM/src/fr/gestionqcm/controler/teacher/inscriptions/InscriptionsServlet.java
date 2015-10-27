@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
+import fr.gestionqcm.model.bo.Promotion;
 import fr.gestionqcm.model.bo.Test;
 import fr.gestionqcm.model.dal.TestDAO;
 import fr.gestionqcm.model.enums.TypeAction;
 import fr.gestionqcm.model.handler.InscriptionHandler;
+import fr.gestionqcm.model.handler.PromotionHandler;
 import fr.gestionqcm.model.util.DateUtils;
 import fr.gestionqcm.view.beans.EditInscriptionGUI;
 import fr.gestionqcm.view.beans.EditInscriptionGUI.FormFields;
@@ -54,6 +56,9 @@ public class InscriptionsServlet extends HttpServlet {
 
 			List<Test> tests = TestDAO.getAllTests();
 			editInscriptionGUI.setTests(tests);
+
+			List<Promotion> promotions = PromotionHandler.getAllPromotions();
+			editInscriptionGUI.setPromotions(promotions);
 
 			Date dateSelectionne = null;
 
@@ -106,7 +111,6 @@ public class InscriptionsServlet extends HttpServlet {
 			} else if (TypeAction.save.equals(typeAction)) {
 				String[] users = request
 						.getParameterValues(FormFields.usersSelected.name());
-				System.out.println(users);
 			} else {
 				rd = getServletContext().getRequestDispatcher(
 						"/view/teacher/inscriptions/editInscription.jsp");

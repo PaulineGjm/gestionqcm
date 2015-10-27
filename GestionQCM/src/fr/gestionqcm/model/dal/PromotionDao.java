@@ -3,6 +3,8 @@ package fr.gestionqcm.model.dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.gestionqcm.model.bo.Promotion;
 import fr.gestionqcm.model.dal.util.AccessDatabase;
@@ -29,6 +31,28 @@ public class PromotionDao {
 	}
 
 	private static RequestFactory requestFactory = new RequestFactory(tableName);
+
+	public static List<Promotion> getAllPromotions() throws Exception {
+		PreparedStatement cmd = null;
+		List<Promotion> testInscriptions = new ArrayList<Promotion>();
+		cmd = AccessDatabase.getConnection().prepareStatement(
+				requestFactory.getSelectAll());
+		try {
+			cmd.executeQuery();
+			ResultSet rs = cmd.getResultSet();
+			while (rs.next()) {
+				testInscriptions.add(promotionMapping(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception(
+					"Problème de connexion avec la base de données !");
+		} finally {
+			cmd.getConnection().close();
+			cmd.close();
+		}
+		return testInscriptions;
+	}
 
 	public static Promotion getPromotion(int idPromo) throws Exception {
 		PreparedStatement cmd = null;
