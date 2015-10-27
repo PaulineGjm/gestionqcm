@@ -20,25 +20,28 @@
 </c:set>
 <t:genericpage title="Gestion des inscriptions">
     <jsp:body>
+    	<link href="${pageContext.servletContext.contextPath}/resources/datatable/media/css/jquery.dataTables.css" rel="stylesheet">
+		<script src="${pageContext.servletContext.contextPath}/resources/datatable/media/js/jquery.dataTables.min.js"></script>
     	<h3>Liste des tests existant : </h3>
     	<hr />
     	
-   		<form method="post" class="form-horizontal clearfix" role="form" 
+   		<form method="post" class="form-horizontal" role="form" 
     			action="${pageContext.servletContext.contextPath}/teacher/inscriptions/edit">
-			<datatables:table data="${editInscriptionGUI.inscriptionsTest}" htmlTableId="inscriptionsTestTable" 
-				dataObjectId="inscriptionTest" autoWidth="true">
-			 	<datatables:column title=" " headerCssClass="col-sm-1 text-center">
-			 		<input type="radio" name="${inscriptionTestSelected}" value="{testId:${inscriptionTest.test.testId},testStartDate:${inscriptionTest.testStartDate}}" />
-			 	</datatables:column>	
-			   	<datatables:column title="Nom du Test" headerCssClass="col-sm-6 text-center">
-			      <c:out value="${inscriptionTest.test.name}" />
-			   </datatables:column>
-			   <datatables:column title="Date de début" headerCssClass="col-sm-5 text-center">
-			      <fmt:formatDate pattern="dd/MM/yyyy" value="${inscriptionTest.testStartDate}" />
-			   </datatables:column>
-			</datatables:table>
-			
-			<div class="pull-right">
+			<div class="clearfix">
+				<datatables:table data="${editInscriptionGUI.inscriptionsTest}" htmlTableId="inscriptionsTestTable" 
+					dataObjectId="inscriptionTest" autoWidth="true">
+				 	<datatables:column title=" " headerCssClass="col-sm-1 text-center">
+				 		<input type="radio" name="${inscriptionTestSelected}" value="{testId:${inscriptionTest.test.testId},testStartDate:${inscriptionTest.testStartDate}}" />
+				 	</datatables:column>	
+				   	<datatables:column title="Nom du Test" headerCssClass="col-sm-6 text-center">
+				      <c:out value="${inscriptionTest.test.name}" />
+				   </datatables:column>
+				   <datatables:column title="Date de début" headerCssClass="col-sm-5 text-center">
+				      <fmt:formatDate pattern="dd/MM/yyyy" value="${inscriptionTest.testStartDate}" />
+				   </datatables:column>
+				</datatables:table>
+			</div>
+			<div class="text-center">
 				<input type="submit" value="Modifier" class="btn btn-defaut"/>
 				<input type="submit" value="Programmer nouveau test" class="btn btn-defaut"
 					onclick='this.form.action="${pageContext.servletContext.contextPath}/teacher/inscriptions/add";'/>
@@ -91,11 +94,9 @@
 						</datatables:column>
 					</datatables:table>
 				</c:if>
-				<div class="form-group">
-					<div class="col-sm-offset-3">
-						<jsp:include page="/view/teacher/inscriptions/userSearch.jspf"></jsp:include>
-		    			<input type="submit" value="Sauvegarder Modification" class="btn btn-defaut" />
-		    		</div>
+				<div class="text-center">
+					<%@ include file="/view/teacher/inscriptions/stagiaireSearch.jspf" %>	
+	    			<input type="submit" value="Sauvegarder Modification" class="btn btn-defaut" />
 				</div>
 			</form>
 		</c:if>
