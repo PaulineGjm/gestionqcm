@@ -1,5 +1,6 @@
+<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/js/teacher/inscriptions/userSearch.js"></script>
 <!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-defaut" data-toggle="modal" data-target="#searchModal">Ajouter stagiaire(s)</button>
+<button type="button" onclick="searchStagiaire()" class="btn btn-defaut" data-toggle="modal" data-target="#searchModal">Ajouter stagiaire(s)</button>
 
 <!-- Modal -->
 <div id="searchModal" class="modal fade" role="dialog">
