@@ -3,37 +3,38 @@ function fnGetSelected( oTableLocal ) {
 }
 
 var searchStagiaire = function() {
-	var request = ({
-		"lastName" : 'testLastName',
-		"firstName" : 'testFirstName',
-		"idPromo" : 10
-	});
-	var jsonobj = JSON.stringify(request);
 	$.ajax({
 		data : {
-			para : jsonobj
+			"lastName" : $("#lastName").val(),
+			"firstName" : $("#firstName").val(),
+			"idPromo" : $("#idPromo").val()
 		},
 		dataType : 'json',
 		url : './searchstagiaire',
 		type : 'POST',
 		success : function(jsonObj) {
 			if (jsonObj.stagiaires) {
-				var stagiaireDataTable = $('#stagiaireDataTable').DataTable({
-					"aaData" : jsonObj.stagiaires,
-					"aoColumns": [
-			             { "sTitle": "Nom", "mDataProp":"lastName" },
-			             { "sTitle": "Prénom", "mDataProp":"firstName" }
-			         ],
-			         "sDom" : 'rt<"clear">',
-			         "oLanguage": {
-			             "sLengthMenu": "Afficher _MENU_ lignes par page",
-			             "sZeroRecords": "Aucune données",
-			             "sInfo": "Affichage _START_ a _END_ de _TOTAL_ lignes",
-			             "sInfoEmpty": "Affichage 0 a 0 de 0 lignes",
-			             "sInfoFiltered": "(filtré depuis _MAX_ total d'lignes)"
-			         }
-				});
-				
+				if($.fn.DataTable.fnIsDataTable( $('#stagiaireDataTable')[0])) {
+					var stagiaireDataTable = $('#stagiaireDataTable').DataTable();
+					stagiaireDataTable.fnClearTable();
+					stagiaireDataTable.fnAddData(jsonObj.stagiaires);
+				} else {
+					var stagiaireDataTable = $('#stagiaireDataTable').DataTable({
+						"aaData" : jsonObj.stagiaires,
+						"aoColumns": [
+				             { "sTitle": "Nom", "mDataProp":"lastName" },
+				             { "sTitle": "Prénom", "mDataProp":"firstName" }
+				         ],
+				         "sDom" : 'rt<"clear">',
+				         "oLanguage": {
+				             "sLengthMenu": "Afficher _MENU_ lignes par page",
+				             "sZeroRecords": "Aucune données",
+				             "sInfo": "Affichage _START_ a _END_ de _TOTAL_ lignes",
+				             "sInfoEmpty": "Affichage 0 a 0 de 0 lignes",
+				             "sInfoFiltered": "(filtré depuis _MAX_ total d'lignes)"
+				         }
+					});
+				}
 				$('#stagiaireDataTable tr').click( function() {
 					$(this).toggleClass('row_selected');
 				} );
@@ -46,7 +47,19 @@ var searchStagiaire = function() {
 	});
 };
 
-var sendStagiaire = function() {
+function selectAll(element) {
+	var jQueryElement = $(element);
+	if(jQueryElement.hasClass("glyphicon-unchecked")) {
+		jQueryElement.removeClass("glyphicon-unchecked");
+		jQueryElement.addClass("glyphicon-check");
+	} else {
+		jQueryElement.removeClass("glyphicon-check");
+		jQueryElement.addClass("glyphicon-unchecked");
+	}
+	$('#stagiaireDataTable tr').toggleClass('row_selected');
+}
+
+function sendStagiaire() {
 	var stagiaireDataTable = $('#stagiaireDataTable').DataTable();
 	var subscribedInscriptionsTestTable = $("#subscribedInscriptionsTestTable").DataTable()
 	var selectedStagiaire = fnGetSelected($('#stagiaireDataTable').DataTable());
@@ -72,4 +85,10 @@ var sendStagiaire = function() {
              ]);
 		}
 	}
+	
+	var selectAllButton = $("#selectAllButton");
+	if(selectAllButton.hasClass("glyphicon-check")) {
+		selectAllButton.removeClass("glyphicon-check");
+		selectAllButton.addClass("glyphicon-unchecked");
+	} 
 };

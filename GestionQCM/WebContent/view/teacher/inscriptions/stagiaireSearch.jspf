@@ -17,11 +17,8 @@
 				<div class="row">
 					<label for="idPromo" class="col-sm-3">Promotion :</label>
 					<div class="col-sm-9">
-						<!-- <select id="promotionsSelect" class="form-control" onchange="searchStagiaire()">
-							<option>
-						</select>
-						 -->
-						 <select id="idPromo" name="${FormFields.testSelected}" class="form-control">
+						 <select id="idPromo" name="${FormFields.testSelected}" class="form-control" onchange="searchStagiaire()">
+						   <option></option>
 						   <c:forEach items="${editInscriptionGUI.promotions}" var="promotion">
 						       <option value="${promotion.idPromo}"}>${promotion.text}</option>
 						   </c:forEach>
@@ -31,17 +28,20 @@
 				<br />
 				<div class="row">
 					<div class="col-sm-6">
-						<input type="text" class="form-control" id="lastName" placeholder="Nom" onkeypress="searchStagiaire()">
+						<input type="text" class="form-control" id="lastName" placeholder="Nom" onkeyup="searchStagiaire()">
 					</div>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" id="firstName" placeholder="Prénom" onkeypress="searchStagiaire()">
+						<input type="text" class="form-control" id="firstName" placeholder="Prénom" onkeyup="searchStagiaire()">
 					</div>
 				</div>
 				<br />
+				<div class="pull-left">
+					<button id="selectAllButton" type="button" onclick="selectAll(this);" class="btn btn-default glyphicon glyphicon glyphicon-unchecked"></button>
+				</div>
 				<table id="stagiaireDataTable" class="display"></table>
 			</div>
 			<div class="modal-footer">
-				<button type="button" onclick="sendStagiaire();" class="btn btn-default" data-dismiss="modal">Sélectionner</button>
+				<button type="button" onclick="sendStagiaire();" class="btn btn-default" data-dismiss="modal">Ajouter Stagiaire(s)</button>
 			</div>
 		</div>
 	</div>

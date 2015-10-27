@@ -34,7 +34,7 @@ public class StagiaireSearchServlet extends HttpServlet {
 		String firstName = request.getParameter("firstName");
 		String idPromo = request.getParameter("idPromo");
 		Promotion promotion;
-		if (idPromo != null) {
+		if (idPromo != null && !idPromo.isEmpty()) {
 			promotion = new Promotion();
 			promotion.setIdPromo(Integer.parseInt(idPromo));
 		} else {
