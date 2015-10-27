@@ -216,7 +216,6 @@
     <servlet-name>DisplayOverview</servlet-name>
     <url-pattern>/test/DisplayOverview</url-pattern>
   </servlet-mapping>
-</web-app>
   <servlet>
     <description></description>
     <display-name>NewThemeServlet</display-name>
