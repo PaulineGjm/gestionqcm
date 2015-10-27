@@ -108,10 +108,11 @@ public class TestDAO {
 			if (results.next()) {
 				test.setTestId(results.getInt(1));
 			}
-			
-			ArrayList<Section> sections = (ArrayList<Section>)test.getSections();
-			for(Section s : sections)
-			{
+
+			ArrayList<Section> sections = (ArrayList<Section>) test
+					.getSections();
+			for (Section s : sections) {
+				s.setIdTest(test.getTestId());
 				SectionDAO.add(s);
 			}
 		} catch (SQLException e) {
@@ -127,14 +128,12 @@ public class TestDAO {
 	public static void updateTest(Test test) throws Exception {
 		if (test != null) {
 			String request = requestFactory.getUpdate(
-					Column.testId.getColumnName(),
-					Column.name.getColumnName(),
+					Column.testId.getColumnName(), Column.name.getColumnName(),
 					Column.testDuration.getColumnName(),
 					Column.currentThreshold.getColumnName(),
 					Column.acquisitionThreshold.getColumnName());
-			
-			PreparedStatement cmd = AccessDatabase
-					.getConnection()
+
+			PreparedStatement cmd = AccessDatabase.getConnection()
 					.prepareStatement(request);
 
 			cmd.setString(1, test.getName());
@@ -145,11 +144,11 @@ public class TestDAO {
 
 			try {
 				cmd.executeUpdate();
-				
+
 				SectionDAO.deleteByTest(test);
-				ArrayList<Section> sections = (ArrayList<Section>)test.getSections();
-				for(Section s : sections)
-				{
+				ArrayList<Section> sections = (ArrayList<Section>) test
+						.getSections();
+				for (Section s : sections) {
 					SectionDAO.add(s);
 				}
 			} catch (SQLException e) {
@@ -172,14 +171,14 @@ public class TestDAO {
 
 			try {
 				cmd.executeUpdate();
-				
+
 				// suppression des sections associées au test
 				RequestFactory rf = new RequestFactory("SECTION");
 				cmd = AccessDatabase.getConnection().prepareStatement(
 						rf.getDelete(Column.testId.getColumnName()));
 				cmd.setInt(1, test.getTestId());
 				cmd.executeUpdate();
-				
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new Exception(

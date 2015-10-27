@@ -6,10 +6,9 @@
 <script type="text/javascript" src="${pageContext.servletContext.contextPath}/theme/js/themes.js"></script>
 
 <div id="listeThemes" class="col-sm-12">
-    <%-- <a class="btn btn-default glyphicon glyphicon-plus" href="${pageContext.servletContext.contextPath}/NewTheme" role="button"></a> --%>
-    <a style="margin-bottom:10px" class="btn btn-default glyphicon glyphicon-plus" id="display_addtheme" href="#" role="button"></a>
+ 	<a style="margin-bottom:10px" class="btn btn-default glyphicon glyphicon-plus" id="display_addtheme" href="#" role="button"></a>
     <div id="addtheme" style="display:none">
-	    <form action="${pageContext.servletContext.contextPath}/NewTheme" method="post">
+	    <form action="${pageContext.servletContext.contextPath}/teacher/themes/new" method="post">
 	    	<span class="col-sm-3"><input class="form-control" type="text" value="" name="theme_label"/></span>
 	    	<input class="btn btn-default" type="submit" value="Valider" name="addtheme"/>
 	    </form>
@@ -18,10 +17,13 @@
     <datatables:table data="${listThemes}" htmlTableId="themes" 
 		dataObjectId="theme" autoWidth="true">	
 	   	<datatables:column title="" headerCssClass="col-sm-11 text-center">
-	      	<a href="#" class="edit_theme" id="theme_${theme.getId()}" data-type="text" data-pk="${theme.getId()}" data-url="${pageContext.servletContext.contextPath}/UpdateTheme" data-title="Nom du theme">${theme.getLabel() }</a>
+	      	<a href="#" class="edit_theme" id="theme_${theme.getId()}" 
+	      		data-type="text" data-pk="${theme.getId()}"
+	      		data-url="${pageContext.servletContext.contextPath}/teacher/themes/update"
+	      		data-title="Nom du theme">${theme.getLabel() }</a>
 	   </datatables:column>
 	   <datatables:column title="" headerCssClass="col-sm-1 text-center">
-	   		<a href="${pageContext.servletContext.contextPath}/DeleteTheme?id=${theme.getId()}">
+	   		<a href="${pageContext.servletContext.contextPath}/teacher/themes/delete?id=${theme.getId()}">
 				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 			</a>
 	   </datatables:column>

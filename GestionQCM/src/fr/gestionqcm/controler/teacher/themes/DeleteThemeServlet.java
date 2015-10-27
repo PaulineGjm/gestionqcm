@@ -60,6 +60,6 @@ public class DeleteThemeServlet extends HttpServlet {
 			return;
 		}
 
-		response.sendRedirect(request.getContextPath() + "/ListThemes");
+		response.sendRedirect(request.getContextPath() + "/teacher/themes/");
 	}
 }

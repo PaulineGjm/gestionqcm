@@ -13,8 +13,18 @@ public class Test {
 	private int currentThreshold;
 
 	private int acquisitionThreshold;
-	
+
 	private List<Section> sections;
+
+	private boolean isArchived;
+
+	public boolean isArchived() {
+		return isArchived;
+	}
+
+	public void setArchived(boolean isArchived) {
+		this.isArchived = isArchived;
+	}
 
 	public List<Section> getSections() {
 		return sections;

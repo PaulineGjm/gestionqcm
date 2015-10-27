@@ -46,10 +46,10 @@ public class ListTestsServlet extends HttpServlet {
 
 	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession().getAttribute("user") == null) {
-			response.sendRedirect(request.getContextPath() + "/");
-			return;
-		}
+		// if (request.getSession().getAttribute("user") == null) {
+		// response.sendRedirect(request.getContextPath() + "/");
+		// return;
+		// }
 
 		ArrayList<Test> listTests = new ArrayList<Test>();
 

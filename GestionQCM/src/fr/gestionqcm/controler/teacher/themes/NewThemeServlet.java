@@ -56,8 +56,7 @@ public class NewThemeServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		response.sendRedirect(request.getContextPath() + "/ListThemes");
-
+		response.sendRedirect(request.getContextPath() + "/teacher/themes/");
 	}
 
 }

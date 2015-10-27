@@ -2,12 +2,12 @@
 <%@ taglib prefix="datatables" uri="http://github.com/tduchateau/DataTables-taglib" %>
 
 <div id="listeFormation" class="col-sm-12">
-    <a style="margin-bottom:10px" class="btn btn-default glyphicon glyphicon-plus" href="${pageContext.servletContext.contextPath}/NewTest" role="button"></a>
+    <a style="margin-bottom:10px" class="btn btn-default glyphicon glyphicon-plus" href="${pageContext.servletContext.contextPath}/teacher/tests/new" role="button"></a>
     
     <datatables:table data="${listTests}" htmlTableId="tests" 
 		dataObjectId="test" autoWidth="true">	
 	   	<datatables:column title="Nom du Test" headerCssClass="col-sm-6 text-center">
-	      	<a href="${pageContext.servletContext.contextPath}/UpdateTest?id=${test.getTestId()}">
+	      	<a href="${pageContext.servletContext.contextPath}/teacher/tests/update?id=${test.getTestId()}">
 				${test.getName()}
 			</a>
 	   </datatables:column>
@@ -15,10 +15,10 @@
 	     	${test.getTestDuration()} minute<c:if test="${test.getTestDuration() > 1}">s</c:if>
 	   </datatables:column>
 	   <datatables:column title=" " headerCssClass="col-sm-1 text-center">
-	   		<a href="${pageContext.servletContext.contextPath}/UpdateTest?id=${test.getTestId()}">
+	   		<a href="${pageContext.servletContext.contextPath}/teacher/tests/update?id=${test.getTestId()}">
 				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 			</a>
-	   		<a href="${pageContext.servletContext.contextPath}/DeleteTest?id=${test.getTestId()}">
+	   		<a href="${pageContext.servletContext.contextPath}/teacher/tests/delete?id=${test.getTestId()}">
 				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 			</a>
 	   </datatables:column>

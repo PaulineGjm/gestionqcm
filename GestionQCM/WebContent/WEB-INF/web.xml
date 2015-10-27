@@ -26,17 +26,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>NewTestServlet</servlet-name>
-    <url-pattern>/NewTest</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ValidateNewTestServlet</display-name>
-    <servlet-name>ValidateNewTestServlet</servlet-name>
-    <servlet-class>fr.gestionqcm.controler.teacher.tests.ValidateNewTestServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ValidateNewTestServlet</servlet-name>
-    <url-pattern>/ValidateNewTest</url-pattern>
+    <url-pattern>/teacher/tests/new</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -66,7 +56,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ListTestsServlet</servlet-name>
-    <url-pattern>/ListTests</url-pattern>
+    <url-pattern>/teacher/tests/</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -76,7 +66,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>UpdateTestServlet</servlet-name>
-    <url-pattern>/UpdateTest</url-pattern>
+    <url-pattern>/teacher/tests/update</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -86,7 +76,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>DeleteTestServlet</servlet-name>
-    <url-pattern>/DeleteTest</url-pattern>
+    <url-pattern>/teacher/tests/delete</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -96,7 +86,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ValidateTestServlet</servlet-name>
-    <url-pattern>/ValidateTest</url-pattern>
+    <url-pattern>/teacher/tests/validate</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -184,7 +174,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ListThemesServlet</servlet-name>
-    <url-pattern>/ListThemes</url-pattern>
+    <url-pattern>/teacher/themes/</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -194,7 +184,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>UpdateThemeServlet</servlet-name>
-    <url-pattern>/UpdateTheme</url-pattern>
+    <url-pattern>/teacher/themes/update</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -204,7 +194,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>DeleteThemeServlet</servlet-name>
-    <url-pattern>/DeleteTheme</url-pattern>
+    <url-pattern>/teacher/themes/delete</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -224,6 +214,16 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>NewThemeServlet</servlet-name>
-    <url-pattern>/NewTheme</url-pattern>
+    <url-pattern>/teacher/themes/new</url-pattern>
   </servlet-mapping>
+  <filter>
+    <display-name>AccessFilter</display-name>
+    <filter-name>AccessFilter</filter-name>
+    <filter-class>fr.gestionqcm.controler.AccessFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AccessFilter</filter-name>
+    <url-pattern>/teacher/*</url-pattern>
+    <url-pattern>/trainee/*</url-pattern>
+  </filter-mapping>
 </web-app>
