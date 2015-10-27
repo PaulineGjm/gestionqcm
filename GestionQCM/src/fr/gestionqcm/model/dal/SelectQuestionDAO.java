@@ -86,7 +86,7 @@ public class SelectQuestionDAO {
 		try {
 			cnx = AccessDatabase.getConnection();
 			rqt = cnx
-					.prepareStatement("select * from select_question where id_inscription = ? nad id_question = ?");
+					.prepareStatement("select * from select_question where id_inscription = ? and id_question = ?");
 			rqt.setInt(1, idInscription);
 			rqt.setInt(2, idQuestion);
 			rs = rqt.executeQuery();

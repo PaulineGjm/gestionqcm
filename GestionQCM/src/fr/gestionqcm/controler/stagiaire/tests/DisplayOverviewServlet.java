@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.gestionqcm.model.bo.SelectQuestion;
 import fr.gestionqcm.model.bo.Utilisateur;
 import fr.gestionqcm.model.dal.SelectQuestionDAO;
+import fr.gestionqcm.model.enums.ModeRunningTest;
 import fr.gestionqcm.model.enums.TypeEstRepondu;
 import fr.gestionqcm.view.beans.QuestionGUI;
 import fr.gestionqcm.view.beans.SelectQuestionGUI;
@@ -21,13 +22,13 @@ import fr.gestionqcm.view.beans.TestEnCoursGUI;
 /**
  * Servlet implementation class DisplayOverview
  */
-public class DisplayOverview extends HttpServlet {
+public class DisplayOverviewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public DisplayOverview() {
+	public DisplayOverviewServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -57,7 +58,7 @@ public class DisplayOverview extends HttpServlet {
 		// TODO
 		// Penser à re-setter / enregistrer le temps restant + la position de
 		// question
-
+		request.getSession().setAttribute("mode", ModeRunningTest.overview);
 		Utilisateur user = (Utilisateur) request.getSession().getAttribute(
 				"user");
 

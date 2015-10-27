@@ -9,7 +9,7 @@
 	</label>
 	
 	<c:forEach items="${sessionScope.listTestsDisponibles}" var="testDispo">
-		<form class="connexion" action="${pageContext.servletContext.contextPath}/test/BeginTest" method="post">
+		<form class="connexion" action="${pageContext.servletContext.contextPath}/trainee/test/begintest" method="post">
 		<c:if test="${testDispo.getTimeRemaining() != testDispo.getTestDuration()}">
 			<label>TEST EN COURS /!\</label>
 		</c:if>

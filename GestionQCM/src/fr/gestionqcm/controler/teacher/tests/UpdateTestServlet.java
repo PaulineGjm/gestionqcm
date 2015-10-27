@@ -53,7 +53,7 @@ public class UpdateTestServlet extends HttpServlet {
 
 		if (request.getParameterMap().size() == 0
 				|| request.getParameter("id") == null) {
-			response.sendRedirect(request.getContextPath() + "/ListTests");
+			response.sendRedirect(request.getContextPath() + "/trainee/test/listTests");
 			return;
 		}
 

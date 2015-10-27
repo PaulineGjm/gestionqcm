@@ -36,7 +36,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>BeginTestServlet</servlet-name>
-    <url-pattern>/test/BeginTest</url-pattern>
+    <url-pattern>/trainee/test/begintest</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -46,7 +46,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>DisplayNextQuestionServlet</servlet-name>
-    <url-pattern>/test/DisplayNextQuestion</url-pattern>
+    <url-pattern>/trainee/test/nextquestion</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -158,13 +158,13 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>SaveAnswerQuestion</display-name>
-    <servlet-name>SaveAnswerQuestion</servlet-name>
-    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.SaveAnswerQuestion</servlet-class>
+    <display-name>SaveAnswerQuestionServlet</display-name>
+    <servlet-name>SaveAnswerQuestionServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.SaveAnswerQuestionServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>SaveAnswerQuestion</servlet-name>
-    <url-pattern>/test/SaveAnswerQuestion</url-pattern>
+    <servlet-name>SaveAnswerQuestionServlet</servlet-name>
+    <url-pattern>/trainee/test/saveanswerquestion</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -198,13 +198,13 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>DisplayOverview</display-name>
-    <servlet-name>DisplayOverview</servlet-name>
-    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.DisplayOverview</servlet-class>
+    <display-name>DisplayOverviewServlet</display-name>
+    <servlet-name>DisplayOverviewServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.DisplayOverviewServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>DisplayOverview</servlet-name>
-    <url-pattern>/test/DisplayOverview</url-pattern>
+    <servlet-name>DisplayOverviewServlet</servlet-name>
+    <url-pattern>/trainee/test/overview</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>

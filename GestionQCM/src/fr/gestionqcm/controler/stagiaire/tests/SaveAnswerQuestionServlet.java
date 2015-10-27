@@ -20,13 +20,13 @@ import fr.gestionqcm.view.beans.TestEnCoursGUI;
 /**
  * Servlet implementation class SaveAnswerQuestion
  */
-public class SaveAnswerQuestion extends HttpServlet {
+public class SaveAnswerQuestionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public SaveAnswerQuestion() {
+	public SaveAnswerQuestionServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -52,9 +52,9 @@ public class SaveAnswerQuestion extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher;
-		
+
 		// TODO
-		// Penser à re-setter / enregistrer le temps restant + la position de question
+		// Penser à re-setter / enregistrer le temps restant 
 
 		Utilisateur user = (Utilisateur) request.getSession().getAttribute(
 				"user");
@@ -70,19 +70,31 @@ public class SaveAnswerQuestion extends HttpServlet {
 				// Save selected answers
 				Integer countNbGoodAnswers = 0;
 				Integer countNbChecked = 0;
+
+				// Delete of previous answer to this question if exist some
+				ReponseCandidatDAO.delete(selectedQuestion.getIdQuestion(),
+						runningTest.getInscriptionID());
+				
 				for (ReponseGUI responseGUI : selectedQuestion
 						.getListResponses()) {
+
 					String valRecup = request.getParameter("response"
 							+ responseGUI.getIdResponse());
+
+					// Gestion des boutons radio
+					if (selectedQuestion.getListResponses().size() == 2) {
+						valRecup = request.getParameter("response");
+					}
+					
 					// if value = checked
-					if ("on".equals(valRecup)) {
-						// Base delete if exist, then insert
+//					if ("on".equals(valRecup)) {
+					if(responseGUI.getIdResponse().toString().equals(valRecup)){
+						// Insert in base
 						ReponseCandidat responseTrainee = new ReponseCandidat(
 								responseGUI.getIdResponse(), user.getId(),
-								selectedQuestion.getIdQuestion(), runningTest
-										.getInscriptionID());
-						
-						ReponseCandidatDAO.delete(responseTrainee);
+								selectedQuestion.getIdQuestion(),
+								runningTest.getInscriptionID());
+
 						ReponseCandidatDAO.ajouter(responseTrainee);
 						countNbChecked++;
 					}
@@ -118,11 +130,10 @@ public class SaveAnswerQuestion extends HttpServlet {
 				// On redirige vers la servlet qui gère l'affichage des
 				// questions
 				dispatcher = getServletContext().getRequestDispatcher(
-						"/test/DisplayNextQuestion");
+						"/trainee/test/nextquestion");
 				dispatcher.forward(request, response);
 
-			}
-			else
+			} else
 				throw new Exception("Informations manquantes");
 		} catch (Exception ex) {
 			// Placer l'objet représentant l'exception dans le contexte de

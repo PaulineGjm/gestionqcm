@@ -20,6 +20,7 @@ import fr.gestionqcm.model.dal.ConnexionDAO;
 import fr.gestionqcm.model.dal.InscriptionDAO;
 import fr.gestionqcm.model.dal.SelectQuestionDAO;
 import fr.gestionqcm.model.dal.TestDAO;
+import fr.gestionqcm.model.enums.ModeRunningTest;
 import fr.gestionqcm.view.beans.AnimateurGUI;
 import fr.gestionqcm.view.beans.StagiaireGUI;
 import fr.gestionqcm.view.beans.TestDisponibleGUI;
@@ -60,6 +61,8 @@ public class BeginTestServlet extends HttpServlet {
 		
 		try
 		{
+			request.getSession().setAttribute("mode", ModeRunningTest.runningTest);
+			request.setAttribute("bNext", "Question suivante");
 			
 			List<TestDisponibleGUI> listTestsDispos = (List<TestDisponibleGUI>)request.getSession().getAttribute("listTestsDisponibles");
 			TestDisponibleGUI testEnCours = null;
@@ -83,12 +86,12 @@ public class BeginTestServlet extends HttpServlet {
 			}
 			
 			TestEnCoursGUI runningTest = new TestEnCoursGUI(idInscription, testEnCours.getName(),
-					testEnCours.getTimeRemaining(), 0, listIdQuestions.size());
+					testEnCours.getTimeRemaining(), 1, listIdQuestions.size());
 			
 			request.getSession().setAttribute("runningTest", runningTest);
 			request.getSession().setAttribute("listIdQuestions", listIdQuestions);
 			
-			dispatcher = getServletContext().getRequestDispatcher("/test/DisplayNextQuestion");
+			dispatcher = getServletContext().getRequestDispatcher("/trainee/test/nextquestion");
 			dispatcher.forward(request, response);
 			
 			return;
