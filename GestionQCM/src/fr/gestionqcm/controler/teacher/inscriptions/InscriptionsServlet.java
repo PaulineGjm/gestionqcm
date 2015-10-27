@@ -111,7 +111,6 @@ public class InscriptionsServlet extends HttpServlet {
 			} else if (TypeAction.save.equals(typeAction)) {
 				String[] users = request
 						.getParameterValues(FormFields.usersSelected.name());
-				System.out.println(users);
 			} else {
 				rd = getServletContext().getRequestDispatcher(
 						"/view/teacher/inscriptions/editInscription.jsp");

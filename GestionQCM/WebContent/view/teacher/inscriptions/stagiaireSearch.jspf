@@ -1,4 +1,4 @@
-<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/js/teacher/inscriptions/userSearch.js"></script>
+<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/js/teacher/inscriptions/stagiaireSearch.js"></script>
 <!-- Trigger the modal with a button -->
 <button type="button" onclick="searchStagiaire()" class="btn btn-defaut" data-toggle="modal" data-target="#searchModal">Ajouter stagiaire(s)</button>
 

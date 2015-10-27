@@ -25,7 +25,8 @@
     	<link href="${pageContext.servletContext.contextPath}/resources/datatable/media/css/jquery.dataTables.css" rel="stylesheet">
 		<script src="${pageContext.servletContext.contextPath}/resources/datatable/media/js/jquery.dataTables.min.js"></script>
 		<link href="${pageContext.servletContext.contextPath}/resources/datatable/media/css/demo_table.css" rel="stylesheet">
-
+		<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/js/teacher/inscriptions/editInscription.js"></script>
+		
     	<h3>Liste des tests existant : </h3>
     	<hr />
     	
@@ -33,7 +34,7 @@
     			action="${pageContext.servletContext.contextPath}/teacher/inscriptions/edit">
 			<div class="clearfix">
 				<datatables:table data="${editInscriptionGUI.inscriptionsTest}" htmlTableId="inscriptionsTestTable" 
-					dataObjectId="inscriptionTest" autoWidth="true">
+					dataObjectId="inscriptionTest" autoWidth="true" dom="rt<'clear'>">
 				 	<datatables:column title=" " headerCssClass="col-sm-1 text-center">
 				 		<input type="radio" name="${inscriptionTestSelected}" value="{testId:${inscriptionTest.test.testId},testStartDate:${inscriptionTest.testStartDate}}" />
 				 	</datatables:column>	
@@ -86,7 +87,7 @@
 				<h5>Liste des inscrits :</h5>
 				<div class="clearfix">
 					<datatables:table data="${editInscriptionGUI.subscribedInscriptionsTest}" htmlTableId="subscribedInscriptionsTestTable" 
-						dataObjectId="inscriptionTest" autoWidth="true">
+						dataObjectId="inscriptionTest" autoWidth="true" dom="rt<'clear'>">
 						<datatables:column title=" " headerCssClass="col-sm-1">
 							<input type="checkbox" value="${inscriptionTest.user.id}" name="${usersSelected}"/>
 						</datatables:column>
@@ -100,7 +101,7 @@
 				</div>
 				<div class="text-right">
 					<%@ include file="/view/teacher/inscriptions/stagiaireSearch.jspf" %>	
-					<button type="button" class="btn btn-defaut">Supprimer stagiaire(s)</button>
+					<button type="button" onclick="deleteStagiaires();" class="btn btn-defaut">Supprimer stagiaire(s)</button>
 				</div>
 				<div class="text-center">
 					<input type="submit" value="Sauvegarder Modification" class="btn btn-defaut" />
