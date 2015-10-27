@@ -20,6 +20,7 @@ import fr.gestionqcm.model.dal.QuestionDAO;
 import fr.gestionqcm.model.dal.ReponseCandidatDAO;
 import fr.gestionqcm.model.dal.ReponseDAO;
 import fr.gestionqcm.model.dal.SelectQuestionDAO;
+import fr.gestionqcm.model.enums.ModeRunningTest;
 import fr.gestionqcm.view.beans.QuestionGUI;
 import fr.gestionqcm.view.beans.ReponseGUI;
 import fr.gestionqcm.view.beans.TestEnCoursGUI;
@@ -60,24 +61,55 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		RequestDispatcher dispatcher;
-
 		TestEnCoursGUI runningTest = (TestEnCoursGUI) request.getSession()
 				.getAttribute("runningTest");
 
-		try {
+		ModeRunningTest mode = (ModeRunningTest) request.getSession()
+				.getAttribute("mode");
 
-			if ((runningTest.getTimeRemaining() == 0)
-					|| (runningTest.getQuestionPosition() == runningTest
-							.getNbQuestion())) {
+		// To go from view overview to a selected question
+		Integer questionNumber = runningTest.getQuestionPosition();
+
+		String questionWanted = request.getParameter("questionNumber");
+		if (null != questionWanted) {
+			questionNumber = Integer.parseInt(questionWanted);
+		}
+
+		if (runningTest.getTimeRemaining() == 0) {
+			dispatcher = getServletContext().getRequestDispatcher(
+					"/test/DisplayOverview");
+			dispatcher.forward(request, response);
+			return;
+		}
+
+		// Switch case to know which button has been pushed
+		if (null != request.getParameter("bNext")) {
+			if (runningTest.getQuestionPosition() == runningTest
+					.getNbQuestion()) {
 				dispatcher = getServletContext().getRequestDispatcher(
 						"/test/DisplayOverview");
 				dispatcher.forward(request, response);
 				return;
 			}
-
 			// On passe à la question suivante
-			Integer questionNumber = runningTest.getQuestionPosition() + 1;
-			runningTest.setQuestionPosition(questionNumber);
+			if (questionNumber < runningTest.getNbQuestion()) {
+				questionNumber++;
+			}
+		} else if (null != request.getParameter("bPrev")) {
+			// On passe à la question suivante
+			if (questionNumber > 1) {
+				questionNumber--;
+			}
+		} else if (null != request.getParameter("bOverview")) {
+			dispatcher = getServletContext().getRequestDispatcher(
+					"/test/DisplayOverview");
+			dispatcher.forward(request, response);
+			return;
+		}
+
+		runningTest.setQuestionPosition(questionNumber);
+
+		try {
 
 			List<Integer> listIdQuestions = (List<Integer>) request
 					.getSession().getAttribute("listIdQuestions");
@@ -93,17 +125,39 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			List<Reponse> listResponses = ReponseDAO
 					.getResponsesByIdQuestion(idNextQuestion);
 
-			List<ReponseGUI> listResponsesGUI = new ArrayList<ReponseGUI>();
-			for (Reponse responseFor : listResponses) {
+			List<Integer> listIdResponseChecked = new ArrayList<Integer>();
+			if (mode.equals(ModeRunningTest.overview)) {
+				listIdResponseChecked = ReponseCandidatDAO.getListIdResponse(
+						question.getIdQuestion(),
+						runningTest.getInscriptionID());
+			}
 
+			List<ReponseGUI> listResponsesGUI = new ArrayList<ReponseGUI>();
+			Boolean isChecked = false;
+			for (Reponse responseFor : listResponses) {
+				isChecked = false;
+				if (mode.equals(ModeRunningTest.overview)) {
+					if (listIdResponseChecked.contains(responseFor
+							.getIdResponse())) {
+						isChecked = true;
+					}
+				}
 				ReponseGUI responseGUI = new ReponseGUI(
 						responseFor.getIdResponse(), responseFor.getWording(),
-						responseFor.getIsCorrect());
+						responseFor.getIsCorrect(), isChecked);
 				listResponsesGUI.add(responseGUI);
 			}
 
+			// In runningTest mode isBranded = false
+			// in overview mode we get back what the user entered
+			Boolean isBranded = false;
+			if (mode.equals(ModeRunningTest.overview)) {
+				isBranded = SelectQuestionDAO.getSelectQuestion(
+						question.getIdQuestion(),
+						runningTest.getInscriptionID()).getIsBranded();
+			}
 			QuestionGUI questionGUI = new QuestionGUI(question.getIdQuestion(),
-					question.getWording(), question.getUrlImage(),
+					question.getWording(), question.getUrlImage(), isBranded,
 					listResponsesGUI);
 
 			request.getSession().setAttribute("selectedQuestion", questionGUI);

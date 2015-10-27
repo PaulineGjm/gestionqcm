@@ -5,6 +5,7 @@
 	<c:set var="runningTest" value="${sessionScope.runningTest}"/>
 	<c:set var="selectedQuestion" value="${sessionScope.selectedQuestion}"/>
 	<c:set var="isMultiple" value="${selectedQuestion.getListResponses().size() > 2}"/>
+	<c:set var="mode" value="${sessionScope.mode}"/>
 	
 	<div class="col-md-12">
 		<label>${runningTest.getName()}</label>
@@ -23,21 +24,53 @@
 	<form class="connexion" action="${pageContext.servletContext.contextPath}/test/SaveAnswerQuestion" method="post">
 		<div class="col-md-8">
 			<c:forEach items="${selectedQuestion.getListResponses()}" var="response">
+			
 				<c:if test="${isMultiple}">
-					<p><input type="checkbox" name="response${response.getIdResponse()}"> ${response.getWording()}</p>
+					<c:set var="inputType" value="checkbox"/>
+					<c:set var="nameInput" value="response${response.getIdResponse()}"/>
 				</c:if>
 				<c:if test="${!isMultiple}">
-					<p><input type="radio" name="response${response.getIdResponse()}"> ${response.getWording()}</p>
+					<c:set var="inputType" value="radio"/>
+					<c:set var="nameInput" value="response"/>
+				</c:if>
+				
+				<c:if test="${response.getIsChecked()}">
+					<p><input type="${inputType}" name="${nameInput}" value="${response.getIdResponse()}" checked="checked"> ${response.getWording()}</p>
+				</c:if>
+				<c:if test="${!response.getIsChecked()}">
+					<p><input type="${inputType}" name="${nameInput}" value="${response.getIdResponse()}"> ${response.getWording()}</p>
 				</c:if>
 			</c:forEach>
 		</div>
 		<div class="col-md-3 col-md-offset-1">
 			Question <label>${runningTest.getQuestionPosition()}</label> sur <label>${runningTest.getNbQuestion()}</label>
-			<p><input type="checkbox" name="questionMarked"> Marquer question</p>
+			<p>
+			<c:if test="${selectedQuestion.getIsBranded()}">
+				<input type="checkbox" name="questionMarked" checked="checked"> Marquer question
+			</c:if>
+			<c:if test="${!selectedQuestion.getIsBranded()}">
+				<input type="checkbox" name="questionMarked"> Marquer question
+			</c:if>
+			</p>
 		</div>
-		<div class="col-md-3 col-md-offset-9">
-		<input type="submit" class="btn btn-primary btn-block" value="Valider">
-		</div>
+		<c:if test="${mode == 'runningTest'}">
+			<div class="col-md-3 col-md-offset-9">
+				<input type="submit" class="btn btn-primary btn-block" name="bNext" value="Valider">
+			</div>
+		</c:if>
+		<c:if test="${mode == 'overview'}">
+			<div class="col-md-11 col-md-offset-2">
+				<div class="col-md-3">
+				<input type="submit" class="btn btn-primary btn-block" name="bPrev" value="Question précédente"/>
+				</div>
+				<div class="col-md-3">
+				<input type="submit" class="btn btn-primary btn-block" name="bNext" value="Question suivante"/>
+				</div>
+				<div class="col-md-3 col-md-offset-1">
+				<input type="submit" class="btn btn-info btn-block" name="bOverview" value="Ecran synthèse"/>
+				</div>
+			</div>
+		</c:if>
 	</form>
 		
 		
