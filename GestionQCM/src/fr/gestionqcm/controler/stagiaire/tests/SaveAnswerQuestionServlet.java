@@ -132,9 +132,7 @@ public class SaveAnswerQuestionServlet extends HttpServlet {
 				dispatcher = getServletContext().getRequestDispatcher(
 						"/trainee/test/nextquestion");
 				dispatcher.forward(request, response);
-
-			} else
-				throw new Exception("Informations manquantes");
+			}
 		} catch (Exception ex) {
 			// Placer l'objet représentant l'exception dans le contexte de
 			// requete
