@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.gestionqcm.model.bo.Utilisateur;
+
 /**
  * Servlet Filter implementation class AccessFilter
  */
@@ -38,15 +40,18 @@ public class AccessFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
+		String context = request.getRequestURI().split("/")[2];
 
 		/* Récupération de la session depuis la requête */
 		HttpSession session = request.getSession();
+
+		Utilisateur user = (Utilisateur) session.getAttribute("user");
 
 		/**
 		 * Si l'objet utilisateur n'existe pas dans la session en cours, alors
 		 * l'utilisateur n'est pas connecté.
 		 */
-		if (session.getAttribute("user") == null) {
+		if (user == null || (user.isAnimateur() && "trainee".equals(context))) {
 			/* Redirection vers la page publique */
 			response.sendRedirect(request.getContextPath() + "/");
 		} else {

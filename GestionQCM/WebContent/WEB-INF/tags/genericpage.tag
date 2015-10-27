@@ -33,16 +33,10 @@
  			<div class="menu col-sm-12">
  			<c:choose>
 			  <c:when test="${user.isAnimateur()}">
-			    <ul class="nav nav-tabs">
-		  			<li role="presentation" class="${homeactive}"><a href="${pageContext.request.contextPath}/">Home</a></li>
-		  			<li role="presentation" class="${testsactive}"><a href="${pageContext.request.contextPath}/teacher/tests/">Gestion des tests</a></li>
-		 			<li role="presentation" class="${themesactive}"><a href="${pageContext.request.contextPath}/teacher/themes/">Gestion des themes</a></li>
-				</ul>
+			    <%@ include file="/view/navigation/menuTeacher.jspf" %>
  			  </c:when>
 			  <c:when test="${user.isStagiaire()}">
-			    <ul class="nav nav-tabs">
-		  			<li role="presentation" class="${homeactive}"><a href="${pageContext.request.contextPath}/">Home</a></li>
-				</ul>
+			    <%@ include file="/view/navigation/menuTrainee.jspf" %>
 			  </c:when>
 			</c:choose>
 			</div>
