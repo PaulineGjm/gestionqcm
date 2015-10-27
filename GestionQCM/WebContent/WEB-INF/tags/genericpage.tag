@@ -30,20 +30,22 @@
 			  <li class="active">Data</li>
 		</ol> -->
  		<div class="container">
+ 			<div class="menu col-sm-12">
  			<c:choose>
 			  <c:when test="${user.isAnimateur()}">
-			    <ul class="navbar-nav nav">
-		  			<li role="presentation" class="${homeactive}"><a href="#">Home</a></li>
+			    <ul class="nav nav-tabs">
+		  			<li role="presentation" class="${homeactive}"><a href="${pageContext.request.contextPath}/">Home</a></li>
 		  			<li role="presentation" class="${testsactive}"><a href="${pageContext.request.contextPath}/ListTests">Gestion des tests</a></li>
 		 			<li role="presentation" class="${themesactive}"><a href="${pageContext.request.contextPath}/ListThemes">Gestion des themes</a></li>
 				</ul>
  			  </c:when>
 			  <c:when test="${user.isStagiaire()}">
-			    <ul class="navbar-nav nav">
-		  			<li role="presentation" class="${homeactive}"><a href="#">Home</a></li>
+			    <ul class="nav nav-tabs">
+		  			<li role="presentation" class="${homeactive}"><a href="${pageContext.request.contextPath}/">Home</a></li>
 				</ul>
 			  </c:when>
 			</c:choose>
+			</div>
 			
 			<div class="col-sm-12">
 		  		<div class="panel panel-default">

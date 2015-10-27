@@ -89,8 +89,9 @@ public class AuthentificationServlet extends HttpServlet {
 				request.getSession().setAttribute("animateurConnecte",
 						animateurConnecte);
 				// Présenter la réponse
-				response.sendRedirect(request.getContextPath()
-						+ accueilAnimateur);
+				// response.sendRedirect(request.getContextPath()
+				// + accueilAnimateur);
+				response.sendRedirect(request.getContextPath());
 				return;
 			} else if (user.isStagiaire()) {
 				Stagiaire stagiaire = (Stagiaire) user;
@@ -126,8 +127,9 @@ public class AuthentificationServlet extends HttpServlet {
 				request.getSession().setAttribute("listTestsDisponibles",
 						listTestsDisponibles);
 				// Présenter la réponse
-				response.sendRedirect(request.getContextPath()
-						+ accueilStagiaire);
+				// response.sendRedirect(request.getContextPath()
+				// + accueilStagiaire);
+				response.sendRedirect(request.getContextPath());
 				return;
 			}
 
@@ -142,5 +144,4 @@ public class AuthentificationServlet extends HttpServlet {
 			return;
 		}
 	}
-
 }

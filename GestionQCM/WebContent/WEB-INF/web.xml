@@ -217,3 +217,14 @@
     <url-pattern>/test/DisplayOverview</url-pattern>
   </servlet-mapping>
 </web-app>
+  <servlet>
+    <description></description>
+    <display-name>NewThemeServlet</display-name>
+    <servlet-name>NewThemeServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.teacher.themes.NewThemeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewThemeServlet</servlet-name>
+    <url-pattern>/NewTheme</url-pattern>
+  </servlet-mapping>
+</web-app>

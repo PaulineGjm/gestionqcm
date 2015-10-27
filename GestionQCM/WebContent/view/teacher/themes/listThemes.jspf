@@ -6,7 +6,14 @@
 <script type="text/javascript" src="${pageContext.servletContext.contextPath}/theme/js/themes.js"></script>
 
 <div id="listeThemes" class="col-sm-12">
-    <a class="btn btn-default glyphicon glyphicon-plus" href="${pageContext.servletContext.contextPath}/NewTheme" role="button"></a>
+    <%-- <a class="btn btn-default glyphicon glyphicon-plus" href="${pageContext.servletContext.contextPath}/NewTheme" role="button"></a> --%>
+    <a style="margin-bottom:10px" class="btn btn-default glyphicon glyphicon-plus" id="display_addtheme" href="#" role="button"></a>
+    <div id="addtheme" style="display:none">
+	    <form action="${pageContext.servletContext.contextPath}/NewTheme" method="post">
+	    	<span class="col-sm-3"><input class="form-control" type="text" value="" name="theme_label"/></span>
+	    	<input class="btn btn-default" type="submit" value="Valider" name="addtheme"/>
+	    </form>
+    </div>
     
     <datatables:table data="${listThemes}" htmlTableId="themes" 
 		dataObjectId="theme" autoWidth="true">	
@@ -18,6 +25,5 @@
 				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 			</a>
 	   </datatables:column>
-	   
 	</datatables:table>
 </div>

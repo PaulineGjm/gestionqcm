@@ -141,4 +141,29 @@ public class ThemeDAO {
 
 	}
 
+	public static void add(Theme theme) throws Exception {
+		PreparedStatement cmd = null;
+		cmd = AccessDatabase.getConnection().prepareStatement(
+				requestFactory.getInsert(Column.label.getColumnName()),
+				Statement.RETURN_GENERATED_KEYS);
+
+		cmd.setString(1, theme.getLabel());
+
+		try {
+			cmd.executeUpdate();
+			ResultSet results = cmd.getGeneratedKeys();
+			if (results.next()) {
+				theme.setId(results.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception(
+					"Problème de connexion avec la base de donnÃ©es !");
+		} finally {
+			cmd.getConnection().close();
+			cmd.close();
+		}
+
+	}
+
 }
