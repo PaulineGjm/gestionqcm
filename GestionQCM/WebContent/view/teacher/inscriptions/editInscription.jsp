@@ -34,7 +34,7 @@
     			action="${pageContext.servletContext.contextPath}/teacher/inscriptions/edit">
 			<div class="clearfix">
 				<datatables:table data="${editInscriptionGUI.inscriptionsTest}" htmlTableId="inscriptionsTestTable" 
-					dataObjectId="inscriptionTest" autoWidth="true" dom="rt<'clear'>">
+					dataObjectId="inscriptionTest" autoWidth="true">
 				 	<datatables:column title=" " headerCssClass="col-sm-1 text-center">
 				 		<input type="radio" name="${inscriptionTestSelected}" value="{testId:${inscriptionTest.test.testId},testStartDate:${inscriptionTest.testStartDate}}" />
 				 	</datatables:column>	
@@ -87,7 +87,7 @@
 				<h5>Liste des inscrits :</h5>
 				<div class="clearfix">
 					<datatables:table data="${editInscriptionGUI.subscribedInscriptionsTest}" htmlTableId="subscribedInscriptionsTestTable" 
-						dataObjectId="inscriptionTest" autoWidth="true" dom="rt<'clear'>">
+						dataObjectId="inscriptionTest" autoWidth="true">
 						<datatables:column title=" " headerCssClass="col-sm-1">
 							<input type="checkbox" value="${inscriptionTest.user.id}" name="${usersSelected}"/>
 						</datatables:column>

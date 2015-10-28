@@ -37,6 +37,7 @@
 		  			<li role="presentation" class="${homeactive}"><a href="${pageContext.request.contextPath}/">Home</a></li>
 		  			<li role="presentation" class="${testsactive}"><a href="${pageContext.request.contextPath}/teacher/tests/">Gestion des tests</a></li>
 		 			<li role="presentation" class="${themesactive}"><a href="${pageContext.request.contextPath}/teacher/themes/">Gestion des themes</a></li>
+		 			<li role="presentation" class="${inscriptionactive}"><a href="${pageContext.request.contextPath}/teacher/inscriptions/">Gestion des inscriptions</a></li>
 				</ul>
  			  </c:when>
 			  <c:when test="${user.isStagiaire()}">
