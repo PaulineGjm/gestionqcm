@@ -59,6 +59,7 @@ public class ValidateTestServlet extends HttpServlet {
 		test.setTestDuration(Integer.valueOf(duration));
 		test.setCurrentThreshold(Integer.valueOf(beingacquired));
 		test.setAcquisitionThreshold(Integer.valueOf(acquired));
+		test.setArchived(false);
 
 		// Création d'un tableau avec les sections à associer au test
 		// à partir des paramètres

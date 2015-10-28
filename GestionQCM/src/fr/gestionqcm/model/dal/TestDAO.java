@@ -121,7 +121,8 @@ public class TestDAO {
 				requestFactory.getInsert(Column.name.getColumnName(),
 						Column.testDuration.getColumnName(),
 						Column.currentThreshold.getColumnName(),
-						Column.acquisitionThreshold.getColumnName()),
+						Column.acquisitionThreshold.getColumnName(),
+						Column.isArchived.getColumnName()),
 				Statement.RETURN_GENERATED_KEYS);
 
 		cmd.setString(1, test.getName());

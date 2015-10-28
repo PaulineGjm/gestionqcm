@@ -5,7 +5,7 @@
     <a style="margin-bottom:10px" class="btn btn-default glyphicon glyphicon-plus" href="${pageContext.servletContext.contextPath}/teacher/tests/new" role="button"></a>
     
     <datatables:table data="${listTests}" htmlTableId="tests" 
-		dataObjectId="test" autoWidth="true">	
+		dataObjectId="test" autoWidth="true" dom="'ltpi'">	
 	   	<datatables:column title="Nom du Test" headerCssClass="col-sm-5 text-center">
 	      	<a href="${pageContext.servletContext.contextPath}/teacher/tests/update?id=${test.getTestId()}">
 				${test.getName()}

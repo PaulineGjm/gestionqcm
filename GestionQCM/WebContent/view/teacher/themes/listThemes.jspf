@@ -14,18 +14,22 @@
 	    </form>
     </div>
     
+    
+    
     <datatables:table data="${listThemes}" htmlTableId="themes" 
-		dataObjectId="theme" autoWidth="true">	
-	   	<datatables:column title="" headerCssClass="col-sm-11 text-center">
+		dataObjectId="theme" autoWidth="true" dom="'ltpi'">	
+	   	<datatables:column title="Nom" headerCssClass="col-sm-11">
 	      	<a href="#" class="edit_theme" id="theme_${theme.getId()}" 
 	      		data-type="text" data-pk="${theme.getId()}"
 	      		data-url="${pageContext.servletContext.contextPath}/teacher/themes/update"
 	      		data-title="Nom du theme">${theme.getLabel() }</a>
 	   </datatables:column>
-	   <datatables:column title="" headerCssClass="col-sm-1 text-center">
+	   <datatables:column title="Suppression" headerCssClass="col-sm-1 text-center">
+	   	<div class="text-center">
 	   		<a href="${pageContext.servletContext.contextPath}/teacher/themes/delete?id=${theme.getId()}">
 				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 			</a>
+		</div>
 	   </datatables:column>
 	</datatables:table>
 </div>

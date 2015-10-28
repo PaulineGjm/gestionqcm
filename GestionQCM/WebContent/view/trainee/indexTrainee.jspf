@@ -1,27 +1,51 @@
 <%@ page import ="fr.gestionqcm.model.bo.*, java.util.*, java.text.*" %>
+<%@ taglib prefix="datatables" uri="http://github.com/tduchateau/DataTables-taglib" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-	Bonjour
-	<label> 
-		<c:out value="${sessionScope.stagiaireConnecte.getLastName()}" />
-		 
-		<c:out value="${sessionScope.stagiaireConnecte.getFirstName()}" />
-	</label>
-	
-	<c:forEach items="${sessionScope.listTestsDisponibles}" var="testDispo">
-		<form class="connexion" action="${pageContext.servletContext.contextPath}/trainee/test/begintest" method="post">
-		<c:if test="${testDispo.getTimeRemaining() != testDispo.getTestDuration()}">
-			<label>TEST EN COURS /!\</label>
-		</c:if>
+
+	<h4>Liste de vos tests</h4>
+	<datatables:table data="${listTestsDisponibles}" htmlTableId="tests" 
+		dataObjectId="test" autoWidth="true" dom="'t'">
 		
-		<c:out value="${testDispo.getName()}"/>
-	
-		Durée du test : ${testDispo.getTestDuration()}
-		Début du test : <fmt:formatDate pattern="dd/MM/yyyy" value="${testDispo.getTestStartDate()}" />
-		<input type="hidden" name="idInscription" value="${testDispo.getInscriptionID()}">
-		<c:if test="${testDispo.getTimeRemaining() != testDispo.getTestDuration()}">
-			<label>Temps restant : ${testDispo.getTimeRemaining()}</label>
-		</c:if>
-		<input type="submit" value="GO" />
-		</form>
-	</c:forEach>
+	   	<datatables:column title="Nom du Test" headerCssClass="col-sm-4 text-center">
+	      	${test.getName()}
+	      	
+	   </datatables:column>
+	   <datatables:column title="Etat" headerCssClass="col-sm-3 text-center">
+	   		<div class="text-center">
+			<c:choose>
+			  <c:when test="${test.getTimeRemaining() != test.getTestDuration()}">
+			    	<strong>En cours</strong>
+ 			  </c:when>
+			  <c:when test="${test.getTimeRemaining() == test.getTestDuration()}">
+			    	A commencer
+			  </c:when>
+			</c:choose>
+			</div>
+	   </datatables:column>
+	   <datatables:column title="Temps restant" headerCssClass="col-sm-3 text-center">
+	   		<div class="text-center">
+			${test.getTimeRemaining()}
+			</div>
+	   </datatables:column>
+	   <datatables:column title="Durée" headerCssClass="col-sm-2 text-center">
+	     	<div class="text-center">
+	     	${test.getTestDuration()}
+	     	</div>
+	   </datatables:column>
+	   <datatables:column title="Début" headerCssClass="col-sm-3 text-center">
+	   		<div class="text-center">
+	     	<fmt:formatDate pattern="dd/MM/yyyy" value="${test.getTestStartDate()}" />
+	     	</div>
+	   </datatables:column>
+	   <datatables:column title="Commencer" headerCssClass="col-sm-1 text-center">
+	   		<div class="text-center">
+	   		<form class="connexion" action="${pageContext.servletContext.contextPath}/trainee/test/begintest" method="post">
+		     	<input class="btn btn-default" type="submit" value="GO" />
+		     	<input type="hidden" name="idInscription" value="${test.getInscriptionID()}">
+	     	</form>
+	     	</div>
+	   </datatables:column>
+	   
+	   
+	</datatables:table>
