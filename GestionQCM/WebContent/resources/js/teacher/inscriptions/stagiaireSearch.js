@@ -3,6 +3,7 @@ function fnGetSelected( oTableLocal ) {
 }
 
 var searchStagiaire = function() {
+	reinitSelectAllButton();
 	$.ajax({
 		data : {
 			"lastName" : $("#lastName").val(),
@@ -36,6 +37,7 @@ var searchStagiaire = function() {
 					});
 				}
 				$('#stagiaireDataTable tr').click( function() {
+					reinitSelectAllButton();
 					$(this).toggleClass('row_selected');
 				} );
 			}
@@ -52,16 +54,17 @@ function selectAll(element) {
 	if(jQueryElement.hasClass("glyphicon-unchecked")) {
 		jQueryElement.removeClass("glyphicon-unchecked");
 		jQueryElement.addClass("glyphicon-check");
+		$('#stagiaireDataTable tr').addClass('row_selected');
 	} else {
 		jQueryElement.removeClass("glyphicon-check");
 		jQueryElement.addClass("glyphicon-unchecked");
+		$('#stagiaireDataTable tr').removeClass('row_selected');
 	}
-	$('#stagiaireDataTable tr').toggleClass('row_selected');
 }
 
 function sendStagiaire() {
 	var stagiaireDataTable = $('#stagiaireDataTable').DataTable();
-	var subscribedInscriptionsTestTable = $("#subscribedInscriptionsTestTable").DataTable()
+	var subscribedInscriptionsTestTable = $("#subscribedInscriptionsTestTable").DataTable();
 	var selectedStagiaire = fnGetSelected($('#stagiaireDataTable').DataTable());
 	
 	for (var i = 0; i < selectedStagiaire.length; i++) {
@@ -85,10 +88,13 @@ function sendStagiaire() {
              ]);
 		}
 	}
-	
+	reinitSelectAllButton();
+};
+
+function reinitSelectAllButton() {
 	var selectAllButton = $("#selectAllButton");
 	if(selectAllButton.hasClass("glyphicon-check")) {
 		selectAllButton.removeClass("glyphicon-check");
 		selectAllButton.addClass("glyphicon-unchecked");
 	} 
-};
+}

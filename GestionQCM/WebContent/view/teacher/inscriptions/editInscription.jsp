@@ -34,7 +34,7 @@
     			action="${pageContext.servletContext.contextPath}/teacher/inscriptions/edit">
 			<div class="clearfix">
 				<datatables:table data="${editInscriptionGUI.inscriptionsTest}" htmlTableId="inscriptionsTestTable" 
-					dataObjectId="inscriptionTest" autoWidth="true">
+					dataObjectId="inscriptionTest" autoWidth="true" dom="'t'">
 				 	<datatables:column title=" " headerCssClass="col-sm-1 text-center">
 				 		<input type="radio" name="${inscriptionTestSelected}" value="{testId:${inscriptionTest.test.testId},testStartDate:${inscriptionTest.testStartDate}}" />
 				 	</datatables:column>	
@@ -46,6 +46,7 @@
 				   </datatables:column>
 				</datatables:table>
 			</div>
+			<br />
 			<div class="text-center">
 				<input type="submit" value="Modifier" class="btn btn-defaut"/>
 				<input type="submit" value="Programmer nouveau test" class="btn btn-defaut"
@@ -58,7 +59,7 @@
 	    	<h3>Détails du test : </h3>
 	    	<hr />
 	    	
-	    	<form method="post" class="form-horizontal" role="form" 
+	    	<form id="editInscriptionForm" method="post" class="form-horizontal" role="form" 
 	    		action="${pageContext.servletContext.contextPath}/teacher/inscriptions/save">
 				
 				<div class="form-group">
@@ -87,18 +88,19 @@
 				<h5>Liste des inscrits :</h5>
 				<div class="clearfix">
 					<datatables:table data="${editInscriptionGUI.subscribedInscriptionsTest}" htmlTableId="subscribedInscriptionsTestTable" 
-						dataObjectId="inscriptionTest" autoWidth="true">
-						<datatables:column title=" " headerCssClass="col-sm-1">
+						dataObjectId="inscriptionTest" autoWidth="true" dom="'t'">
+						<datatables:column title=" " headerCssClass="col-sm-1 text-center">
 							<input type="checkbox" value="${inscriptionTest.user.id}" name="${usersSelected}"/>
 						</datatables:column>
-						<datatables:column title="nom" headerCssClass="col-sm-6">
+						<datatables:column title="nom" headerCssClass="col-sm-6 text-center">
 							${inscriptionTest.user.lastName}
 						</datatables:column>
-						<datatables:column title="prenom" headerCssClass="col-sm-5">
+						<datatables:column title="prenom" headerCssClass="col-sm-5 text-center">
 							${inscriptionTest.user.firstName}
 						</datatables:column>
 					</datatables:table>
 				</div>
+				<br />
 				<div class="text-right">
 					<%@ include file="/view/teacher/inscriptions/stagiaireSearch.jspf" %>	
 					<button type="button" onclick="deleteStagiaires();" class="btn btn-defaut">Supprimer stagiaire(s)</button>
