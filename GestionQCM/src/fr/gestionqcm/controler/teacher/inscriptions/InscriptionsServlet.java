@@ -119,6 +119,7 @@ public class InscriptionsServlet extends HttpServlet {
 			// If rd is fill (edition, addition or default) we redirect the user
 			// to the page else we return to the inscriptions list
 			if (rd != null) {
+				request.setAttribute("inscriptionactive", "active");
 				rd.forward(request, response);
 			} else {
 				response.sendRedirect(request.getContextPath()
