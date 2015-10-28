@@ -9,7 +9,7 @@ import java.util.Date;
 public class DateUtils {
 
 	private final static DateFormat DateFormatter = new SimpleDateFormat(
-			"yyyy-MM-dd");
+			"yyyy-MM-dd hh:mm:ss.S");
 
 	private DateUtils() {
 
@@ -17,9 +17,7 @@ public class DateUtils {
 
 	public static Date stringToDate(String string) throws ParseException {
 		Date date = null;
-		if (string != null && string.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")) {
-			date = DateFormatter.parse(string);
-		}
+		date = DateFormatter.parse(string);
 		return date;
 	}
 

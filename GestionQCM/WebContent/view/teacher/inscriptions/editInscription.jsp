@@ -19,6 +19,13 @@
 <c:set var="usersSelected">
     <%=FormFields.usersSelected %>
 </c:set>
+<c:set var="users">
+    <%=FormFields.users %>
+</c:set>
+<c:set var="testSelected">
+    <%=FormFields.testSelected %>
+</c:set>
+
 
 <t:genericpage title="Gestion des inscriptions">
     <jsp:body>
@@ -36,13 +43,13 @@
 				<datatables:table data="${editInscriptionGUI.inscriptionsTest}" htmlTableId="inscriptionsTestTable" 
 					dataObjectId="inscriptionTest" autoWidth="true" dom="'t'">
 				 	<datatables:column title=" " headerCssClass="col-sm-1 text-center">
-				 		<input type="radio" name="${inscriptionTestSelected}" value="{testId:${inscriptionTest.test.testId},testStartDate:${inscriptionTest.testStartDate}}" />
+				 		<input type="radio" name="${inscriptionTestSelected}" value="{testId:${inscriptionTest.test.testId},testStartDate:'${inscriptionTest.testStartDate}'}" />
 				 	</datatables:column>	
 				   	<datatables:column title="Nom du Test" headerCssClass="col-sm-6 text-center">
 				      <c:out value="${inscriptionTest.test.name}" />
 				   </datatables:column>
 				   <datatables:column title="Date de début" headerCssClass="col-sm-5 text-center">
-				      <fmt:formatDate pattern="dd/MM/yyyy" value="${inscriptionTest.testStartDate}" />
+				      <fmt:formatDate pattern="dd/MM/yyyy hh:mm" value="${inscriptionTest.testStartDate}" />
 				   </datatables:column>
 				</datatables:table>
 			</div>
@@ -61,7 +68,7 @@
 	    	
 	    	<form id="editInscriptionForm" method="post" class="form-horizontal" role="form" 
 	    		action="${pageContext.servletContext.contextPath}/teacher/inscriptions/save">
-				
+				<input type="hidden" name="${inscriptionTestSelected}" value="{testId:${editInscriptionGUI.testSelected.testId}, testStartDate:'${editInscriptionGUI.formatDateSelected}'}" />
 				<div class="form-group">
 		    		<label for="startDateSelected" class="control-label col-sm-3">Date de début :</label>
 		    		<div class="col-sm-3">
@@ -70,7 +77,7 @@
 					</div>
 					<label for="startHourSelected" class="control-label col-sm-3">Heure de début :</label>
 		    		<div class="col-sm-3">
-		    			<input type="time" id="startHourSelected" name="startHourSelected" 
+		    			<input type="time" id="startHourSelected" name="${startHourSelected}" 
 		    				value="${editInscriptionGUI.startHourSelected}" class="form-control">
 					</div>
 				</div>
@@ -78,7 +85,7 @@
 				<div class="form-group">
 		    		<label for="testSelected" class="control-label col-sm-3">List des tests :</label>
 		    		<div class="col-sm-9">
-				    	<select id="tests" name="${FormFields.testSelected}" class="form-control">
+				    	<select id="tests" name="${testSelected}" class="form-control">
 						   <c:forEach items="${editInscriptionGUI.tests}" var="test">
 						       <option value="${test.testId}" ${editInscriptionGUI.testSelected.testId eq test.testId ? 'selected' : ''}>${test.name}</option>
 						   </c:forEach>
@@ -90,6 +97,7 @@
 					<datatables:table data="${editInscriptionGUI.subscribedInscriptionsTest}" htmlTableId="subscribedInscriptionsTestTable" 
 						dataObjectId="inscriptionTest" autoWidth="true" dom="'t'">
 						<datatables:column title=" " headerCssClass="col-sm-1 text-center">
+							<input type="hidden" name="${users}" value="${inscriptionTest.user.id}" />
 							<input type="checkbox" value="${inscriptionTest.user.id}" name="${usersSelected}"/>
 						</datatables:column>
 						<datatables:column title="nom" headerCssClass="col-sm-6 text-center">
