@@ -74,7 +74,7 @@ function sendStagiaire() {
 		var subscribedInscriptionsTestData = subscribedInscriptionsTestTable.fnGetData();
 		for (var j = 0; j < subscribedInscriptionsTestData.length; j++) {
 			var inputWithId = subscribedInscriptionsTestData[j][0];
-			if(stagiaire.id == $(inputWithId).val()) {
+			if(stagiaire.id == $(inputWithId).closest("input[name='usersSelected']").val()) {
 				stagiaireNotPresent = false;
 				break;
 			}
@@ -82,7 +82,8 @@ function sendStagiaire() {
 		
 		if(stagiaireNotPresent) {
 			subscribedInscriptionsTestTable.fnAddData([
-	             '<input type="checkbox" name="usersSelected" value="' + stagiaire.id + '">',
+			    '<input type="hidden" name="users" value="' + stagiaire.id + '">' +
+				'<input type="checkbox" value="' + stagiaire.id + '" name="usersSelected"/>',
 	             stagiaire.lastName,
 	             stagiaire.firstName
              ]);

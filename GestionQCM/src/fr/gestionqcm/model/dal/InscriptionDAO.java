@@ -109,12 +109,13 @@ public class InscriptionDAO {
 						Column.questionPosition.getColumnName()),
 				Statement.RETURN_GENERATED_KEYS);
 
+		Date currentDate = new Date(new java.util.Date().getTime());
 		cmd.setInt(1, inscription.getTest().getTestId());
 		cmd.setDate(2, (inscription.getInscriptionDate() != null) ? new Date(
-				inscription.getInscriptionDate().getTime()) : null);
+				inscription.getInscriptionDate().getTime()) : currentDate);
 		cmd.setInt(3, inscription.getUser().getId());
-		cmd.setDate(4, (inscription.getInscriptionDate() != null) ? new Date(
-				inscription.getInscriptionDate().getTime()) : null);
+		cmd.setDate(4, (inscription.getTestStartDate() != null) ? new Date(
+				inscription.getTestStartDate().getTime()) : currentDate);
 		cmd.setInt(5, inscription.getTimesRemaining());
 		cmd.setInt(6, inscription.getIssueNumber());
 		cmd.setInt(7, inscription.getQuestionPosition());
@@ -205,8 +206,8 @@ public class InscriptionDAO {
 				.getColumnName()));
 		inscriptionTest.setTest(TestDAO.getTest(rs.getInt(Column.testId
 				.getColumnName())));
-		inscriptionTest.setInscriptionDate(rs.getDate(Column.inscriptionDate
-				.getColumnName()));
+		inscriptionTest.setInscriptionDate(rs
+				.getTimestamp(Column.inscriptionDate.getColumnName()));
 
 		Utilisateur user = UserDAO.getUser(rs.getInt(Column.userId
 				.getColumnName()));
@@ -215,7 +216,7 @@ public class InscriptionDAO {
 			inscriptionTest.setUser((Stagiaire) user);
 		}
 
-		inscriptionTest.setTestStartDate(rs.getDate(Column.testStartDate
+		inscriptionTest.setTestStartDate(rs.getTimestamp(Column.testStartDate
 				.getColumnName()));
 		inscriptionTest.setTimesRemaining(rs.getInt(Column.timesRemaining
 				.getColumnName()));
@@ -276,7 +277,7 @@ public class InscriptionDAO {
 				inscriptionTest.setTest(TestDAO.getTest(rs.getInt(Column.testId
 						.getColumnName())));
 				inscriptionTest.setTestStartDate(rs
-						.getDate(Column.testStartDate.getColumnName()));
+						.getTimestamp(Column.testStartDate.getColumnName()));
 
 				testInscriptions.add(inscriptionTest);
 			}

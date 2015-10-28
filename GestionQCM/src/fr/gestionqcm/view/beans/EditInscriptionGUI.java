@@ -1,24 +1,24 @@
 package fr.gestionqcm.view.beans;
 
+import java.util.Date;
 import java.util.List;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
 import fr.gestionqcm.model.bo.Promotion;
 import fr.gestionqcm.model.bo.Test;
+import fr.gestionqcm.model.util.DateUtils;
 
 public class EditInscriptionGUI {
 
 	public enum FormFields {
-		inscriptionTestSelected, startDateSelected, startHourSelected, testSelected, usersSelected;
+		inscriptionTestSelected, startDateSelected, startHourSelected, testSelected, usersSelected, users;
 	}
 
 	private List<Test> tests;
 
 	private Test testSelected;
 
-	private String startDateSelected;
-
-	private String startHourSelected;
+	private Date dateSelected;
 
 	private List<InscriptionTest> inscriptionsTest;
 
@@ -34,20 +34,24 @@ public class EditInscriptionGUI {
 		this.tests = tests;
 	}
 
-	public String getStartDateSelected() {
-		return startDateSelected;
+	public Date getDateSelected() {
+		return dateSelected;
 	}
 
-	public void setStartDateSelected(String startDateSelected) {
-		this.startDateSelected = startDateSelected;
+	public void setDateSelected(Date dateSelected) {
+		this.dateSelected = dateSelected;
+	}
+
+	public String getFormatDateSelected() {
+		return DateUtils.dateToString(dateSelected);
+	}
+
+	public String getStartDateSelected() {
+		return DateUtils.getDateFromDate(dateSelected);
 	}
 
 	public String getStartHourSelected() {
-		return startHourSelected;
-	}
-
-	public void setStartHourSelected(String startHourSelected) {
-		this.startHourSelected = startHourSelected;
+		return DateUtils.getDateHourDate(dateSelected);
 	}
 
 	public Test getTestSelected() {
