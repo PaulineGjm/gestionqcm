@@ -344,4 +344,32 @@ public class InscriptionDAO {
 			}
 		}
 	}
+	
+	public static void updateRemainingTimeByInscriptionId(Integer remainingTime, Integer idInscription) throws Exception {
+		PreparedStatement cmd = null;
+		if (remainingTime != null && idInscription != null) {
+			cmd = AccessDatabase.getConnection().prepareStatement(
+					String.format("UPDATE %s set %s = ? WHERE %s = ?;",
+							tableName, Column.timesRemaining.getColumnName(),
+							Column.inscriptionId.getColumnName()));
+
+			cmd.setInt(1, remainingTime);
+			cmd.setInt(2, idInscription);
+			try {
+				cmd.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception(
+						"Problème de connexion avec la base de données !");
+			}catch(Exception ex)
+			{
+				String test = ex.getMessage();
+			}
+			finally {
+				cmd.getConnection().close();
+				cmd.close();
+			}
+		}
+	}
+	
 }

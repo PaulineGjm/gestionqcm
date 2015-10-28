@@ -11,27 +11,29 @@
 <c:set var="runningTest" value="${sessionScope.runningTest}" />
 <div class="row">
 	<div class="col-md-4">
-		<p>${nbFullyAnswered} question(s)répondue(s) sur
+		<p>${nbFullyAnswered}question(s)répondue(s)sur
 			${runningTest.getNbQuestion()}</p>
-		<p>${nbPartiallyAnswered} question(s)partiellement répondues sur
+		<p>${nbPartiallyAnswered}question(s)partiellementrépondues sur
 			${runningTest.getNbQuestion()}</p>
-		<p>${nbNotAnswered} question(s)non répondues sur
+		<p>${nbNotAnswered}question(s)nonrépondues sur
 			${runningTest.getNbQuestion()}</p>
 	</div>
 
 	<div class="col-md-6">
 		<div class="col-md-5">
 			<p>
-				<a class="btn btn-info" href="#" role="button">x</a> Question
-				marquée <a class="btn btn-danger" href="#" role="button">x</a> Non
-				répondu
+				<button class="btn btn-info">x</button>
+				Question marquée
+				<button class="btn btn-danger">x</button>
+				Non répondu
 			</p>
 		</div>
 		<div class="col-md-5">
 			<p>
-				<a class="btn btn-warning" href="#" role="button">x</a>
-				Partiellement répondu <a class="btn btn-success" href="#"
-					role="button">x</a> Répondu
+				<button class="btn btn-warning">x</button>
+				Partiellement répondu
+				<button class="btn btn-success">x</button>
+				Répondu
 			</p>
 		</div>
 	</div>

@@ -77,7 +77,10 @@ public class BeginTestServlet extends HttpServlet {
 				throw new Exception("Le test sélectionné ne fait pas partie de la liste des tests disponibles");
 			}
 			
+			
 			List<SelectQuestion> listQuestions = SelectQuestionDAO.getSelectQuestionByIdInscription(idInscription);
+			
+	
 			List<Integer> listIdQuestions = new ArrayList<Integer>();
 			
 			for(SelectQuestion question : listQuestions)
@@ -90,7 +93,9 @@ public class BeginTestServlet extends HttpServlet {
 			
 			request.getSession().setAttribute("runningTest", runningTest);
 			request.getSession().setAttribute("listIdQuestions", listIdQuestions);
-			
+			Integer testTime = (Integer)request.getSession().getAttribute("remainingTime");
+			if(null == testTime)
+				request.getSession().setAttribute("remainingTime", testEnCours.getTimeRemaining());
 			dispatcher = getServletContext().getRequestDispatcher("/trainee/test/nextquestion");
 			dispatcher.forward(request, response);
 			

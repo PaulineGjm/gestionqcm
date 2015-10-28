@@ -67,6 +67,9 @@ public class SaveAnswerQuestionServlet extends HttpServlet {
 
 		try {
 			if (null != user && null != selectedQuestion && null != runningTest) {
+				
+				String remainingTime = request.getParameter("remainingTime");
+				request.getSession().setAttribute("remainingTime", Integer.parseInt(remainingTime));
 				// Save selected answers
 				Integer countNbGoodAnswers = 0;
 				Integer countNbChecked = 0;

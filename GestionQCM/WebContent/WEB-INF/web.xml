@@ -226,4 +226,14 @@
     <url-pattern>/teacher/*</url-pattern>
     <url-pattern>/trainee/*</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RefreshRemainingTimeServlet</display-name>
+    <servlet-name>RefreshRemainingTimeServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.RefreshRemainingTimeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RefreshRemainingTimeServlet</servlet-name>
+    <url-pattern>/trainee/test/refreshremainingtime</url-pattern>
+  </servlet-mapping>
 </web-app>
