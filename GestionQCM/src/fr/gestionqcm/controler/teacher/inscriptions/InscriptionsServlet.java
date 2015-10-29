@@ -58,7 +58,7 @@ public class InscriptionsServlet extends HttpServlet {
 					.getInscriptionsToTest();
 			editInscriptionGUI.setInscriptionsTest(inscriptionsTest);
 
-			List<Test> tests = TestDAO.getAllTests();
+			List<Test> tests = TestDAO.getAllTestsNotArchived();
 			editInscriptionGUI.setTests(tests);
 
 			List<Promotion> promotions = PromotionHandler.getAllPromotions();
@@ -171,8 +171,15 @@ public class InscriptionsServlet extends HttpServlet {
 						+ "/teacher/inscriptions/");
 			}
 
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Placer l'objet représentant l'exception dans le contexte de
+			// requete
+			request.setAttribute("error", e);
+			// Passer la main à la page de présentation des erreurs
+			rd = request.getRequestDispatcher("/view/error/error.jsp");
+			rd.forward(request, response);
+			return;
 		}
 
 	}

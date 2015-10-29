@@ -10,19 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.gestionqcm.model.bo.Animateur;
-import fr.gestionqcm.model.bo.InscriptionTest;
 import fr.gestionqcm.model.bo.SelectQuestion;
-import fr.gestionqcm.model.bo.Stagiaire;
-import fr.gestionqcm.model.bo.Test;
-import fr.gestionqcm.model.bo.Utilisateur;
-import fr.gestionqcm.model.dal.ConnexionDAO;
-import fr.gestionqcm.model.dal.InscriptionDAO;
 import fr.gestionqcm.model.dal.SelectQuestionDAO;
-import fr.gestionqcm.model.dal.TestDAO;
 import fr.gestionqcm.model.enums.ModeRunningTest;
-import fr.gestionqcm.view.beans.AnimateurGUI;
-import fr.gestionqcm.view.beans.StagiaireGUI;
 import fr.gestionqcm.view.beans.TestDisponibleGUI;
 import fr.gestionqcm.view.beans.TestEnCoursGUI;
 
@@ -112,6 +102,7 @@ public class BeginTestServlet extends HttpServlet {
 
 			return;
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			// Placer l'objet représentant l'exception dans le contexte de
 			// requete
 			request.setAttribute("error", ex);
