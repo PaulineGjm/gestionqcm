@@ -5,7 +5,7 @@
 
 	<h4>Liste de vos tests</h4>
 	<datatables:table data="${listTestsDisponibles}" htmlTableId="tests" 
-		dataObjectId="test" autoWidth="true" dom="'t'">
+		dataObjectId="test" autoWidth="true" dom="'ltp'">
 		
 	   	<datatables:column title="Nom du Test" headerCssClass="col-sm-4 text-center">
 	      	${test.getName()}
