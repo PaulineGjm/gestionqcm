@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.gestionqcm.model.bo.Reponse;
 import fr.gestionqcm.model.bo.ReponseCandidat;
 import fr.gestionqcm.model.dal.util.AccessDatabase;
 

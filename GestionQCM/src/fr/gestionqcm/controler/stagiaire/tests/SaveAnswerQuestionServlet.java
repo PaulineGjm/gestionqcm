@@ -13,6 +13,7 @@ import fr.gestionqcm.model.bo.Question;
 import fr.gestionqcm.model.bo.Reponse;
 import fr.gestionqcm.model.bo.ReponseCandidat;
 import fr.gestionqcm.model.bo.SelectQuestion;
+import fr.gestionqcm.model.bo.Stagiaire;
 import fr.gestionqcm.model.bo.Utilisateur;
 import fr.gestionqcm.model.dal.ReponseCandidatDAO;
 import fr.gestionqcm.model.dal.SelectQuestionDAO;
@@ -96,6 +97,7 @@ public class SaveAnswerQuestionServlet extends HttpServlet {
 						InscriptionTest inscription = new InscriptionTest();
 						inscription.setInscriptionId(runningTest
 								.getInscriptionID());
+						inscription.setUser((Stagiaire) user); 
 						Reponse reponse = new Reponse();
 						reponse.setIdResponse(responseGUI.getIdResponse());
 						Question question = new Question();
