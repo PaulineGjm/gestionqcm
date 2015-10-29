@@ -235,5 +235,25 @@
   <servlet-mapping>
     <servlet-name>TestResultServlet</servlet-name>
     <url-pattern>/trainee/test/result</url-pattern>
+ </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ManageRemainingTimeServlet</display-name>
+    <servlet-name>ManageRemainingTimeServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.ManageRemainingTimeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ManageRemainingTimeServlet</servlet-name>
+    <url-pattern>/trainee/test/manageremainingtime</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EndTestManagementServlet</display-name>
+    <servlet-name>EndTestManagementServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.EndTestManagementServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EndTestManagementServlet</servlet-name>
+    <url-pattern>/trainee/test/endtest</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -2,6 +2,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/js/trainee/test/countdown.js"></script>
+
 <c:set var="listSelectQuestionGuis"
 	value="${requestScope.listSelectQuestionGuis}" />
 <c:set var="nbFullyAnswered" value="${requestScope.nbFullyAnswered}" />
@@ -11,28 +13,33 @@
 <c:set var="runningTest" value="${sessionScope.runningTest}" />
 <div class="row">
 	<div class="col-md-4">
-		<p>${nbFullyAnswered} question(s)répondue(s) sur
+		<p>${nbFullyAnswered} question(s) répondue(s)sur
 			${runningTest.getNbQuestion()}</p>
-		<p>${nbPartiallyAnswered} question(s)partiellement répondues sur
+		<p>${nbPartiallyAnswered} question(s) partiellementrépondues sur
 			${runningTest.getNbQuestion()}</p>
-		<p>${nbNotAnswered} question(s)non répondues sur
+		<p>${nbNotAnswered} question(s) non répondues sur
 			${runningTest.getNbQuestion()}</p>
 	</div>
 
 	<div class="col-md-6">
 		<div class="col-md-5">
 			<p>
-				<a class="btn btn-info" href="#" role="button">x</a> Question
-				marquée <a class="btn btn-danger" href="#" role="button">x</a> Non
-				répondu
+				<button class="btn btn-info">x</button>
+				Question marquée
+				<button class="btn btn-danger">x</button>
+				Non répondu
 			</p>
 		</div>
 		<div class="col-md-5">
 			<p>
-				<a class="btn btn-warning" href="#" role="button">x</a>
-				Partiellement répondu <a class="btn btn-success" href="#"
-					role="button">x</a> Répondu
+				<button class="btn btn-warning">x</button>
+				Partiellement répondu
+				<button class="btn btn-success">x</button>
+				Répondu
 			</p>
+		</div>
+		<div class="col-md-1">
+			<div id='timer' style="font-size: 20pt;"></div>
 		</div>
 	</div>
 </div>
@@ -65,13 +72,14 @@
 							</c:when>
 						</c:choose>
 					</c:if>
-					<input type="hidden" name="questionID"
+					<input type="hidden"  name="questionID"
 						value=${question.getIdQuestion() } />
+					<input class="remainingTime" type="hidden" name="remainingTime">
 					<c:set var="count" value="${count + 1}" scope="page" />
-
 				</form>
 			</div>
 		</c:forEach>
+		<script type="text/javascript">window.onload = CreateTimer("timer", '${sessionScope.remainingTime}', '${sessionScope.runningTest.getInscriptionID()}');</script>
 	</div>
 </div>
 

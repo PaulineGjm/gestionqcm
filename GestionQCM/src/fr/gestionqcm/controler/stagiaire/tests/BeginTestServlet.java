@@ -61,9 +61,6 @@ public class BeginTestServlet extends HttpServlet {
 		
 		try
 		{
-			request.getSession().setAttribute("mode", ModeRunningTest.runningTest);
-			request.setAttribute("bNext", "Question suivante");
-			
 			List<TestDisponibleGUI> listTestsDispos = (List<TestDisponibleGUI>)request.getSession().getAttribute("listTestsDisponibles");
 			TestDisponibleGUI testEnCours = null;
 			for(TestDisponibleGUI testDispo : listTestsDispos)
@@ -77,7 +74,10 @@ public class BeginTestServlet extends HttpServlet {
 				throw new Exception("Le test sélectionné ne fait pas partie de la liste des tests disponibles");
 			}
 			
+			
 			List<SelectQuestion> listQuestions = SelectQuestionDAO.getSelectQuestionByIdInscription(idInscription);
+			
+	
 			List<Integer> listIdQuestions = new ArrayList<Integer>();
 			
 			for(SelectQuestion question : listQuestions)
@@ -85,12 +85,19 @@ public class BeginTestServlet extends HttpServlet {
 				listIdQuestions.add(question.getIdQuestion());
 			}
 			
+			if(testEnCours.getQuestionPosition() > listIdQuestions.size())
+				request.getSession().setAttribute("mode", ModeRunningTest.overview);
+			else
+				request.getSession().setAttribute("mode", ModeRunningTest.runningTest);
+			
 			TestEnCoursGUI runningTest = new TestEnCoursGUI(idInscription, testEnCours.getName(),
-					testEnCours.getTimeRemaining(), 1, listIdQuestions.size());
+					testEnCours.getTimeRemaining(), testEnCours.getQuestionPosition(), listIdQuestions.size());
 			
 			request.getSession().setAttribute("runningTest", runningTest);
 			request.getSession().setAttribute("listIdQuestions", listIdQuestions);
-			
+			Integer testTime = (Integer)request.getSession().getAttribute("remainingTime");
+			if(null == testTime)
+				request.getSession().setAttribute("remainingTime", testEnCours.getTimeRemaining()*60);
 			dispatcher = getServletContext().getRequestDispatcher("/trainee/test/nextquestion");
 			dispatcher.forward(request, response);
 			

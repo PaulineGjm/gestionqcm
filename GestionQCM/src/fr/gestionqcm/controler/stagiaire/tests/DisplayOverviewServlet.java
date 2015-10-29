@@ -55,9 +55,6 @@ public class DisplayOverviewServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher;
 
-		// TODO
-		// Penser à re-setter / enregistrer le temps restant + la position de
-		// question
 		request.getSession().setAttribute("mode", ModeRunningTest.overview);
 		Utilisateur user = (Utilisateur) request.getSession().getAttribute(
 				"user");
@@ -76,10 +73,10 @@ public class DisplayOverviewServlet extends HttpServlet {
 						.getIdQuestion(), selectQuestion.getIsAnswered(),
 						selectQuestion.getIsBranded()));
 			}
-			
-			Integer nbFullyAnswered = SelectQuestionDAO.getNbSelectQuestion(TypeEstRepondu.fullyAnswered);
-			Integer nbPartiallyAnswered = SelectQuestionDAO.getNbSelectQuestion(TypeEstRepondu.partiallyAnswered);
-			Integer nbNotAnswered = SelectQuestionDAO.getNbSelectQuestion(TypeEstRepondu.notAnswered);
+			Integer idInscription = runningTest.getInscriptionID();
+			Integer nbFullyAnswered = SelectQuestionDAO.getNbSelectQuestion(TypeEstRepondu.fullyAnswered, idInscription);
+			Integer nbPartiallyAnswered = SelectQuestionDAO.getNbSelectQuestion(TypeEstRepondu.partiallyAnswered, idInscription);
+			Integer nbNotAnswered = SelectQuestionDAO.getNbSelectQuestion(TypeEstRepondu.notAnswered, idInscription);
 			
 			request.setAttribute("nbFullyAnswered", nbFullyAnswered);
 			request.setAttribute("nbPartiallyAnswered", nbPartiallyAnswered);
