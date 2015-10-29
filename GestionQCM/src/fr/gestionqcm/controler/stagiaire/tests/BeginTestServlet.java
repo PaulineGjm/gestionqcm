@@ -61,9 +61,6 @@ public class BeginTestServlet extends HttpServlet {
 		
 		try
 		{
-			request.getSession().setAttribute("mode", ModeRunningTest.runningTest);
-			request.setAttribute("bNext", "Question suivante");
-			
 			List<TestDisponibleGUI> listTestsDispos = (List<TestDisponibleGUI>)request.getSession().getAttribute("listTestsDisponibles");
 			TestDisponibleGUI testEnCours = null;
 			for(TestDisponibleGUI testDispo : listTestsDispos)
@@ -88,8 +85,13 @@ public class BeginTestServlet extends HttpServlet {
 				listIdQuestions.add(question.getIdQuestion());
 			}
 			
+			if(testEnCours.getQuestionPosition() == listIdQuestions.size())
+				request.getSession().setAttribute("mode", ModeRunningTest.overview);
+			else
+				request.getSession().setAttribute("mode", ModeRunningTest.runningTest);
+			
 			TestEnCoursGUI runningTest = new TestEnCoursGUI(idInscription, testEnCours.getName(),
-					testEnCours.getTimeRemaining(), 1, listIdQuestions.size());
+					testEnCours.getTimeRemaining(), testEnCours.getQuestionPosition(), listIdQuestions.size());
 			
 			request.getSession().setAttribute("runningTest", runningTest);
 			request.getSession().setAttribute("listIdQuestions", listIdQuestions);

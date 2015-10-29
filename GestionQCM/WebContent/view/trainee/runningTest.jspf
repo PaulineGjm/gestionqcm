@@ -45,7 +45,7 @@
 		</c:forEach>
 	</div>
 	<div class="col-md-3 col-md-offset-1">
-		<input id="remainingTime" type="hidden" name="remainingTime">
+		<input class="remainingTime" type="hidden" name="remainingTime">
 		<div id='timer' style="font-size: 20pt;"></div>
 		<script type="text/javascript">window.onload = CreateTimer("timer", '${sessionScope.remainingTime}', '${sessionScope.runningTest.getInscriptionID()}');</script>
 		

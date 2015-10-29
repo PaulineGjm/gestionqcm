@@ -21,10 +21,6 @@
 			${runningTest.getNbQuestion()}</p>
 	</div>
 
-	<input id="remainingTime" type="hidden" name="remainingTime">
-	<div id='timer' style="font-size: 20pt;"></div>
-	<script type="text/javascript">window.onload = CreateTimer("timer", '${sessionScope.remainingTime}', '${sessionScope.runningTest.getInscriptionID()}');</script>
-	
 	<div class="col-md-6">
 		<div class="col-md-5">
 			<p>
@@ -41,6 +37,9 @@
 				<button class="btn btn-success">x</button>
 				Répondu
 			</p>
+		</div>
+		<div class="col-md-1">
+			<div id='timer' style="font-size: 20pt;"></div>
 		</div>
 	</div>
 </div>
@@ -73,13 +72,14 @@
 							</c:when>
 						</c:choose>
 					</c:if>
-					<input type="hidden" name="questionID"
+					<input type="hidden"  name="questionID"
 						value=${question.getIdQuestion() } />
+					<input class="remainingTime" type="hidden" name="remainingTime">
 					<c:set var="count" value="${count + 1}" scope="page" />
-
 				</form>
 			</div>
 		</c:forEach>
+		<script type="text/javascript">window.onload = CreateTimer("timer", '${sessionScope.remainingTime}', '${sessionScope.runningTest.getInscriptionID()}');</script>
 	</div>
 </div>
 

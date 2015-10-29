@@ -45,20 +45,21 @@ public class ManageRemainingTimeServlet extends HttpServlet {
 			String mode = request.getParameter("mode");
 		if(null != mode)
 		{
+			Integer remainingTime = Integer.parseInt(request.getParameter("timeRemaining"));
+			if(remainingTime < 0)
+				remainingTime = 0;
 			// Refresh session attribute
 			if(mode.equals("refresh"))
 			{
 				// value in seconds
-				String remainingTime = request.getParameter("timeRemaining");
-				Integer time = new Integer(Integer.parseInt(remainingTime));
-				request.getSession().setAttribute("remainingTime", time);
+				request.getSession().setAttribute("remainingTime", remainingTime);
 			}
 			// Save in database remaining time in minutes each minute
 			else if(mode.equals("save"))
 			{
 				String idInscription = request.getParameter("idInscription");
 				// valeur en minutes
-				Integer remainingTime = Integer.parseInt(request.getParameter("timeRemaining"));
+				
 				InscriptionDAO.updateRemainingTimeByInscriptionId(remainingTime, Integer.parseInt(idInscription));
 			}
 			// Refresh and save for end of the test => Remaining time = 0

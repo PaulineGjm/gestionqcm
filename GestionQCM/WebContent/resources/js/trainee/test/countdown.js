@@ -8,7 +8,7 @@ function CreateTimer(TimerID, Time, IdInscription) {
 	Timer = document.getElementById(TimerID);
 	TotalSeconds = Time;
 	VarIdInscription = IdInscription;
-	if(TotalSeconds != 0)
+	if(TotalSeconds > 0)
 	{
 		UpdateTimer()
 		window.setTimeout("Tick()", 1000);
@@ -76,7 +76,12 @@ function UpdateTimer() {
         Minutes = 0;        
 	}
 	// Transmit remainingTime contraining seconds to hidden input to transmit it à the form's validation
-	 $("#remainingTime").attr("value",TotalSeconds);
+	var hiddenField = document.getElementsByClassName("remainingTime");
+	var i;
+	for (i = 0; i < hiddenField.length; i++) {
+		hiddenField[i].value = TotalSeconds;
+	}
+//	 $("#remainingTime").attr("value",TotalSeconds);
 	
 	// Transmit the formatted time remaining to the div Timer for display
 	var TimeStr = LeadingZero(Minutes) + ":" + LeadingZero(Seconds);

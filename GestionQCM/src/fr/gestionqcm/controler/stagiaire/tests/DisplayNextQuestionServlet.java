@@ -74,15 +74,16 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			if(null != remainingTime)
 				request.getSession().setAttribute("remainingTime", Integer.parseInt(remainingTime));
 
-			// To go from view overview to a selected question
+			
 			Integer questionNumber = runningTest.getQuestionPosition();
 
+			// To go from view overview to a selected question
 			String questionWanted = request.getParameter("questionNumber");
 			if (null != questionWanted) {
 				questionNumber = Integer.parseInt(questionWanted);
 			}
 
-			if ((Integer) request.getSession().getAttribute("remainingTime") == 0) {
+			if (null != request.getSession().getAttribute("remainingTime") && (Integer) request.getSession().getAttribute("remainingTime") == 0) {
 				dispatcher = getServletContext().getRequestDispatcher(
 						"/trainee/test/overview");
 				dispatcher.forward(request, response);
@@ -91,7 +92,7 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 
 			// Switch case to know which button has been pushed
 			if (null != request.getParameter("bNext")) {
-				if (runningTest.getQuestionPosition() == runningTest
+				if (questionNumber == runningTest
 						.getNbQuestion()) {
 					dispatcher = getServletContext().getRequestDispatcher(
 							"/trainee/test/overview");
