@@ -34,7 +34,7 @@ public class ReponseDAO {
 
 				Reponse response = new Reponse(idResponse, wording, isCorrect,
 						idQuestion);
-				
+
 				listResponses.add(response);
 			}
 
@@ -51,6 +51,36 @@ public class ReponseDAO {
 		}
 
 		return listResponses;
+	}
+
+	public static Reponse getOne(int id) throws Exception {
+		PreparedStatement cmd = null;
+		Reponse response = null;
+		String request = "SELECT * FROM REPONSE WHERE id_reponse = ?";
+		cmd = AccessDatabase.getConnection().prepareStatement(request);
+		cmd.setInt(1, id);
+
+		try {
+			cmd.executeQuery();
+			ResultSet rs = cmd.getResultSet();
+			if (rs.next()) {
+				Integer idResponse = rs.getInt("id_reponse");
+				String wording = rs.getString("libelle");
+				Boolean isCorrect = rs.getBoolean("estCorrect");
+				Integer idQuestion = rs.getInt("id_question");
+
+				response = new Reponse(idResponse, wording, isCorrect,
+						idQuestion);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception(
+					"Problème de connexion avec la base de données !");
+		} finally {
+			cmd.getConnection().close();
+			cmd.close();
+		}
+		return response;
 	}
 
 }

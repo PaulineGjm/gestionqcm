@@ -226,4 +226,14 @@
     <url-pattern>/teacher/*</url-pattern>
     <url-pattern>/trainee/*</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TestResultServlet</display-name>
+    <servlet-name>TestResultServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.TestResultServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestResultServlet</servlet-name>
+    <url-pattern>/trainee/test/result</url-pattern>
+  </servlet-mapping>
 </web-app>

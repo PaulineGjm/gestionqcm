@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.gestionqcm.model.bo.InscriptionTest;
+import fr.gestionqcm.model.bo.Question;
+import fr.gestionqcm.model.bo.Reponse;
 import fr.gestionqcm.model.bo.ReponseCandidat;
 import fr.gestionqcm.model.bo.SelectQuestion;
 import fr.gestionqcm.model.bo.Utilisateur;
@@ -54,7 +57,7 @@ public class SaveAnswerQuestionServlet extends HttpServlet {
 		RequestDispatcher dispatcher;
 
 		// TODO
-		// Penser à re-setter / enregistrer le temps restant 
+		// Penser à re-setter / enregistrer le temps restant
 
 		Utilisateur user = (Utilisateur) request.getSession().getAttribute(
 				"user");
@@ -74,7 +77,7 @@ public class SaveAnswerQuestionServlet extends HttpServlet {
 				// Delete of previous answer to this question if exist some
 				ReponseCandidatDAO.delete(selectedQuestion.getIdQuestion(),
 						runningTest.getInscriptionID());
-				
+
 				for (ReponseGUI responseGUI : selectedQuestion
 						.getListResponses()) {
 
@@ -85,15 +88,21 @@ public class SaveAnswerQuestionServlet extends HttpServlet {
 					if (selectedQuestion.getListResponses().size() == 2) {
 						valRecup = request.getParameter("response");
 					}
-					
+
 					// if value = checked
-//					if ("on".equals(valRecup)) {
-					if(responseGUI.getIdResponse().toString().equals(valRecup)){
+					// if ("on".equals(valRecup)) {
+					if (responseGUI.getIdResponse().toString().equals(valRecup)) {
+						InscriptionTest inscription = new InscriptionTest();
+						inscription.setInscriptionId(runningTest
+								.getInscriptionID());
+						Reponse reponse = new Reponse();
+						reponse.setIdResponse(responseGUI.getIdResponse());
+						Question question = new Question();
+						question.setIdQuestion(selectedQuestion.getIdQuestion());
+
 						// Insert in base
 						ReponseCandidat responseTrainee = new ReponseCandidat(
-								responseGUI.getIdResponse(), user.getId(),
-								selectedQuestion.getIdQuestion(),
-								runningTest.getInscriptionID());
+								reponse, question, inscription);
 
 						ReponseCandidatDAO.ajouter(responseTrainee);
 						countNbChecked++;
@@ -144,5 +153,4 @@ public class SaveAnswerQuestionServlet extends HttpServlet {
 			return;
 		}
 	}
-
 }

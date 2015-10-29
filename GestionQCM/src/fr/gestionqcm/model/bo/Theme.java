@@ -1,6 +1,6 @@
 package fr.gestionqcm.model.bo;
 
-public class Theme {
+public class Theme implements Comparable<Theme> {
 	private int id;
 	private String label;
 
@@ -27,5 +27,13 @@ public class Theme {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	@Override
+	public int compareTo(Theme t) {
+		Integer thisId = this.getId();
+		Integer otherId = t.getId();
+
+		return thisId.compareTo(otherId);
 	}
 }

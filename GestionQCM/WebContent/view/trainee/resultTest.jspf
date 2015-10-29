@@ -1,0 +1,7 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+Test réussi à ${testsResult.getGlobalResult() } %
+<div>Résultat par thème :</div>
+<c:forEach items="${testsResult.getThemesResult()}" var="result">
+	${result.key.getLabel()} réussi à ${result.value } %
+</c:forEach>

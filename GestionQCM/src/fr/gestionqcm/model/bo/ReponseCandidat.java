@@ -2,52 +2,42 @@ package fr.gestionqcm.model.bo;
 
 public class ReponseCandidat {
 
-	private Integer idReponse;
-	private Integer idUser;
-	private Integer idQuestion;
-	private Integer idInscription;
+	private Reponse response;
+	private Question question;
+	private InscriptionTest inscription;
 
-	public ReponseCandidat(Integer idReponse, Integer idUser,
-			Integer idQuestion, Integer idInscription) {
-		setIdReponse(idReponse);
-		setIdUser(idUser);
-		setIdQuestion(idQuestion);
-		setIdInscription(idInscription);
+	public ReponseCandidat(Reponse response, Question question,
+			InscriptionTest inscription) {
+		setResponse(response);
+		setQuestion(question);
+		setInscription(inscription);
 	}
 
 	public ReponseCandidat() {
 
 	}
 
-	public Integer getIdReponse() {
-		return idReponse;
+	public Reponse getResponse() {
+		return response;
 	}
 
-	public void setIdReponse(Integer idReponse) {
-		this.idReponse = idReponse;
+	public void setResponse(Reponse response) {
+		this.response = response;
 	}
 
-	public Integer getIdUser() {
-		return idUser;
+	public Question getQuestion() {
+		return question;
 	}
 
-	public void setIdUser(Integer idUser) {
-		this.idUser = idUser;
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
-	public Integer getIdQuestion() {
-		return idQuestion;
+	public InscriptionTest getInscription() {
+		return inscription;
 	}
 
-	public void setIdQuestion(Integer idQuestion) {
-		this.idQuestion = idQuestion;
-	}
-
-	public Integer getIdInscription() {
-		return idInscription;
-	}
-
-	public void setIdInscription(Integer idInscription) {
-		this.idInscription = idInscription;
+	public void setInscription(InscriptionTest inscription) {
+		this.inscription = inscription;
 	}
 }
