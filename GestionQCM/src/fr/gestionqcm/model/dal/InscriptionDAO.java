@@ -6,9 +6,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
+import fr.gestionqcm.model.bo.Question;
+import fr.gestionqcm.model.bo.Section;
+import fr.gestionqcm.model.bo.SelectQuestion;
 import fr.gestionqcm.model.bo.Stagiaire;
 import fr.gestionqcm.model.bo.Test;
 import fr.gestionqcm.model.bo.Utilisateur;
@@ -112,6 +118,9 @@ public class InscriptionDAO {
 						Column.questionPosition.getColumnName()),
 				Statement.RETURN_GENERATED_KEYS);
 
+		// Pioche un nombre de question dans le refeentiel de question en se
+		// basant sur les sections associé au theme et les insert dans Selec
+		// question
 		Timestamp currentDate = new Timestamp(new java.util.Date().getTime());
 		cmd.setInt(1, inscription.getTest().getTestId());
 		cmd.setTimestamp(2,
@@ -132,6 +141,7 @@ public class InscriptionDAO {
 			if (results.next()) {
 				inscription.setInscriptionId(results.getInt(1));
 			}
+			selectQuestion(inscription);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception(
@@ -139,6 +149,43 @@ public class InscriptionDAO {
 		} finally {
 			cmd.getConnection().close();
 			cmd.close();
+		}
+	}
+
+	private static void selectQuestion(InscriptionTest inscription)
+			throws Exception {
+		if (inscription != null) {
+			for (Section section : inscription.getTest().getSections()) {
+				int idTheme = section.getIdTheme();
+				List<Question> questionsList = QuestionDAO
+						.getQuestionByTheme(idTheme);
+				Map<Integer, Question> questionsMap = new HashMap<Integer, Question>();
+
+				for (Question question : questionsList) {
+					questionsMap.put(question.getIdQuestion(), question);
+				}
+
+				Random random = new Random();
+				List<Integer> questionsIds = new ArrayList<Integer>(
+						questionsMap.keySet());
+
+				for (int i = 0; i < section.getNbQuestions(); i++) {
+					int indexPicked = random.nextInt(questionsIds.size());
+					int questionIndex = questionsIds.get(indexPicked);
+					Question question = questionsMap.get(questionIndex);
+					questionsIds.remove(indexPicked);
+
+					SelectQuestion selectQuestion = new SelectQuestion();
+					selectQuestion.setIdTest(inscription.getTest().getTestId());
+					selectQuestion.setIdQuestion(question.getIdQuestion());
+					selectQuestion.setIdUser(inscription.getUser().getId());
+					selectQuestion.setIdInscription(inscription
+							.getInscriptionId());
+
+					SelectQuestionDAO.addSelectQuestion(selectQuestion);
+				}
+
+			}
 		}
 	}
 
@@ -193,6 +240,7 @@ public class InscriptionDAO {
 			cmd.setInt(1, inscription.getInscriptionId());
 
 			try {
+				SelectQuestionDAO.deleteByInscritpion(inscription);
 				cmd.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -342,6 +390,10 @@ public class InscriptionDAO {
 			cmd.setTimestamp(1, new Timestamp(date.getTime()));
 			cmd.setInt(2, test.getTestId());
 			try {
+				for (InscriptionTest inscription : getInscriptionsByTestAndDate(
+						test, date)) {
+					SelectQuestionDAO.deleteByInscritpion(inscription);
+				}
 				cmd.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();

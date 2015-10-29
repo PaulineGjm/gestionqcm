@@ -7,11 +7,40 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.gestionqcm.model.bo.InscriptionTest;
 import fr.gestionqcm.model.bo.SelectQuestion;
 import fr.gestionqcm.model.dal.util.AccessDatabase;
+import fr.gestionqcm.model.dal.util.RequestFactory;
 import fr.gestionqcm.model.enums.TypeEstRepondu;
 
 public class SelectQuestionDAO {
+
+	private static final String tableName = "SELECT_QUESTION";
+	private static RequestFactory requestFactory = new RequestFactory(tableName);
+
+	private enum Column {
+		idInscription("id_inscription"),
+
+		testId("id_test"),
+
+		idQuestion("id_question"),
+
+		userId("id_user"),
+
+		estRepondu("estRepondu"),
+
+		estMarque("estMarque");
+
+		private String columnName;
+
+		private Column(String columnName) {
+			this.columnName = columnName;
+		}
+
+		public String getColumnName() {
+			return columnName;
+		}
+	}
 
 	public static List<SelectQuestion> getSelectQuestionByIdInscription(
 			Integer idInscription) throws SQLException {
@@ -22,7 +51,7 @@ public class SelectQuestionDAO {
 		try {
 			cnx = AccessDatabase.getConnection();
 			rqt = cnx
-					.prepareStatement("select * from select_question where id_inscription = ? order by id_question");
+					.prepareStatement("select * from SELECT_QUESTION where id_inscription = ? order by id_question");
 			rqt.setInt(1, idInscription);
 			rs = rqt.executeQuery();
 
@@ -55,6 +84,36 @@ public class SelectQuestionDAO {
 		return listSelectQuestions;
 	}
 
+	public static void addSelectQuestion(SelectQuestion selectQuestion)
+			throws Exception {
+		PreparedStatement cmd = null;
+		cmd = AccessDatabase.getConnection().prepareStatement(
+				requestFactory.getInsert(Column.testId.getColumnName(),
+						Column.idQuestion.getColumnName(),
+						Column.userId.getColumnName(),
+						Column.idInscription.getColumnName(),
+						Column.estRepondu.getColumnName(),
+						Column.estMarque.getColumnName()));
+
+		cmd.setInt(1, selectQuestion.getIdTest());
+		cmd.setInt(2, selectQuestion.getIdQuestion());
+		cmd.setInt(3, selectQuestion.getIdUser());
+		cmd.setInt(4, selectQuestion.getIdInscription());
+		cmd.setInt(5, 0);
+		cmd.setBoolean(6, false);
+
+		try {
+			cmd.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception(
+					"Probl�me de connexion avec la base de données !");
+		} finally {
+			cmd.getConnection().close();
+			cmd.close();
+		}
+	}
+
 	public static void updateByRunningTest(SelectQuestion selectQuestion)
 			throws SQLException {
 		Connection cnx = null;
@@ -76,9 +135,8 @@ public class SelectQuestionDAO {
 				cnx.close();
 		}
 	}
-	
-	public static void updateEndTest(Integer idInscription)
-			throws SQLException {
+
+	public static void updateEndTest(Integer idInscription) throws SQLException {
 		Connection cnx = null;
 		PreparedStatement rqt = null;
 		try {
@@ -110,16 +168,15 @@ public class SelectQuestionDAO {
 			rqt.setInt(2, idQuestion);
 			rs = rqt.executeQuery();
 
-			if(rs.next()) {
+			if (rs.next()) {
 
 				Integer idTest = rs.getInt("id_test");
 				Integer idUser = rs.getInt("id_user");
 				Integer isAnswered = rs.getInt("estRepondu");
 				Boolean isBranded = rs.getBoolean("estMarque");
 
-				selectQuestion = new SelectQuestion(idTest,
-						idQuestion, idUser, idInscription, isAnswered,
-						isBranded);
+				selectQuestion = new SelectQuestion(idTest, idQuestion, idUser,
+						idInscription, isAnswered, isBranded);
 			}
 
 		} catch (SQLException ex) {
@@ -137,8 +194,8 @@ public class SelectQuestionDAO {
 		return selectQuestion;
 	}
 
-	public static Integer getNbSelectQuestion(TypeEstRepondu kindSearched, Integer idInscription)
-			throws SQLException {
+	public static Integer getNbSelectQuestion(TypeEstRepondu kindSearched,
+			Integer idInscription) throws SQLException {
 
 		Integer nbSearched = null;
 
@@ -181,5 +238,27 @@ public class SelectQuestionDAO {
 				cnx.close();
 		}
 		return nbSearched;
+	}
+
+	public static void deleteByInscritpion(InscriptionTest inscription)
+			throws Exception {
+		if (inscription != null) {
+			PreparedStatement cmd = null;
+			cmd = AccessDatabase.getConnection().prepareStatement(
+					requestFactory.getDelete(Column.idInscription
+							.getColumnName()));
+			cmd.setInt(1, inscription.getInscriptionId());
+
+			try {
+				cmd.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception(
+						"Problème de connexion avec la base de données !");
+			} finally {
+				cmd.getConnection().close();
+				cmd.close();
+			}
+		}
 	}
 }
