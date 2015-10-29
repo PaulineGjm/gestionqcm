@@ -68,8 +68,8 @@ public class SaveAnswerQuestionServlet extends HttpServlet {
 		try {
 			if (null != user && null != selectedQuestion && null != runningTest) {
 				
-				String remainingTime = request.getParameter("remainingTime");
-				request.getSession().setAttribute("remainingTime", Integer.parseInt(remainingTime));
+//				String remainingTime = request.getParameter("remainingTime");
+//				request.getSession().setAttribute("remainingTime", Integer.parseInt(remainingTime));
 				// Save selected answers
 				Integer countNbGoodAnswers = 0;
 				Integer countNbChecked = 0;
@@ -129,7 +129,7 @@ public class SaveAnswerQuestionServlet extends HttpServlet {
 						runningTest.getInscriptionID(), questionFullyAnswered,
 						isBranded);
 				SelectQuestionDAO.updateByRunningTest(selectQuestion);
-
+				
 				// On redirige vers la servlet qui gère l'affichage des
 				// questions
 				dispatcher = getServletContext().getRequestDispatcher(

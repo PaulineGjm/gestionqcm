@@ -76,6 +76,25 @@ public class SelectQuestionDAO {
 				cnx.close();
 		}
 	}
+	
+	public static void updateEndTest(Integer idInscription)
+			throws SQLException {
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		try {
+			cnx = AccessDatabase.getConnection();
+			rqt = cnx
+					.prepareStatement("update select_question set estRepondu = 3 where id_inscription = ? and estRepondu = 0");
+			rqt.setInt(1, idInscription);
+
+			rqt.executeUpdate();
+		} finally {
+			if (rqt != null)
+				rqt.close();
+			if (cnx != null)
+				cnx.close();
+		}
+	}
 
 	public static SelectQuestion getSelectQuestion(Integer idQuestion,
 			Integer idInscription) throws SQLException {
@@ -118,7 +137,7 @@ public class SelectQuestionDAO {
 		return selectQuestion;
 	}
 
-	public static Integer getNbSelectQuestion(TypeEstRepondu kindSearched)
+	public static Integer getNbSelectQuestion(TypeEstRepondu kindSearched, Integer idInscription)
 			throws SQLException {
 
 		Integer nbSearched = null;
@@ -147,8 +166,9 @@ public class SelectQuestionDAO {
 		try {
 			cnx = AccessDatabase.getConnection();
 			rqt = cnx
-					.prepareStatement("select count(*) as nbSearched from select_question where estRepondu = ?");
+					.prepareStatement("select count(*) as nbSearched from select_question where estRepondu = ? and id_inscription = ?");
 			rqt.setInt(1, kindSearchedInt);
+			rqt.setInt(2, idInscription);
 
 			rs = rqt.executeQuery();
 			if (rs.next()) {
