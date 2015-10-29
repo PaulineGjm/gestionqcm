@@ -131,7 +131,7 @@ public class InscriptionDAO {
 		cmd.setTimestamp(4,
 				(inscription.getTestStartDate() != null) ? new Timestamp(
 						inscription.getTestStartDate().getTime()) : currentDate);
-		cmd.setInt(5, inscription.getTimesRemaining());
+		cmd.setInt(5, inscription.getTest().getTestDuration());
 		cmd.setInt(6, inscription.getIssueNumber());
 		cmd.setInt(7, inscription.getQuestionPosition());
 
@@ -350,14 +350,10 @@ public class InscriptionDAO {
 		PreparedStatement cmd = null;
 		List<InscriptionTest> testInscriptions = new ArrayList<InscriptionTest>();
 		if (test != null && date != null) {
-			cmd = AccessDatabase
-					.getConnection()
-					.prepareStatement(
-							String.format(
-									"SELECT * FROM %s WHERE %s = ? AND %s = ? AND %s = ?;",
-									tableName,
-									Column.testStartDate.getColumnName(),
-									Column.testId.getColumnName()));
+			cmd = AccessDatabase.getConnection().prepareStatement(
+					String.format("SELECT * FROM %s WHERE %s = ? AND %s = ?;",
+							tableName, Column.testStartDate.getColumnName(),
+							Column.testId.getColumnName()));
 
 			cmd.setTimestamp(1, new Timestamp(date.getTime()));
 			cmd.setInt(2, test.getTestId());

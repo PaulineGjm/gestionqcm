@@ -172,6 +172,7 @@ public class InscriptionsServlet extends HttpServlet {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			// Placer l'objet représentant l'exception dans le contexte de
 			// requete
 			request.setAttribute("error", e);
