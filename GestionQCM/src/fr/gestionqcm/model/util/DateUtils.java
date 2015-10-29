@@ -31,7 +31,7 @@ public class DateUtils {
 			calendarDate.setTime(date);
 			return String.format("%02d-%02d-%02d",
 					calendarDate.get(Calendar.YEAR),
-					calendarDate.get(Calendar.MONTH),
+					calendarDate.get(Calendar.MONTH) + 1,
 					calendarDate.get(Calendar.DAY_OF_MONTH));
 		} else {
 			return "";

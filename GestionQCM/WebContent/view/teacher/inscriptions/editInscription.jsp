@@ -42,15 +42,22 @@
 			<div class="clearfix">
 				<datatables:table data="${editInscriptionGUI.inscriptionsTest}" htmlTableId="inscriptionsTestTable" 
 					dataObjectId="inscriptionTest" autoWidth="true" dom="'t'">
-				 	<datatables:column title=" " headerCssClass="col-sm-1 text-center">
-				 		<input type="radio" name="${inscriptionTestSelected}" value="{testId:${inscriptionTest.test.testId},testStartDate:'${inscriptionTest.testStartDate}'}" />
-				 	</datatables:column>	
-				   	<datatables:column title="Nom du Test" headerCssClass="col-sm-6 text-center">
-				      <c:out value="${inscriptionTest.test.name}" />
-				   </datatables:column>
-				   <datatables:column title="Date de début" headerCssClass="col-sm-5 text-center">
-				      <fmt:formatDate pattern="dd/MM/yyyy hh:mm" value="${inscriptionTest.testStartDate}" />
-				   </datatables:column>
+					<datatables:column title=" " headerCssClass="col-sm-1 text-center">
+						<input type="radio" name="${inscriptionTestSelected}" value="{testId:${inscriptionTest.test.testId},testStartDate:'${inscriptionTest.testStartDate}'}" />
+					</datatables:column>	
+					<datatables:column title="Nom du Test" headerCssClass="col-sm-6 text-center">
+						<c:out value="${inscriptionTest.test.name}" />
+					</datatables:column>
+					<datatables:column title="Date de début" headerCssClass="col-sm-5 text-center">
+						<span>Le</span>
+						<strong>
+							<fmt:formatDate pattern="dd/MM/yyyy" value="${inscriptionTest.testStartDate}" />
+						</strong>
+						<span>à</span>
+						<strong>
+							<fmt:formatDate pattern="HH:mm" value="${inscriptionTest.testStartDate}" />
+						</strong>
+					</datatables:column>
 				</datatables:table>
 			</div>
 			<br />
@@ -65,7 +72,6 @@
 		<c:if test="${editInscriptionGUI.startDateSelected != null && !editInscriptionGUI.startDateSelected.isEmpty()}">
 	    	<h3>Détails du test : </h3>
 	    	<hr />
-	    	
 	    	<form id="editInscriptionForm" method="post" class="form-horizontal" role="form" 
 	    		action="${pageContext.servletContext.contextPath}/teacher/inscriptions/save">
 				<input type="hidden" name="${inscriptionTestSelected}" value="{testId:${editInscriptionGUI.testSelected.testId}, testStartDate:'${editInscriptionGUI.formatDateSelected}'}" />
