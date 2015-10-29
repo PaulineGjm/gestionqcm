@@ -72,6 +72,7 @@
 		<c:if test="${editInscriptionGUI.startDateSelected != null && !editInscriptionGUI.startDateSelected.isEmpty()}">
 	    	<h3>Détails du test : </h3>
 	    	<hr />
+	    	${editInscriptionGUI.formatDateSelected}
 	    	<form id="editInscriptionForm" method="post" class="form-horizontal" role="form" 
 	    		action="${pageContext.servletContext.contextPath}/teacher/inscriptions/save">
 				<input type="hidden" name="${inscriptionTestSelected}" value="{testId:${editInscriptionGUI.testSelected.testId}, testStartDate:'${editInscriptionGUI.formatDateSelected}'}" />
