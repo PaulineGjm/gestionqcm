@@ -1,10 +1,10 @@
 package fr.gestionqcm.model.dal;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +58,10 @@ public class InscriptionDAO {
 			cmd.executeQuery();
 			ResultSet rs = cmd.getResultSet();
 			while (rs.next()) {
-				testInscriptions.add(inscriptionMapping(rs));
+				InscriptionTest inscriptionTest = inscriptionMapping(rs);
+				if (inscriptionTest != null) {
+					testInscriptions.add(inscriptionTest);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -109,13 +112,16 @@ public class InscriptionDAO {
 						Column.questionPosition.getColumnName()),
 				Statement.RETURN_GENERATED_KEYS);
 
-		Date currentDate = new Date(new java.util.Date().getTime());
+		Timestamp currentDate = new Timestamp(new java.util.Date().getTime());
 		cmd.setInt(1, inscription.getTest().getTestId());
-		cmd.setDate(2, (inscription.getInscriptionDate() != null) ? new Date(
-				inscription.getInscriptionDate().getTime()) : currentDate);
+		cmd.setTimestamp(2,
+				(inscription.getInscriptionDate() != null) ? new Timestamp(
+						inscription.getInscriptionDate().getTime())
+						: currentDate);
 		cmd.setInt(3, inscription.getUser().getId());
-		cmd.setDate(4, (inscription.getTestStartDate() != null) ? new Date(
-				inscription.getTestStartDate().getTime()) : currentDate);
+		cmd.setTimestamp(4,
+				(inscription.getTestStartDate() != null) ? new Timestamp(
+						inscription.getTestStartDate().getTime()) : currentDate);
 		cmd.setInt(5, inscription.getTimesRemaining());
 		cmd.setInt(6, inscription.getIssueNumber());
 		cmd.setInt(7, inscription.getQuestionPosition());
@@ -152,12 +158,13 @@ public class InscriptionDAO {
 									Column.questionPosition.getColumnName()));
 
 			cmd.setInt(1, inscription.getTest().getTestId());
-			cmd.setDate(2,
-					(inscription.getInscriptionDate() != null) ? new Date(
+			cmd.setTimestamp(2,
+					(inscription.getInscriptionDate() != null) ? new Timestamp(
 							inscription.getInscriptionDate().getTime()) : null);
 			cmd.setInt(3, inscription.getUser().getId());
-			cmd.setDate(4, (inscription.getTestStartDate() != null) ? new Date(
-					inscription.getTestStartDate().getTime()) : null);
+			cmd.setTimestamp(4,
+					(inscription.getTestStartDate() != null) ? new Timestamp(
+							inscription.getTestStartDate().getTime()) : null);
 			cmd.setInt(5, inscription.getTimesRemaining());
 			cmd.setInt(6, inscription.getIssueNumber());
 			cmd.setInt(7, inscription.getQuestionPosition());
@@ -200,30 +207,32 @@ public class InscriptionDAO {
 
 	private static InscriptionTest inscriptionMapping(ResultSet rs)
 			throws Exception {
-		InscriptionTest inscriptionTest = new InscriptionTest();
-
-		inscriptionTest.setInscriptionId(rs.getInt(Column.inscriptionId
-				.getColumnName()));
-		inscriptionTest.setTest(TestDAO.getTest(rs.getInt(Column.testId
-				.getColumnName())));
-		inscriptionTest.setInscriptionDate(rs
-				.getTimestamp(Column.inscriptionDate.getColumnName()));
+		InscriptionTest inscriptionTest = null;
 
 		Utilisateur user = UserDAO.getUser(rs.getInt(Column.userId
 				.getColumnName()));
 
 		if (user.isStagiaire()) {
+			inscriptionTest = new InscriptionTest();
+
 			inscriptionTest.setUser((Stagiaire) user);
+			inscriptionTest.setInscriptionId(rs.getInt(Column.inscriptionId
+					.getColumnName()));
+			inscriptionTest.setTest(TestDAO.getTest(rs.getInt(Column.testId
+					.getColumnName())));
+			inscriptionTest.setInscriptionDate(rs
+					.getTimestamp(Column.inscriptionDate.getColumnName()));
+
+			inscriptionTest.setTestStartDate(rs
+					.getTimestamp(Column.testStartDate.getColumnName()));
+			inscriptionTest.setTimesRemaining(rs.getInt(Column.timesRemaining
+					.getColumnName()));
+			inscriptionTest.setIssueNumber(rs.getInt(Column.issueNumber
+					.getColumnName()));
+			inscriptionTest.setQuestionPosition(rs
+					.getInt(Column.questionPosition.getColumnName()));
 		}
 
-		inscriptionTest.setTestStartDate(rs.getTimestamp(Column.testStartDate
-				.getColumnName()));
-		inscriptionTest.setTimesRemaining(rs.getInt(Column.timesRemaining
-				.getColumnName()));
-		inscriptionTest.setIssueNumber(rs.getInt(Column.issueNumber
-				.getColumnName()));
-		inscriptionTest.setQuestionPosition(rs.getInt(Column.questionPosition
-				.getColumnName()));
 		return inscriptionTest;
 	}
 
@@ -258,16 +267,12 @@ public class InscriptionDAO {
 		List<InscriptionTest> testInscriptions = new ArrayList<InscriptionTest>();
 
 		cmd = AccessDatabase.getConnection().prepareStatement(
-				String.format("SELECT %s, %s FROM %s "
-						+ "WHERE %s <= ? GROUP BY %s, %s;",
+				String.format("SELECT %s, %s FROM %s GROUP BY %s, %s;",
 						Column.testId.getColumnName(),
 						Column.testStartDate.getColumnName(), tableName,
 						Column.testStartDate.getColumnName(),
-						Column.testStartDate.getColumnName(),
 						Column.testId.getColumnName()));
 
-		java.util.Date currentDate = new java.util.Date();
-		cmd.setDate(1, new Date(currentDate.getTime()));
 		try {
 			cmd.executeQuery();
 			ResultSet rs = cmd.getResultSet();
@@ -302,13 +307,16 @@ public class InscriptionDAO {
 							tableName, Column.testStartDate.getColumnName(),
 							Column.testId.getColumnName()));
 
-			cmd.setDate(1, new Date(date.getTime()));
+			cmd.setTimestamp(1, new Timestamp(date.getTime()));
 			cmd.setInt(2, test.getTestId());
 			try {
 				cmd.executeQuery();
 				ResultSet rs = cmd.getResultSet();
 				while (rs.next()) {
-					testInscriptions.add(inscriptionMapping(rs));
+					InscriptionTest inscriptionTest = inscriptionMapping(rs);
+					if (inscriptionTest != null) {
+						testInscriptions.add(inscriptionTest);
+					}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -331,7 +339,7 @@ public class InscriptionDAO {
 							tableName, Column.testStartDate.getColumnName(),
 							Column.testId.getColumnName()));
 
-			cmd.setDate(1, new Date(date.getTime()));
+			cmd.setTimestamp(1, new Timestamp(date.getTime()));
 			cmd.setInt(2, test.getTestId());
 			try {
 				cmd.executeUpdate();
@@ -345,8 +353,9 @@ public class InscriptionDAO {
 			}
 		}
 	}
-	
-	public static void updateRemainingTimeByInscriptionId(Integer remainingTime, Integer idInscription) throws Exception {
+
+	public static void updateRemainingTimeByInscriptionId(
+			Integer remainingTime, Integer idInscription) throws Exception {
 		PreparedStatement cmd = null;
 		if (remainingTime != null && idInscription != null) {
 			cmd = AccessDatabase.getConnection().prepareStatement(
@@ -362,18 +371,17 @@ public class InscriptionDAO {
 				e.printStackTrace();
 				throw new Exception(
 						"Problème de connexion avec la base de données !");
-			}catch(Exception ex)
-			{
+			} catch (Exception ex) {
 				String test = ex.getMessage();
-			}
-			finally {
+			} finally {
 				cmd.getConnection().close();
 				cmd.close();
 			}
 		}
 	}
-	
-	public static void updateQuestionPositionByIdInscription(Integer questionPosition, Integer idInscription) throws Exception {
+
+	public static void updateQuestionPositionByIdInscription(
+			Integer questionPosition, Integer idInscription) throws Exception {
 		PreparedStatement cmd = null;
 		if (questionPosition != null && idInscription != null) {
 			cmd = AccessDatabase.getConnection().prepareStatement(
@@ -389,15 +397,12 @@ public class InscriptionDAO {
 				e.printStackTrace();
 				throw new Exception(
 						"Problème de connexion avec la base de données !");
-			}catch(Exception ex)
-			{
+			} catch (Exception ex) {
 				String test = ex.getMessage();
-			}
-			finally {
+			} finally {
 				cmd.getConnection().close();
 				cmd.close();
 			}
 		}
 	}
-	
 }
