@@ -44,7 +44,8 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
@@ -52,22 +53,27 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void processRequest(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
 		RequestDispatcher dispatcher;
-		TestEnCoursGUI runningTest = (TestEnCoursGUI) request.getSession().getAttribute("runningTest");
+		TestEnCoursGUI runningTest = (TestEnCoursGUI) request.getSession()
+				.getAttribute("runningTest");
 
-		ModeRunningTest mode = (ModeRunningTest) request.getSession().getAttribute("mode");
+		ModeRunningTest mode = (ModeRunningTest) request.getSession()
+				.getAttribute("mode");
 
 		try {
 
 			String remainingTime = request.getParameter("remainingTime");
 			if (null != remainingTime && !remainingTime.isEmpty())
-				request.getSession().setAttribute("remainingTime", Integer.parseInt(remainingTime));
+				request.getSession().setAttribute("remainingTime",
+						Integer.parseInt(remainingTime));
 
 			Integer questionNumber = runningTest.getQuestionPosition();
 
@@ -77,9 +83,13 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 				questionNumber = Integer.parseInt(questionWanted);
 			}
 
-			if (null != request.getSession().getAttribute("remainingTime") && (Integer) request.getSession().getAttribute("remainingTime") == 0) {
-//				dispatcher = getServletContext().getRequestDispatcher("/trainee/test/overview");
-				dispatcher = getServletContext().getRequestDispatcher("/trainee/test/endtest");
+			if (null != request.getSession().getAttribute("remainingTime")
+					&& (Integer) request.getSession().getAttribute(
+							"remainingTime") == 0) {
+				// dispatcher =
+				// getServletContext().getRequestDispatcher("/trainee/test/overview");
+				dispatcher = getServletContext().getRequestDispatcher(
+						"/trainee/test/endtest");
 				dispatcher.forward(request, response);
 				return;
 			}
@@ -89,29 +99,35 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 				questionNumber++;
 				// update of questionPosition
 				if (mode.equals(ModeRunningTest.runningTest))
-					InscriptionDAO.updateQuestionPositionByIdInscription(questionNumber, runningTest.getInscriptionID());
+					InscriptionDAO.updateQuestionPositionByIdInscription(
+							questionNumber, runningTest.getInscriptionID());
 			} else if (null != request.getParameter("bPrev")) {
 				// On passe à la question suivante
 				if (questionNumber > 1) {
 					questionNumber--;
 				}
 			} else if (null != request.getParameter("bOverview")) {
-//				dispatcher = getServletContext().getRequestDispatcher("/trainee/test/overview");
-				dispatcher = getServletContext().getRequestDispatcher("/trainee/test/endtest");
+				// dispatcher =
+				// getServletContext().getRequestDispatcher("/trainee/test/overview");
+				dispatcher = getServletContext().getRequestDispatcher(
+						"/trainee/test/endtest");
 				dispatcher.forward(request, response);
 				return;
 			}
-			
+
 			if (questionNumber > runningTest.getNbQuestion()) {
-//				dispatcher = getServletContext().getRequestDispatcher("/trainee/test/overview");
-				dispatcher = getServletContext().getRequestDispatcher("/trainee/test/endtest");
+				// dispatcher =
+				// getServletContext().getRequestDispatcher("/trainee/test/overview");
+				dispatcher = getServletContext().getRequestDispatcher(
+						"/trainee/test/endtest");
 				dispatcher.forward(request, response);
 				return;
 			}
 
 			runningTest.setQuestionPosition(questionNumber);
 
-			List<Integer> listIdQuestions = (List<Integer>) request.getSession().getAttribute("listIdQuestions");
+			List<Integer> listIdQuestions = (List<Integer>) request
+					.getSession().getAttribute("listIdQuestions");
 
 			// Comme c'est une liste son index commence à 0 et non à 1
 			// En conséquence si le numéro de la question est 1, on va demander
@@ -121,11 +137,14 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			// Récupération de la question et des réponses + insertion dans les
 			// objets GUI
 			Question question = QuestionDAO.getQuestionById(idNextQuestion);
-			List<Reponse> listResponses = ReponseDAO.getResponsesByIdQuestion(idNextQuestion);
+			List<Reponse> listResponses = ReponseDAO
+					.getResponsesByIdQuestion(idNextQuestion);
 
 			List<Integer> listIdResponseChecked = new ArrayList<Integer>();
 			if (mode.equals(ModeRunningTest.overview)) {
-				listIdResponseChecked = ReponseCandidatDAO.getListIdResponse(question.getIdQuestion(), runningTest.getInscriptionID());
+				listIdResponseChecked = ReponseCandidatDAO.getListIdResponse(
+						question.getIdQuestion(),
+						runningTest.getInscriptionID());
 			}
 
 			List<ReponseGUI> listResponsesGUI = new ArrayList<ReponseGUI>();
@@ -133,11 +152,14 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			for (Reponse responseFor : listResponses) {
 				isChecked = false;
 				if (mode.equals(ModeRunningTest.overview)) {
-					if (listIdResponseChecked.contains(responseFor.getIdResponse())) {
+					if (listIdResponseChecked.contains(responseFor
+							.getIdResponse())) {
 						isChecked = true;
 					}
 				}
-				ReponseGUI responseGUI = new ReponseGUI(responseFor.getIdResponse(), responseFor.getWording(), responseFor.getIsCorrect(), isChecked);
+				ReponseGUI responseGUI = new ReponseGUI(
+						responseFor.getIdResponse(), responseFor.getWording(),
+						responseFor.getIsCorrect(), isChecked);
 				listResponsesGUI.add(responseGUI);
 			}
 
@@ -145,13 +167,17 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			// in overview mode we get back what the user entered
 			Boolean isBranded = false;
 			if (mode.equals(ModeRunningTest.overview)) {
-				isBranded = SelectQuestionDAO.getSelectQuestion(question.getIdQuestion(), runningTest.getInscriptionID()).getIsBranded();
+				isBranded = SelectQuestionDAO.getSelectQuestion(
+						question.getIdQuestion(),
+						runningTest.getInscriptionID()).getIsBranded();
 			}
-			QuestionGUI questionGUI = new QuestionGUI(question.getIdQuestion(), question.getWording(), question.getUrlImage(), isBranded,
+			QuestionGUI questionGUI = new QuestionGUI(question.getIdQuestion(),
+					question.getWording(), question.getUrlImage(), isBranded,
 					listResponsesGUI);
 
 			request.getSession().setAttribute("selectedQuestion", questionGUI);
-			dispatcher = getServletContext().getRequestDispatcher("/view/trainee/runningTest.jsp");
+			dispatcher = getServletContext().getRequestDispatcher(
+					"/view/trainee/runningTest.jsp");
 			dispatcher.forward(request, response);
 
 			return;
@@ -160,7 +186,8 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 			// requete
 			request.setAttribute("error", ex);
 			// Passer la main Ã  la page de présentation des erreurs
-			dispatcher = getServletContext().getRequestDispatcher("/view/error/error.jsp");
+			dispatcher = getServletContext().getRequestDispatcher(
+					"/view/error/error.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}

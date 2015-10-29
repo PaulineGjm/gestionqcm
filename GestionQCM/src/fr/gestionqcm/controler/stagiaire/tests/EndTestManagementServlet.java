@@ -51,16 +51,18 @@ public class EndTestManagementServlet extends HttpServlet {
 		try {
 			TestEnCoursGUI runningTest = (TestEnCoursGUI) request.getSession()
 					.getAttribute("runningTest");
-			if(runningTest.getQuestionPosition() <= runningTest.getNbQuestion())
-			{
+			if (runningTest.getQuestionPosition() <= runningTest
+					.getNbQuestion()) {
 				// update questions set isRepondu = 3 if it is equal to 0
 				SelectQuestionDAO.updateEndTest(runningTest.getInscriptionID());
-	
+
 				// update position question set à max
-				InscriptionDAO.updateQuestionPositionByIdInscription(runningTest.getNbQuestion()+1,
+				InscriptionDAO.updateQuestionPositionByIdInscription(
+						runningTest.getNbQuestion() + 1,
 						runningTest.getInscriptionID());
 			}
-			dispatcher = getServletContext().getRequestDispatcher("/trainee/test/overview");
+			dispatcher = getServletContext().getRequestDispatcher(
+					"/trainee/test/overview");
 			dispatcher.forward(request, response);
 			return;
 

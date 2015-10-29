@@ -70,7 +70,7 @@ public class SaveAnswerQuestionServlet extends HttpServlet {
 
 		try {
 			if (null != user && null != selectedQuestion && null != runningTest) {
-				
+
 				// Save selected answers
 				Integer countNbGoodAnswers = 0;
 				Integer countNbChecked = 0;
@@ -136,7 +136,7 @@ public class SaveAnswerQuestionServlet extends HttpServlet {
 						runningTest.getInscriptionID(), questionFullyAnswered,
 						isBranded);
 				SelectQuestionDAO.updateByRunningTest(selectQuestion);
-				
+
 				// On redirige vers la servlet qui gère l'affichage des
 				// questions
 				dispatcher = getServletContext().getRequestDispatcher(
