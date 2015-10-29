@@ -16,6 +16,7 @@ import fr.gestionqcm.model.bo.ReponseCandidat;
 import fr.gestionqcm.model.bo.SelectQuestion;
 import fr.gestionqcm.model.bo.Utilisateur;
 import fr.gestionqcm.model.dal.ConnexionDAO;
+import fr.gestionqcm.model.dal.InscriptionDAO;
 import fr.gestionqcm.model.dal.QuestionDAO;
 import fr.gestionqcm.model.dal.ReponseCandidatDAO;
 import fr.gestionqcm.model.dal.ReponseDAO;
@@ -67,49 +68,57 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 		ModeRunningTest mode = (ModeRunningTest) request.getSession()
 				.getAttribute("mode");
 
-		// To go from view overview to a selected question
-		Integer questionNumber = runningTest.getQuestionPosition();
+		try {
+			
+			String remainingTime = request.getParameter("remainingTime");
+			if(null != remainingTime)
+				request.getSession().setAttribute("remainingTime", Integer.parseInt(remainingTime));
 
-		String questionWanted = request.getParameter("questionNumber");
-		if (null != questionWanted) {
-			questionNumber = Integer.parseInt(questionWanted);
-		}
+			// To go from view overview to a selected question
+			Integer questionNumber = runningTest.getQuestionPosition();
 
-		if (runningTest.getTimeRemaining() == 0) {
-			dispatcher = getServletContext().getRequestDispatcher(
-					"/trainee/test/overview");
-			dispatcher.forward(request, response);
-			return;
-		}
+			String questionWanted = request.getParameter("questionNumber");
+			if (null != questionWanted) {
+				questionNumber = Integer.parseInt(questionWanted);
+			}
 
-		// Switch case to know which button has been pushed
-		if (null != request.getParameter("bNext")) {
-			if (runningTest.getQuestionPosition() == runningTest
-					.getNbQuestion()) {
+			if ((Integer) request.getSession().getAttribute("remainingTime") == 0) {
 				dispatcher = getServletContext().getRequestDispatcher(
 						"/trainee/test/overview");
 				dispatcher.forward(request, response);
 				return;
 			}
-			// On passe à la question suivante
-			if (questionNumber < runningTest.getNbQuestion()) {
-				questionNumber++;
-			}
-		} else if (null != request.getParameter("bPrev")) {
-			// On passe à la question suivante
-			if (questionNumber > 1) {
-				questionNumber--;
-			}
-		} else if (null != request.getParameter("bOverview")) {
-			dispatcher = getServletContext().getRequestDispatcher(
-					"/trainee/test/overview");
-			dispatcher.forward(request, response);
-			return;
-		}
 
-		runningTest.setQuestionPosition(questionNumber);
+			// Switch case to know which button has been pushed
+			if (null != request.getParameter("bNext")) {
+				if (runningTest.getQuestionPosition() == runningTest
+						.getNbQuestion()) {
+					dispatcher = getServletContext().getRequestDispatcher(
+							"/trainee/test/overview");
+					dispatcher.forward(request, response);
+					return;
+				}
+				// On passe à la question suivante
+				if (questionNumber < runningTest.getNbQuestion()) {
+					questionNumber++;
+					// update of questionPosition
+					if (mode.equals(ModeRunningTest.runningTest))
+						InscriptionDAO.updateQuestionPositionByIdInscription(
+								questionNumber, runningTest.getInscriptionID());
+				}
+			} else if (null != request.getParameter("bPrev")) {
+				// On passe à la question suivante
+				if (questionNumber > 1) {
+					questionNumber--;
+				}
+			} else if (null != request.getParameter("bOverview")) {
+				dispatcher = getServletContext().getRequestDispatcher(
+						"/trainee/test/overview");
+				dispatcher.forward(request, response);
+				return;
+			}
 
-		try {
+			runningTest.setQuestionPosition(questionNumber);
 
 			List<Integer> listIdQuestions = (List<Integer>) request
 					.getSession().getAttribute("listIdQuestions");

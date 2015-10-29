@@ -228,12 +228,22 @@
   </filter-mapping>
   <servlet>
     <description></description>
-    <display-name>RefreshRemainingTimeServlet</display-name>
-    <servlet-name>RefreshRemainingTimeServlet</servlet-name>
-    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.RefreshRemainingTimeServlet</servlet-class>
+    <display-name>ManageRemainingTimeServlet</display-name>
+    <servlet-name>ManageRemainingTimeServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.ManageRemainingTimeServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>RefreshRemainingTimeServlet</servlet-name>
-    <url-pattern>/trainee/test/refreshremainingtime</url-pattern>
+    <servlet-name>ManageRemainingTimeServlet</servlet-name>
+    <url-pattern>/trainee/test/manageremainingtime</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EndTestManagementServlet</display-name>
+    <servlet-name>EndTestManagementServlet</servlet-name>
+    <servlet-class>fr.gestionqcm.controler.stagiaire.tests.EndTestManagementServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EndTestManagementServlet</servlet-name>
+    <url-pattern>/EndTestManagementServlet</url-pattern>
   </servlet-mapping>
 </web-app>

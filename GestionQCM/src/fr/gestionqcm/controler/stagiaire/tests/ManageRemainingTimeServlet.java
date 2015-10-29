@@ -13,13 +13,13 @@ import fr.gestionqcm.view.beans.TestEnCoursGUI;
 /**
  * Servlet implementation class RefreshRemainingTime
  */
-public class RefreshRemainingTimeServlet extends HttpServlet {
+public class ManageRemainingTimeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RefreshRemainingTimeServlet() {
+    public ManageRemainingTimeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -54,12 +54,19 @@ public class RefreshRemainingTimeServlet extends HttpServlet {
 				request.getSession().setAttribute("remainingTime", time);
 			}
 			// Save in database remaining time in minutes each minute
-			else
+			else if(mode.equals("save"))
 			{
 				String idInscription = request.getParameter("idInscription");
 				// valeur en minutes
 				Integer remainingTime = Integer.parseInt(request.getParameter("timeRemaining"));
 				InscriptionDAO.updateRemainingTimeByInscriptionId(remainingTime, Integer.parseInt(idInscription));
+			}
+			// Refresh and save for end of the test => Remaining time = 0
+			else
+			{
+				String idInscription = request.getParameter("idInscription");
+				request.getSession().setAttribute("remainingTime", 0);
+				InscriptionDAO.updateRemainingTimeByInscriptionId(0, Integer.parseInt(idInscription));
 			}
 		}
 		
