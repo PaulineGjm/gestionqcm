@@ -22,4 +22,20 @@ public class InscriptionHandler {
 			throws Exception {
 		InscriptionDAO.deleteInscriptionsByTestAndDate(test, date);
 	}
+
+	public static void saveModifications(
+			List<InscriptionTest> inscriptionsTuUpdate,
+			List<InscriptionTest> inscriptionsToDelete) throws Exception {
+		for (InscriptionTest inscriptionTest : inscriptionsTuUpdate) {
+			if (inscriptionTest.getInscriptionId() > 0) {
+				InscriptionDAO.updateInscription(inscriptionTest);
+			} else {
+				InscriptionDAO.addInscription(inscriptionTest);
+			}
+		}
+
+		for (InscriptionTest inscriptionTest : inscriptionsToDelete) {
+			InscriptionDAO.deleteInscription(inscriptionTest);
+		}
+	}
 }

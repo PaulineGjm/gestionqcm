@@ -3,6 +3,8 @@ package fr.gestionqcm.controler.teacher.inscriptions;
 import static fr.gestionqcm.view.beans.EditInscriptionGUI.FormFields.inscriptionTestSelected;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -16,8 +18,10 @@ import org.json.JSONObject;
 
 import fr.gestionqcm.model.bo.InscriptionTest;
 import fr.gestionqcm.model.bo.Promotion;
+import fr.gestionqcm.model.bo.Stagiaire;
 import fr.gestionqcm.model.bo.Test;
 import fr.gestionqcm.model.dal.TestDAO;
+import fr.gestionqcm.model.dal.UserDAO;
 import fr.gestionqcm.model.enums.TypeAction;
 import fr.gestionqcm.model.handler.InscriptionHandler;
 import fr.gestionqcm.model.handler.PromotionHandler;
@@ -80,10 +84,7 @@ public class InscriptionsServlet extends HttpServlet {
 			}
 
 			if (TypeAction.edit.equals(typeAction)) {
-				editInscriptionGUI.setStartDateSelected(DateUtils
-						.getDateFromDate(dateSelectionne));
-				editInscriptionGUI.setStartHourSelected(DateUtils
-						.getDateHourDate(dateSelectionne));
+				editInscriptionGUI.setDateSelected(dateSelectionne);
 				editInscriptionGUI.setTestSelected(testSelectionne);
 				editInscriptionGUI
 						.setSubscribedInscriptionsTest(InscriptionHandler
@@ -97,10 +98,7 @@ public class InscriptionsServlet extends HttpServlet {
 				testSelectionne = (editInscriptionGUI.getTests().isEmpty()) ? null
 						: editInscriptionGUI.getTests().get(0);
 
-				editInscriptionGUI.setStartDateSelected(DateUtils
-						.getDateFromDate(dateSelectionne));
-				editInscriptionGUI.setStartHourSelected(DateUtils
-						.getDateHourDate(dateSelectionne));
+				editInscriptionGUI.setDateSelected(dateSelectionne);
 				editInscriptionGUI.setTestSelected(testSelectionne);
 
 				rd = getServletContext().getRequestDispatcher(
@@ -109,8 +107,55 @@ public class InscriptionsServlet extends HttpServlet {
 				InscriptionHandler.deleteInscriptionsByTestAndDate(
 						testSelectionne, dateSelectionne);
 			} else if (TypeAction.save.equals(typeAction)) {
-				String[] users = request
-						.getParameterValues(FormFields.usersSelected.name());
+				List<InscriptionTest> inscriptionsBeforeModification = InscriptionHandler
+						.getInscriptionsByTestAndDate(testSelectionne,
+								dateSelectionne);
+
+				String testSelectedString = request
+						.getParameter(FormFields.testSelected.name());
+				String startDateSelectedString = request
+						.getParameter(FormFields.startDateSelected.name());
+				String startHourSelectedString = request
+						.getParameter(FormFields.startHourSelected.name());
+				ArrayList<String> usersIds = new ArrayList<String>();
+				if (request.getParameterValues(FormFields.users.name()) != null) {
+					usersIds.addAll(Arrays.asList(request
+							.getParameterValues(FormFields.users.name())));
+				}
+				String formatedDate = String.format("%s %s:00.0",
+						startDateSelectedString, startHourSelectedString);
+
+				Date dateSelected = DateUtils.stringToDate(formatedDate);
+				Test testSelected = TestDAO.getTest(Integer
+						.valueOf(testSelectedString));
+
+				List<InscriptionTest> inscriptionsNotFound = new ArrayList<InscriptionTest>();
+				// Loop the original list to update the existing inscriptions
+				for (InscriptionTest inscriptionTest : inscriptionsBeforeModification) {
+					String userIdString = inscriptionTest.getUser().getId()
+							.toString();
+					if (usersIds.contains(userIdString)) {
+						inscriptionTest.setTestStartDate(dateSelected);
+						inscriptionTest.setTest(testSelected);
+						usersIds.remove(userIdString);
+					} else {
+						inscriptionsNotFound.add(inscriptionTest);
+					}
+				}
+
+				for (String userId : usersIds) {
+					InscriptionTest inscriptionTest = new InscriptionTest();
+					inscriptionTest.setTestStartDate(dateSelected);
+					inscriptionTest.setTest(testSelected);
+					inscriptionTest.setUser((Stagiaire) UserDAO.getUser(Integer
+							.valueOf(userId)));
+
+					inscriptionsBeforeModification.add(inscriptionTest);
+				}
+
+				InscriptionHandler.saveModifications(
+						inscriptionsBeforeModification, inscriptionsNotFound);
+
 			} else {
 				rd = getServletContext().getRequestDispatcher(
 						"/view/teacher/inscriptions/editInscription.jsp");
