@@ -244,6 +244,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>EndTestManagementServlet</servlet-name>
-    <url-pattern>/EndTestManagementServlet</url-pattern>
+    <url-pattern>/trainee/test/endtest</url-pattern>
   </servlet-mapping>
 </web-app>

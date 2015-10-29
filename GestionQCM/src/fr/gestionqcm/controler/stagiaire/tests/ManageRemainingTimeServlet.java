@@ -45,18 +45,22 @@ public class ManageRemainingTimeServlet extends HttpServlet {
 			String mode = request.getParameter("mode");
 		if(null != mode)
 		{
-			Integer remainingTime = Integer.parseInt(request.getParameter("timeRemaining"));
-			if(remainingTime < 0)
-				remainingTime = 0;
+			
 			// Refresh session attribute
 			if(mode.equals("refresh"))
 			{
+				Integer remainingTime = Integer.parseInt(request.getParameter("timeRemaining"));
+				if(remainingTime < 0)
+					remainingTime = 0;
 				// value in seconds
 				request.getSession().setAttribute("remainingTime", remainingTime);
 			}
 			// Save in database remaining time in minutes each minute
 			else if(mode.equals("save"))
 			{
+				Integer remainingTime = Integer.parseInt(request.getParameter("timeRemaining"));
+				if(remainingTime < 0)
+					remainingTime = 0;
 				String idInscription = request.getParameter("idInscription");
 				// valeur en minutes
 				

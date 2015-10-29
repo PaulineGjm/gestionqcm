@@ -85,7 +85,7 @@ public class BeginTestServlet extends HttpServlet {
 				listIdQuestions.add(question.getIdQuestion());
 			}
 			
-			if(testEnCours.getQuestionPosition() == listIdQuestions.size())
+			if(testEnCours.getQuestionPosition() > listIdQuestions.size())
 				request.getSession().setAttribute("mode", ModeRunningTest.overview);
 			else
 				request.getSession().setAttribute("mode", ModeRunningTest.runningTest);

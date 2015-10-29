@@ -38,9 +38,9 @@ public class DisconnectionServlet extends HttpServlet {
 	}
 
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.getSession().setAttribute("user", null);
 		HttpSession session = request.getSession(false);
-		session.invalidate();
+		if(null != session)
+			session.invalidate();
 		response.sendRedirect(request.getContextPath() + "/");
 	}
 

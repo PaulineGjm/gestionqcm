@@ -2,6 +2,7 @@ package fr.gestionqcm.controler.stagiaire.tests;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -46,18 +47,32 @@ public class EndTestManagementServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
+		RequestDispatcher dispatcher;
 		try {
 			TestEnCoursGUI runningTest = (TestEnCoursGUI) request.getSession()
 					.getAttribute("runningTest");
-			// update questions set isRepondu = 3 if it is equal to 0
-			SelectQuestionDAO.updateEndTest(runningTest.getInscriptionID());
-
-			// update position question set à max
-			InscriptionDAO.updateQuestionPositionByIdInscription(runningTest.getNbQuestion(),
-					runningTest.getInscriptionID());
+			if(runningTest.getQuestionPosition() <= runningTest.getNbQuestion())
+			{
+				// update questions set isRepondu = 3 if it is equal to 0
+				SelectQuestionDAO.updateEndTest(runningTest.getInscriptionID());
+	
+				// update position question set à max
+				InscriptionDAO.updateQuestionPositionByIdInscription(runningTest.getNbQuestion()+1,
+						runningTest.getInscriptionID());
+			}
+			dispatcher = getServletContext().getRequestDispatcher("/trainee/test/overview");
+			dispatcher.forward(request, response);
+			return;
 
 		} catch (Exception ex) {
-			String error = ex.getMessage();
+			// Placer l'objet représentant l'exception dans le contexte de
+			// requete
+			request.setAttribute("error", ex);
+			// Passer la main Ã  la page de présentation des erreurs
+			dispatcher = getServletContext().getRequestDispatcher(
+					"/view/error/error.jsp");
+			dispatcher.forward(request, response);
+			return;
 		}
 	}
 }
