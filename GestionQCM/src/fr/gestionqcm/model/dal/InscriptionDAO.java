@@ -350,10 +350,14 @@ public class InscriptionDAO {
 		PreparedStatement cmd = null;
 		List<InscriptionTest> testInscriptions = new ArrayList<InscriptionTest>();
 		if (test != null && date != null) {
-			cmd = AccessDatabase.getConnection().prepareStatement(
-					String.format("SELECT * FROM %s WHERE %s = ? AND %s = ?;",
-							tableName, Column.testStartDate.getColumnName(),
-							Column.testId.getColumnName()));
+			cmd = AccessDatabase
+					.getConnection()
+					.prepareStatement(
+							String.format(
+									"SELECT * FROM %s WHERE %s = ? AND %s = ? AND %s = ?;",
+									tableName,
+									Column.testStartDate.getColumnName(),
+									Column.testId.getColumnName()));
 
 			cmd.setTimestamp(1, new Timestamp(date.getTime()));
 			cmd.setInt(2, test.getTestId());
