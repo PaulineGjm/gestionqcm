@@ -43,7 +43,8 @@ public class DateUtils {
 		if (date != null) {
 			Calendar calendarDate = Calendar.getInstance();
 			calendarDate.setTime(date);
-			return String.format("%02d:%02d", calendarDate.get(Calendar.HOUR),
+			return String.format("%02d:%02d",
+					calendarDate.get(Calendar.HOUR_OF_DAY),
 					calendarDate.get(Calendar.MINUTE));
 		} else {
 			return "";
