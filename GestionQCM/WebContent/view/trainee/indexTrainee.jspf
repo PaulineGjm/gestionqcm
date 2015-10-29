@@ -14,7 +14,7 @@
 	   <datatables:column title="Etat" headerCssClass="col-sm-3 text-center">
 	   		<div class="text-center">
 			<c:choose>
-			  <c:when test="${test.getTimeRemaining() != test.getTestDuration()}">
+			  <c:when test="${test.getTimeRemaining() != test.getTestDuration() || test.getQuestionPosition() > 1}">
 			    	<strong>En cours</strong>
  			  </c:when>
 			  <c:when test="${test.getTimeRemaining() == test.getTestDuration()}">
