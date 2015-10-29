@@ -12,10 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.gestionqcm.model.bo.Question;
 import fr.gestionqcm.model.bo.Reponse;
-import fr.gestionqcm.model.bo.ReponseCandidat;
-import fr.gestionqcm.model.bo.SelectQuestion;
-import fr.gestionqcm.model.bo.Utilisateur;
-import fr.gestionqcm.model.dal.ConnexionDAO;
 import fr.gestionqcm.model.dal.InscriptionDAO;
 import fr.gestionqcm.model.dal.QuestionDAO;
 import fr.gestionqcm.model.dal.ReponseCandidatDAO;
@@ -182,6 +178,7 @@ public class DisplayNextQuestionServlet extends HttpServlet {
 
 			return;
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			// Placer l'objet représentant l'exception dans le contexte de
 			// requete
 			request.setAttribute("error", ex);
