@@ -1,6 +1,5 @@
 package fr.gestionqcm.model.dal;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -113,13 +112,16 @@ public class InscriptionDAO {
 						Column.questionPosition.getColumnName()),
 				Statement.RETURN_GENERATED_KEYS);
 
-		Date currentDate = new Date(new java.util.Date().getTime());
+		Timestamp currentDate = new Timestamp(new java.util.Date().getTime());
 		cmd.setInt(1, inscription.getTest().getTestId());
-		cmd.setDate(2, (inscription.getInscriptionDate() != null) ? new Date(
-				inscription.getInscriptionDate().getTime()) : currentDate);
+		cmd.setTimestamp(2,
+				(inscription.getInscriptionDate() != null) ? new Timestamp(
+						inscription.getInscriptionDate().getTime())
+						: currentDate);
 		cmd.setInt(3, inscription.getUser().getId());
-		cmd.setDate(4, (inscription.getTestStartDate() != null) ? new Date(
-				inscription.getTestStartDate().getTime()) : currentDate);
+		cmd.setTimestamp(4,
+				(inscription.getTestStartDate() != null) ? new Timestamp(
+						inscription.getTestStartDate().getTime()) : currentDate);
 		cmd.setInt(5, inscription.getTimesRemaining());
 		cmd.setInt(6, inscription.getIssueNumber());
 		cmd.setInt(7, inscription.getQuestionPosition());
