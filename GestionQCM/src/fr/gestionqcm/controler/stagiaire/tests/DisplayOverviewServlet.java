@@ -74,14 +74,19 @@ public class DisplayOverviewServlet extends HttpServlet {
 						selectQuestion.getIsBranded()));
 			}
 			Integer idInscription = runningTest.getInscriptionID();
-			Integer nbFullyAnswered = SelectQuestionDAO.getNbSelectQuestion(TypeEstRepondu.fullyAnswered, idInscription);
-			Integer nbPartiallyAnswered = SelectQuestionDAO.getNbSelectQuestion(TypeEstRepondu.partiallyAnswered, idInscription);
-			Integer nbNotAnswered = SelectQuestionDAO.getNbSelectQuestion(TypeEstRepondu.notAnswered, idInscription);
-			
+			Integer nbFullyAnswered = SelectQuestionDAO.getNbSelectQuestion(
+					TypeEstRepondu.fullyAnswered, idInscription);
+			Integer nbPartiallyAnswered = SelectQuestionDAO
+					.getNbSelectQuestion(TypeEstRepondu.partiallyAnswered,
+							idInscription);
+			Integer nbNotAnswered = SelectQuestionDAO.getNbSelectQuestion(
+					TypeEstRepondu.notAnswered, idInscription);
+
 			request.setAttribute("nbFullyAnswered", nbFullyAnswered);
 			request.setAttribute("nbPartiallyAnswered", nbPartiallyAnswered);
 			request.setAttribute("nbNotAnswered", nbNotAnswered);
-			request.setAttribute("listSelectQuestionGuis", listSelectQuestionGuis);
+			request.setAttribute("listSelectQuestionGuis",
+					listSelectQuestionGuis);
 
 			dispatcher = getServletContext().getRequestDispatcher(
 					"/view/trainee/overview.jsp");

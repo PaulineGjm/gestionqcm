@@ -15,73 +15,78 @@ import fr.gestionqcm.view.beans.TestEnCoursGUI;
  */
 public class ManageRemainingTimeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ManageRemainingTimeServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ManageRemainingTimeServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
-		try{
+
+		try {
 			String mode = request.getParameter("mode");
-		if(null != mode)
-		{
-			
-			// Refresh session attribute
-			if(mode.equals("refresh"))
-			{
-				Integer remainingTime = Integer.parseInt(request.getParameter("timeRemaining"));
-				if(remainingTime < 0)
-					remainingTime = 0;
-				// value in seconds
-				request.getSession().setAttribute("remainingTime", remainingTime);
+			if (null != mode) {
+
+				// Refresh session attribute
+				if (mode.equals("refresh")) {
+					Integer remainingTime = Integer.parseInt(request
+							.getParameter("timeRemaining"));
+					if (remainingTime < 0)
+						remainingTime = 0;
+					// value in seconds
+					request.getSession().setAttribute("remainingTime",
+							remainingTime);
+				}
+				// Save in database remaining time in minutes each minute
+				else if (mode.equals("save")) {
+					Integer remainingTime = Integer.parseInt(request
+							.getParameter("timeRemaining"));
+					if (remainingTime < 0)
+						remainingTime = 0;
+					String idInscription = request
+							.getParameter("idInscription");
+					// valeur en minutes
+
+					InscriptionDAO.updateRemainingTimeByInscriptionId(
+							remainingTime, Integer.parseInt(idInscription));
+				}
+				// Refresh and save for end of the test => Remaining time = 0
+				else {
+					String idInscription = request
+							.getParameter("idInscription");
+					request.getSession().setAttribute("remainingTime", 0);
+					InscriptionDAO.updateRemainingTimeByInscriptionId(0,
+							Integer.parseInt(idInscription));
+				}
 			}
-			// Save in database remaining time in minutes each minute
-			else if(mode.equals("save"))
-			{
-				Integer remainingTime = Integer.parseInt(request.getParameter("timeRemaining"));
-				if(remainingTime < 0)
-					remainingTime = 0;
-				String idInscription = request.getParameter("idInscription");
-				// valeur en minutes
-				
-				InscriptionDAO.updateRemainingTimeByInscriptionId(remainingTime, Integer.parseInt(idInscription));
-			}
-			// Refresh and save for end of the test => Remaining time = 0
-			else
-			{
-				String idInscription = request.getParameter("idInscription");
-				request.getSession().setAttribute("remainingTime", 0);
-				InscriptionDAO.updateRemainingTimeByInscriptionId(0, Integer.parseInt(idInscription));
-			}
-		}
-		
-//		   
-//	       response.setContentType("text/plain");
-//	       response.setCharacterEncoding("UTF-8");
-//	       response.getWriter().write(test.toString());
-		}
-		catch(Exception ex)
-		{
+
+			//
+			// response.setContentType("text/plain");
+			// response.setCharacterEncoding("UTF-8");
+			// response.getWriter().write(test.toString());
+		} catch (Exception ex) {
 			String error = ex.getMessage();
 		}
 	}

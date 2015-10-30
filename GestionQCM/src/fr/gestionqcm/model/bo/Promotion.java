@@ -1,6 +1,8 @@
 package fr.gestionqcm.model.bo;
 
-public class Promotion {
+import java.io.Serializable;
+
+public class Promotion implements Serializable {
 
 	private int idPromo;
 

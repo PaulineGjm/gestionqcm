@@ -131,9 +131,9 @@ public class InscriptionDAO {
 		cmd.setTimestamp(4,
 				(inscription.getTestStartDate() != null) ? new Timestamp(
 						inscription.getTestStartDate().getTime()) : currentDate);
-		cmd.setInt(5, inscription.getTimesRemaining());
+		cmd.setInt(5, inscription.getTest().getTestDuration());
 		cmd.setInt(6, inscription.getIssueNumber());
-		cmd.setInt(7, inscription.getQuestionPosition());
+		cmd.setInt(7, 1);
 
 		try {
 			cmd.executeUpdate();

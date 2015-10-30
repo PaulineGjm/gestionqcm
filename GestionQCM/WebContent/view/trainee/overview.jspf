@@ -2,7 +2,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/js/trainee/test/countdown.js"></script>
+<script type="text/javascript"
+	src="${pageContext.servletContext.contextPath}/resources/js/trainee/test/countdown.js"></script>
 
 <c:set var="listSelectQuestionGuis"
 	value="${requestScope.listSelectQuestionGuis}" />
@@ -13,9 +14,9 @@
 <c:set var="runningTest" value="${sessionScope.runningTest}" />
 <div class="row">
 	<div class="col-md-4">
-		<p>${nbFullyAnswered} question(s) répondue(s)sur
+		<p>${nbFullyAnswered} question(s) répondue(s) sur
 			${runningTest.getNbQuestion()}</p>
-		<p>${nbPartiallyAnswered} question(s) partiellementrépondues sur
+		<p>${nbPartiallyAnswered} question(s) partiellement répondues sur
 			${runningTest.getNbQuestion()}</p>
 		<p>${nbNotAnswered} question(s) non répondues sur
 			${runningTest.getNbQuestion()}</p>
@@ -72,15 +73,28 @@
 							</c:when>
 						</c:choose>
 					</c:if>
-					<input type="hidden"  name="questionID"
+					<input type="hidden" name="questionID"
 						value=${question.getIdQuestion() } />
-					<input class="remainingTime" type="hidden" name="remainingTime">
+					 <input
+						class="remainingTime" type="hidden" name="remainingTime">
 					<c:set var="count" value="${count + 1}" scope="page" />
 				</form>
 			</div>
 		</c:forEach>
-		<script type="text/javascript">window.onload = CreateTimer("timer", '${sessionScope.remainingTime}', '${sessionScope.runningTest.getInscriptionID()}');</script>
+		<script type="text/javascript">
+			window.onload = CreateTimer("timer",
+					'${sessionScope.remainingTime}',
+					'${sessionScope.runningTest.getInscriptionID()}');
+		</script>
 	</div>
+</div>
+<div>
+	<form
+		action="${pageContext.servletContext.contextPath}/trainee/test/result"
+		method="post">
+		<input type="hidden" name="idInscription" value="${runningTest.getInscriptionID()}">
+		<button type="submit">Valider test</button>
+	</form>
 </div>
 
 
