@@ -13,7 +13,7 @@
 						<input class="champtexte form-control" placeholder="Authentifiant" type="text" id="identifiant" name="identifiant"/><br/>
 					</div>
 					<div id="blocPassword" class="form-group">
-						<input class="champtexte form-control" placeholder="Mot de passe" type="text"  id="motdepasse" name="motdepasse"/>
+						<input class="champtexte form-control" placeholder="Mot de passe" type="password"  id="motdepasse" name="motdepasse"/>
 					</div>
 						<input type="submit" class="buttonBlue" id="seconnecter" value="Valider" />
 				</form>
