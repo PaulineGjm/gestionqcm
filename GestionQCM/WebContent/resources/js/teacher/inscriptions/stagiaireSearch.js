@@ -26,7 +26,7 @@ var searchStagiaire = function() {
 				             { "sTitle": "Nom", "mDataProp":"lastName" },
 				             { "sTitle": "Prénom", "mDataProp":"firstName" }
 				         ],
-				         "sDom" : 'rt<"clear">',
+				         "sDom" : 'lrtip<"clear">',
 				         "oLanguage": {
 				             "sLengthMenu": "Afficher _MENU_ lignes par page",
 				             "sZeroRecords": "Aucune données",
