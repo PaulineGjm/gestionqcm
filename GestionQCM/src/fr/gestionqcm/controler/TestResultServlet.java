@@ -115,7 +115,8 @@ public class TestResultServlet extends HttpServlet {
 				for (Entry<Integer, Integer> entry : responsesWrongByTheme.entrySet()) {
 					int idTheme = (int) entry.getKey();
 					totalWrong += (int) entry.getValue();
-
+					if (testsGUI.getThemesResult() == null)
+						testsGUI.setThemesResult(new TreeMap<Theme, Integer>());
 					testsGUI.getThemesResult().put(ThemeHandler.getOne(idTheme), 0);
 				}
 			}
